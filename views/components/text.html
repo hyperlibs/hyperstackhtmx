@@ -233,32 +233,32 @@
         <div class="max-w-md mx-auto space-y-3">
           <label class="block text-xs font-bold text-slate-700">Patient Identity & Clinical Coordinates</label>
 
-          <!-- Ultra-Compact Editable MetaText Input (h-10) -->
-          <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-500/20">
-            <!-- TOP TIER (h-[11px], text-[8px], leading-none) -->
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+          <!-- Rigid High-Density Editable MetaText Input (h-12 / 48px) -->
+          <div class="hs-metatext flex flex-col justify-between h-12 w-full rounded-md border border-slate-300 bg-white shadow-2xs overflow-hidden select-none focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-500/20 box-border">
+            <!-- TOP TIER (h-[14px], text-[9px], leading-none, shrink-0) -->
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-500 shrink-0 leading-none">
               <span class="text-slate-600 font-bold">UHID: 1221</span>
               <span class="text-right text-amber-600 font-bold">TRIAGE: LEVEL 2</span>
             </div>
 
-            <!-- HERO MAIN TIER (h-[18px], text-sm, leading-none) -->
-            <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
-              <span class="text-sm font-bold text-slate-400 select-none mr-1">Pt -</span>
+            <!-- HERO MAIN TIER (h-[20px], text-xs font-bold, leading-none, shrink-0) -->
+            <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
+              <span class="text-xs font-bold text-slate-400 select-none mr-1">Pt -</span>
               <input type="text" 
                      name="pt_name" 
                      value="David Jeba" 
-                     class="w-full text-sm font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0" 
+                     class="w-full text-xs font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0" 
                      placeholder="Enter legal name..." />
             </div>
 
-            <!-- BOTTOM TIER (h-[11px], text-[8px], leading-none) with Red Font for Age -->
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
-              <span>AGE: <strong class="text-red-600 font-bold">45</strong> <span class="text-slate-400 text-[7px]">YRS</span></span>
-              <span class="pl-1">SEX: <strong class="text-slate-900">Male</strong></span>
+            <!-- BOTTOM TIER (h-[14px], text-[9px], leading-none, shrink-0) with Red Font for Age -->
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-600 shrink-0 leading-none">
+              <span>AGE: <strong class="text-red-600 font-bold">45</strong> <span class="text-slate-400 text-[8px]">YRS</span></span>
+              <span class="text-right">SEX: <strong class="text-slate-900 font-bold">Male</strong></span>
             </div>
           </div>
 
-          <p class="text-[11px] text-slate-500 italic">⚡ Exact same 40px height as a standard textbox; stores 4 linked clinical attributes.</p>
+          <p class="text-[11px] text-slate-500 italic">⚡ Rigid 48px boundary fits 4 linked clinical attributes with zero clipping and crisp baseline alignment.</p>
         </div>
       </div>
 
@@ -320,47 +320,51 @@ components.MetaTextField("UHID: 1221, TRIAGE: LEVEL 2 | [@pt_name: David Jeba] |
               
               <!-- Patient MetaText -->
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
-                    <span class="text-slate-500 truncate">UHID</span>
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[240px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-500 shrink-0 leading-none">
+                    <span class="text-slate-500 font-semibold truncate">UHID</span>
                     <span class="font-mono font-bold text-slate-900 text-right truncate">1221</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate">Pt - David Jeba</span>
                   </div>
-                  <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-600 shrink-0 leading-none">
                     <span class="truncate">AGE: <strong class="text-red-600 font-bold">45</strong></span>
-                    <span class="truncate pl-1">SEX: Male</span>
+                    <span class="truncate text-right">SEX: <strong class="text-slate-900">Male</strong></span>
                   </div>
                 </div>
               </td>
 
               <!-- Physician MetaText: [Ortho] / Dr. Sarah Jenkins / [Degree] -->
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-indigo-700 bg-indigo-50/60 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[210px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-indigo-50/70 border-b border-indigo-100 text-[9px] font-mono uppercase text-indigo-700 shrink-0 leading-none font-bold">
                     <span>[Ortho]</span>
+                    <span class="text-indigo-500 font-normal text-[8px]">ATTENDING</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate">Dr. Sarah Jenkins</span>
                   </div>
-                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span class="truncate">[Degree] MS, FACS</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
+                    <span class="truncate text-slate-500">[Degree]</span>
+                    <span class="truncate font-semibold text-slate-800 text-right">MS, FACS</span>
                   </div>
                 </div>
               </td>
 
               <!-- Admit Date MetaText: 20-Nov-2026 / [hh:mm am/pm] -->
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[160px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase text-slate-500 shrink-0 leading-none">
                     <span>ADMIT DATE</span>
+                    <span class="text-[8px] text-slate-400">STATUS</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate font-mono">20-Nov-2026</span>
                   </div>
-                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-600 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span class="text-slate-800 font-bold">[10:45 AM]</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
+                    <span class="text-slate-400 text-[8px]">TIME</span>
+                    <span class="text-slate-800 font-bold text-right font-mono">[10:45 AM]</span>
                   </div>
                 </div>
               </td>
@@ -376,45 +380,49 @@ components.MetaTextField("UHID: 1221, TRIAGE: LEVEL 2 | [@pt_name: David Jeba] |
               <td class="p-3 text-center font-mono font-bold text-indigo-600 bg-slate-50">ICU-02</td>
               
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
-                    <span class="text-slate-500 truncate">UHID</span>
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[240px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-500 shrink-0 leading-none">
+                    <span class="text-slate-500 font-semibold truncate">UHID</span>
                     <span class="font-mono font-bold text-slate-900 text-right truncate">8820</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate">Pt - Eleanor Vance</span>
                   </div>
-                  <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
-                    <span class="truncate">AGE: 42</span>
-                    <span class="truncate pl-1">SEX: Female</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-600 shrink-0 leading-none">
+                    <span class="truncate">AGE: <strong class="text-slate-900">42</strong></span>
+                    <span class="truncate text-right">SEX: <strong class="text-slate-900">Female</strong></span>
                   </div>
                 </div>
               </td>
 
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-purple-700 bg-purple-50/60 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[210px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-purple-50/70 border-b border-purple-100 text-[9px] font-mono uppercase text-purple-700 shrink-0 leading-none font-bold">
                     <span>[Neuro]</span>
+                    <span class="text-purple-500 font-normal text-[8px]">ATTENDING</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate">Dr. Rajesh Patel</span>
                   </div>
-                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span class="truncate">[Degree] MD, DM</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
+                    <span class="truncate text-slate-500">[Degree]</span>
+                    <span class="truncate font-semibold text-slate-800 text-right">MD, DM</span>
                   </div>
                 </div>
               </td>
 
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[160px] bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase text-slate-500 shrink-0 leading-none">
                     <span>ADMIT DATE</span>
+                    <span class="text-[8px] text-slate-400">STATUS</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-950 block truncate font-mono">22-Nov-2026</span>
                   </div>
-                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-600 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span class="text-slate-800 font-bold">[08:30 AM]</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
+                    <span class="text-slate-400 text-[8px]">TIME</span>
+                    <span class="text-slate-800 font-bold text-right font-mono">[08:30 AM]</span>
                   </div>
                 </div>
               </td>
@@ -430,45 +438,49 @@ components.MetaTextField("UHID: 1221, TRIAGE: LEVEL 2 | [@pt_name: David Jeba] |
               <td class="p-3 text-center font-mono font-bold text-slate-400">ICU-03</td>
               
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
-                  <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[240px] bg-slate-100/70 border border-dashed border-slate-300 rounded-md text-slate-400 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] border-b border-slate-300/60 text-[9px] font-mono uppercase shrink-0 leading-none">
                     <span>UHID: —</span>
-                    <span class="text-right">AVAILABLE</span>
+                    <span class="text-right font-semibold">AVAILABLE</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-400 italic block truncate">Unassigned Bed</span>
                   </div>
-                  <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[8px] font-mono uppercase border-t border-slate-300/60 px-2 py-0 h-[11px] items-center leading-none">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] text-[9px] font-mono uppercase border-t border-slate-300/60 shrink-0 leading-none">
                     <span>AGE: —</span>
-                    <span class="pl-1">SEX: —</span>
+                    <span class="text-right">SEX: —</span>
                   </div>
                 </div>
               </td>
 
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[210px] bg-slate-100/70 border border-dashed border-slate-300 rounded-md text-slate-400 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] border-b border-slate-300/60 text-[9px] font-mono uppercase shrink-0 leading-none">
                     <span>[DEPT: —]</span>
+                    <span class="text-[8px] text-slate-400">STATUS</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-400 italic block truncate">[Unassigned]</span>
                   </div>
-                  <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span>[Degree: —]</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] border-t border-slate-300/60 text-[9px] font-mono uppercase shrink-0 leading-none">
+                    <span>[Degree]</span>
+                    <span class="text-right">—</span>
                   </div>
                 </div>
               </td>
 
               <td class="p-2">
-                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
-                  <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                <div class="hs-metatext flex flex-col justify-between h-12 w-full max-w-[160px] bg-slate-100/70 border border-dashed border-slate-300 rounded-md text-slate-400 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] border-b border-slate-300/60 text-[9px] font-mono uppercase shrink-0 leading-none">
                     <span>ADMIT DATE</span>
+                    <span class="text-[8px] text-slate-400">—</span>
                   </div>
-                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <div class="flex items-center px-2.5 h-[20px] min-h-[20px] shrink-0 leading-none">
                     <span class="text-xs font-bold text-slate-400 italic block truncate font-mono">—</span>
                   </div>
-                  <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
-                    <span>[--:--]</span>
+                  <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] border-t border-slate-300/60 text-[9px] font-mono uppercase shrink-0 leading-none">
+                    <span class="text-[8px] text-slate-400">TIME</span>
+                    <span class="text-right font-mono">[--:--]</span>
                   </div>
                 </div>
               </td>
@@ -515,47 +527,47 @@ TableRow(
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
           
           <!-- Node 1: Reactor Turbine -->
-          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none">
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+          <div class="hs-metatext flex flex-col justify-between h-12 w-full rounded-md border border-slate-300 bg-white shadow-2xs overflow-hidden select-none box-border">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase shrink-0 leading-none">
               <span class="text-amber-700 font-bold">NODE: #09-A</span>
               <span class="text-right text-emerald-600 font-bold">ONLINE ●</span>
             </div>
-            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
-              <span class="text-sm font-black text-slate-900 truncate">Reactor Turbine 01</span>
+            <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
+              <span class="text-xs font-black text-slate-900 truncate">Reactor Turbine 01</span>
             </div>
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
               <span>TEMP: <strong class="text-amber-700">412 °C</strong></span>
-              <span class="text-right pl-1">PRESS: <strong class="text-slate-800">124 PSI</strong></span>
+              <span class="text-right">PRESS: <strong class="text-slate-800">124 PSI</strong></span>
             </div>
           </div>
 
           <!-- Node 2: Substation -->
-          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none">
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+          <div class="hs-metatext flex flex-col justify-between h-12 w-full rounded-md border border-slate-300 bg-white shadow-2xs overflow-hidden select-none box-border">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase shrink-0 leading-none">
               <span class="text-sky-700 font-bold">NODE: #14-C</span>
               <span class="text-right text-emerald-600 font-bold">ONLINE ●</span>
             </div>
-            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
-              <span class="text-sm font-black text-slate-900 truncate">Grid Substation 4</span>
+            <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
+              <span class="text-xs font-black text-slate-900 truncate">Grid Substation 4</span>
             </div>
-            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase text-slate-600 shrink-0 leading-none">
               <span>LOAD: <strong class="text-emerald-700">84.2 %</strong></span>
-              <span class="text-right pl-1">FREQ: <strong class="text-purple-700">60.01 Hz</strong></span>
+              <span class="text-right">FREQ: <strong class="text-purple-700">60.01 Hz</strong></span>
             </div>
           </div>
 
           <!-- Node 3: Fault Warning -->
-          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border-2 border-red-400 bg-red-50/20 shadow-2xs overflow-hidden select-none">
-            <div class="grid grid-cols-2 divide-x divide-red-200 border-b border-red-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-red-100/50">
+          <div class="hs-metatext flex flex-col justify-between h-12 w-full rounded-md border-2 border-red-400 bg-red-50/20 shadow-2xs overflow-hidden select-none box-border">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-red-100/60 border-b border-red-200 text-[9px] font-mono uppercase shrink-0 leading-none">
               <span class="text-red-800 font-bold">NODE: #02-F</span>
               <span class="text-right text-red-600 font-bold">ALERT ▲</span>
             </div>
-            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
-              <span class="text-sm font-black text-red-700 truncate">Coolant Valve 3</span>
+            <div class="flex items-center px-2.5 h-[20px] min-h-[20px] bg-white shrink-0 leading-none">
+              <span class="text-xs font-black text-red-700 truncate">Coolant Valve 3</span>
             </div>
-            <div class="grid grid-cols-2 divide-x divide-red-200 border-t border-red-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-red-50">
+            <div class="flex items-center justify-between px-2.5 h-[14px] min-h-[14px] bg-red-50 border-t border-red-200 text-[9px] font-mono uppercase text-red-900 shrink-0 leading-none">
               <span>FLOW: <strong class="text-red-600">0.0 GPM</strong></span>
-              <span class="text-right pl-1">STATUS: <strong class="text-red-700">TRIPPED</strong></span>
+              <span class="text-right">STATUS: <strong class="text-red-700">TRIPPED</strong></span>
             </div>
           </div>
 

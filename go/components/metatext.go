@@ -241,32 +241,32 @@ func MetaText(p MetaTextProps) Component {
 		p.Bottom = p.Bottom[:2]
 	}
 
-	// Sizing configuration (Ultra-compact: 1:1 drop-in replacement for standard textbox)
-	containerClass := "h-10 w-full" // Standard 40px input height
-	heroTextClass := "text-sm font-bold"
-	metaTextClass := "text-[8px] font-mono leading-none tracking-wider uppercase" // Strictly 50% smaller
-	topHeightClass := "h-[11px]"
-	heroHeightClass := "h-[18px]"
-	bottomHeightClass := "h-[11px]"
-	paddingX := "px-2"
+	// Rigid sizing configuration (Default md: 48px / h-12 rigid boundary)
+	containerClass := "h-12 w-full box-border" // Standard 48px enterprise cell & input height
+	heroTextClass := "text-xs font-bold"
+	metaTextClass := "text-[9px] font-mono leading-none tracking-wider uppercase" // Strictly 50% smaller
+	topHeightClass := "h-[14px] min-h-[14px] shrink-0"
+	heroHeightClass := "h-[20px] min-h-[20px] shrink-0"
+	bottomHeightClass := "h-[14px] min-h-[14px] shrink-0"
+	paddingX := "px-2.5"
 
 	switch p.Size {
 	case "sm":
-		containerClass = "h-8.5 w-full" // ~34px compact input
+		containerClass = "h-10 w-full box-border" // 40px compact form input
 		heroTextClass = "text-xs font-bold"
-		metaTextClass = "text-[7.5px] font-mono leading-none tracking-wider uppercase"
-		topHeightClass = "h-[9px]"
-		heroHeightClass = "h-[15px]"
-		bottomHeightClass = "h-[9px]"
-		paddingX = "px-1.5"
+		metaTextClass = "text-[8px] font-mono leading-none tracking-wider uppercase"
+		topHeightClass = "h-[12px] min-h-[12px] shrink-0"
+		heroHeightClass = "h-[16px] min-h-[16px] shrink-0"
+		bottomHeightClass = "h-[12px] min-h-[12px] shrink-0"
+		paddingX = "px-2"
 	case "lg":
-		containerClass = "h-12 w-full" // 48px large input
-		heroTextClass = "text-base font-bold"
-		metaTextClass = "text-[9px] font-mono leading-none tracking-wider uppercase"
-		topHeightClass = "h-[13px]"
-		heroHeightClass = "h-[22px]"
-		bottomHeightClass = "h-[13px]"
-		paddingX = "px-2.5"
+		containerClass = "h-14 w-full box-border" // 56px large input / badge
+		heroTextClass = "text-sm font-bold"
+		metaTextClass = "text-[10px] font-mono leading-none tracking-wider uppercase"
+		topHeightClass = "h-[16px] min-h-[16px] shrink-0"
+		heroHeightClass = "h-[24px] min-h-[24px] shrink-0"
+		bottomHeightClass = "h-[16px] min-h-[16px] shrink-0"
+		paddingX = "px-3"
 	}
 
 	// Theming & subtle hairline borders
