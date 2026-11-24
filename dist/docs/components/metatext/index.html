@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metatext — Hyperstack</title>
+  <script src="/vendor/htmx.min.js"></script>
+  <script src="/htmx-bolt.js"></script>
+  <script src="/htmx-flash.js"></script>
+  <script src="/htmx-form.js"></script>
+  <script src="/htmx-vibe.js"></script>
+  <script src="/htmx-a11y.js"></script>
+  <script src="/htmx-virtual.js"></script>
+  <script src="/htmx-grid.js"></script>
+  <script src="/htmx-offline.js"></script>
+  <script src="/htmx-devtools.js"></script>
+  <script src="/htmx-calc.js"></script>
+  <script src="/htmx-sim.js"></script>
+  <script src="/appz.js"></script>
+  <script src="/htmx-canvas.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .code-block { background: #1e293b; color: #e2e8f0; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.6; }
+    .code-block code { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body class="bg-background text-foreground antialiased min-h-screen">
+  <div class="flex min-h-screen">
+    <aside id="doc-sidebar" class="hidden lg:flex w-60 flex-col border-r border-border bg-card overflow-y-auto sticky top-0 h-screen">
+      <div class="flex h-14 items-center border-b border-border px-4">
+        <a href="/" class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-primary" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+          <span class="font-bold text-lg tracking-tight">Hyperstack</span>
+        </a>
+      </div>
+      <div class="flex-1 p-3 overflow-y-auto"><div class="mb-6"><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Getting Started</h4><div class="space-y-1"><a href="/docs/components/introduction/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Introduction</a>
+<a href="/docs/components/installation/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Installation</a>
+<a href="/docs/components/rosetta-stone/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Rosetta Stone</a>
+<a href="/docs/components/common-ai-hallucinations/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Common Ai Hallucinations</a>
+<a href="/docs/components/directives-guide/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Directives Guide</a></div></div><div><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1"><a href="/docs/components/accordion/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Accordion</a>
+<a href="/docs/components/alert/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Alert</a>
+<a href="/docs/components/alert-dialog/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Alert Dialog</a>
+<a href="/docs/components/aspect-ratio/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Aspect Ratio</a>
+<a href="/docs/components/avatar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Avatar</a>
+<a href="/docs/components/avatar-group/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Avatar Group</a>
+<a href="/docs/components/badge/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Badge</a>
+<a href="/docs/components/banner/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Banner</a>
+<a href="/docs/components/breadcrumb/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Breadcrumb</a>
+<a href="/docs/components/button/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Button</a>
+<a href="/docs/components/button-group/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Button Group</a>
+<a href="/docs/components/calendar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Calendar</a>
+<a href="/docs/components/card/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Card</a>
+<a href="/docs/components/carousel/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Carousel</a>
+<a href="/docs/components/checkbox/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Checkbox</a>
+<a href="/docs/components/checkbox-group/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Checkbox Group</a>
+<a href="/docs/components/chip/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Chip</a>
+<a href="/docs/components/collapsible/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Collapsible</a>
+<a href="/docs/components/color-picker/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Color Picker</a>
+<a href="/docs/components/combobox/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Combobox</a>
+<a href="/docs/components/command/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Command</a>
+<a href="/docs/components/container/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Container</a>
+<a href="/docs/components/context-menu/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Context Menu</a>
+<a href="/docs/components/data-table/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Data Table</a>
+<a href="/docs/components/date-picker/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Date Picker</a>
+<a href="/docs/components/dialog/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Dialog</a>
+<a href="/docs/components/divider/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Divider</a>
+<a href="/docs/components/drawer/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Drawer</a>
+<a href="/docs/components/dropdown-menu/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Dropdown Menu</a>
+<a href="/docs/components/empty-state/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Empty State</a>
+<a href="/docs/components/error-message/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Error Message</a>
+<a href="/docs/components/file-upload/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">File Upload</a>
+<a href="/docs/components/flash-search/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Flash Search</a>
+<a href="/docs/components/form/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Form</a>
+<a href="/docs/components/gallery/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Gallery</a>
+<a href="/docs/components/hover-card/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hover Card</a>
+<a href="/docs/components/hypertext-editor/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hypertext Editor</a>
+<a href="/docs/components/icon/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Icon</a>
+<a href="/docs/components/image/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Image</a>
+<a href="/docs/components/indicator/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Indicator</a>
+<a href="/docs/components/input/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Input</a>
+<a href="/docs/components/input-otp/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Input Otp</a>
+<a href="/docs/components/kbd/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Kbd</a>
+<a href="/docs/components/label/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Label</a>
+<a href="/docs/components/layout-block/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Block</a>
+<a href="/docs/components/layout-canvas/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Canvas</a>
+<a href="/docs/components/layout-grid/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Grid</a>
+<a href="/docs/components/layout-page/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Page</a>
+<a href="/docs/components/layout-print/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Print</a>
+<a href="/docs/components/layout-scaffold/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Scaffold</a>
+<a href="/docs/components/layout-web/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Web</a>
+<a href="/docs/components/layout-mweb/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Mweb</a>
+<a href="/docs/components/layout-mapp/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Layout Mapp</a>
+<a href="/docs/components/link/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Link</a>
+<a href="/docs/components/list/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">List</a>
+<a href="/docs/components/list-item/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">List Item</a>
+<a href="/docs/components/loading-spinner/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Loading Spinner</a>
+<a href="/docs/components/masonry-grid/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Masonry Grid</a>
+<a href="/docs/components/menubar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Menubar</a>
+<a href="/docs/components/message-bubble/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Message Bubble</a>
+<a href="/docs/components/navigation-menu/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Navigation Menu</a>
+<a href="/docs/components/notification/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Notification</a>
+<a href="/docs/components/number-input/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Number Input</a>
+<a href="/docs/components/page-header/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Page Header</a>
+<a href="/docs/components/pagination/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Pagination</a>
+<a href="/docs/components/panel/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Panel</a>
+<a href="/docs/components/password-input/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Password Input</a>
+<a href="/docs/components/pin-input/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Pin Input</a>
+<a href="/docs/components/popover/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Popover</a>
+<a href="/docs/components/profile-badge/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Profile Badge</a>
+<a href="/docs/components/progress/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Progress</a>
+<a href="/docs/components/progress-bar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Progress Bar</a>
+<a href="/docs/components/pulse/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Pulse</a>
+<a href="/docs/components/radio-button/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Radio Button</a>
+<a href="/docs/components/radio-group/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Radio Group</a>
+<a href="/docs/components/rating/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Rating</a>
+<a href="/docs/components/resizable/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Resizable</a>
+<a href="/docs/components/ribbon/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Ribbon</a>
+<a href="/docs/components/scroll-area/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Scroll Area</a>
+<a href="/docs/components/search-input/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Search Input</a>
+<a href="/docs/components/select/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Select</a>
+<a href="/docs/components/separator/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Separator</a>
+<a href="/docs/components/sheet/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Sheet</a>
+<a href="/docs/components/sidebar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Sidebar</a>
+<a href="/docs/components/skeleton/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Skeleton</a>
+<a href="/docs/components/slider/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Slider</a>
+<a href="/docs/components/slider-range/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Slider Range</a>
+<a href="/docs/components/snackbar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Snackbar</a>
+<a href="/docs/components/splitter/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Splitter</a>
+<a href="/docs/components/stat-card/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Stat Card</a>
+<a href="/docs/components/stepper/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Stepper</a>
+<a href="/docs/components/submenu/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Submenu</a>
+<a href="/docs/components/switch/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Switch</a>
+<a href="/docs/components/table/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Table</a>
+<a href="/docs/components/tabs/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Tabs</a>
+<a href="/docs/components/tag/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Tag</a>
+<a href="/docs/components/text/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Text</a>
+<a href="/docs/components/textarea/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Textarea</a>
+<a href="/docs/components/timeline/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Timeline</a>
+<a href="/docs/components/time-picker/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Time Picker</a>
+<a href="/docs/components/toast/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Toast</a>
+<a href="/docs/components/toggle/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Toggle</a>
+<a href="/docs/components/toggle-group/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Toggle Group</a>
+<a href="/docs/components/toggle-switch/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Toggle Switch</a>
+<a href="/docs/components/toolbar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Toolbar</a>
+<a href="/docs/components/tooltip/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Tooltip</a>
+<a href="/docs/components/tree-view/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Tree View</a>
+<a href="/docs/components/user-card/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">User Card</a>
+<a href="/docs/components/video-player/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Video Player</a>
+<a href="/docs/components/watermark/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Watermark</a>
+<a href="/docs/components/wizard/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Wizard</a>
+<a href="/docs/components/hx-wizard/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hx Wizard</a>
+<a href="/docs/components/date-range-picker/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Date Range Picker</a>
+<a href="/docs/components/hx-grid/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hx Grid</a>
+<a href="/docs/components/hx-virtual/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hx Virtual</a>
+<a href="/docs/components/hx-offline/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hx Offline</a>
+<a href="/docs/components/hollywood-webfx/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hollywood Webfx</a>
+<a href="/docs/components/simulation/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Simulation</a>
+<a href="/docs/components/block-pathology-lab/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Pathology Lab</a>
+<a href="/docs/components/block-radiology-dicom/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Radiology Dicom</a>
+<a href="/docs/components/block-biology-atlas/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Biology Atlas</a>
+<a href="/docs/components/block-crispr-studio/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Crispr Studio</a>
+<a href="/docs/components/block-genomic-map/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Genomic Map</a>
+<a href="/docs/components/block-civil-architect/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Civil Architect</a>
+<a href="/docs/components/block-marine-navigation/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Marine Navigation</a>
+<a href="/docs/components/block-agriculture-precision/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Agriculture Precision</a>
+<a href="/docs/components/block-energy-scada/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Energy Scada</a>
+<a href="/docs/components/block-pcb-semiconductor/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Block Pcb Semiconductor</a>
+<a href="/docs/components/appz-gauge/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Appz Gauge</a>
+<a href="/docs/components/appz-keypad/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Appz Keypad</a>
+<a href="/docs/components/appz-statusbar/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Appz Statusbar</a>
+<a href="/docs/components/appz-swipeout/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Appz Swipeout</a>
+<a href="/docs/components/appz-thermostat/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Appz Thermostat</a>
+<a href="/docs/components/sortable-item/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Sortable Item</a>
+<a href="/docs/components/smart-air-quality-pill/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Air Quality Pill</a>
+<a href="/docs/components/smart-ambient-aod-clock/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Ambient Aod Clock</a>
+<a href="/docs/components/smart-car-cockpit-hud/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Car Cockpit Hud</a>
+<a href="/docs/components/smart-conveyor-belt/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Conveyor Belt</a>
+<a href="/docs/components/smart-drive-mode/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Drive Mode</a>
+<a href="/docs/components/smart-ev-battery-range/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Ev Battery Range</a>
+<a href="/docs/components/smart-forecast-daily/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Forecast Daily</a>
+<a href="/docs/components/smart-heart-rate/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Heart Rate</a>
+<a href="/docs/components/smart-lighting-dimmer/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Lighting Dimmer</a>
+<a href="/docs/components/smart-pos-cashier/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Pos Cashier</a>
+<a href="/docs/components/smart-relay-switchboard/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Relay Switchboard</a>
+<a href="/docs/components/smart-rotary-volume/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Rotary Volume</a>
+<a href="/docs/components/smart-smart-lock/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Smart Lock</a>
+<a href="/docs/components/smart-solar-power-flow/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Solar Power Flow</a>
+<a href="/docs/components/smart-step-activity-rings/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Step Activity Rings</a>
+<a href="/docs/components/smart-thermostat-dual-zone/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Thermostat Dual Zone</a>
+<a href="/docs/components/smart-tire-pressure-tpms/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Tire Pressure Tpms</a>
+<a href="/docs/components/smart-turn-by-turn-nav/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Turn By Turn Nav</a>
+<a href="/docs/components/smart-uv-index-dial/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Uv Index Dial</a>
+<a href="/docs/components/smart-weather-hero/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Weather Hero</a>
+<a href="/docs/components/smart-wind-compass/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Smart Wind Compass</a>
+<a href="/docs/components/hy-hook/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Hy Hook</a>
+<a href="/docs/components/pgx-hud/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Pgx Hud</a>
+<a href="/docs/components/metatext/" class="block rounded-md px-3 py-1.5 text-sm bg-accent font-medium text-accent-foreground transition-colors">Metatext</a></div></div></div>
+    </aside>
+    <main class="flex-1 flex flex-col min-w-0">
+      <header class="h-14 border-b border-border flex items-center justify-between px-6 bg-card sticky top-0 z-30">
+        <div class="flex items-center gap-4">
+          <h1 class="font-semibold text-base">Metatext</h1>
+          <a href="/demo/" class="text-xs bg-primary/10 text-primary font-medium px-2.5 py-1 rounded-full hover:bg-primary/20 transition-colors">Live Demos Hub</a>
+        </div>
+        <a href="https://github.com/hyperlibs/hyperstack" target="_blank" class="text-xs text-muted-foreground hover:text-foreground">GitHub ↗</a>
+      </header>
+      <div class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-8">
+        <div class="space-y-2">
+          <h1 class="text-3xl font-extrabold tracking-tight">Metatext</h1>
+          <p class="text-muted-foreground text-sm">Interactive Shadcn-quality hypermedia component for Hyperstack.</p>
+        </div>
+        <div class="space-y-4">
+          <h2 class="text-xl font-bold tracking-tight">Interactive Preview</h2>
+          <div class="rounded-xl border border-border p-8 bg-card shadow-sm flex items-center justify-center min-h-[160px]">
+            <div class="w-full max-w-xl flex flex-col items-center gap-4"><!-- 
+  Component: metatext.html
+  The First Hyperstack Meta Component.
+  Compound data field with a dominant Hero text/input flanked by up to 2 metadata cells above
+  and 2 metadata cells below.
+  Strict Guardrails:
+    - 2x2 Cap: Maximum 2 cells Top, Maximum 2 cells Bottom.
+    - 50% Typography Rule: Meta font size strictly 50% smaller than Hero text.
+    - Graceful Fallback: Empty values render as clean em-dash ("—").
+-->
+<div class="space-y-10" id="metatext-showcase-root">
+
+  <!-- ======================================================================= -->
+  <!-- 1. STANDALONE CLINICAL IDENTITY BADGE (THE CANONICAL REFERENCE)        -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>🏷️</span> 1. Standalone MetaText Badge (Reference Display)
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">High-density biometric coordinate card with 50% typography scaling.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20">
+        READ-ONLY BADGE
+      </span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
+      
+      <!-- Canonical Patient Card (Matches Exact User Screenshot) -->
+      <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-sm text-slate-900 font-sans select-none overflow-hidden min-w-[320px]">
+        <!-- TOP ROW (2 CELLS: 30/70 SPLIT) -->
+        <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
+          <div class="px-3 py-1 bg-white flex justify-between items-center">
+            <span class="text-slate-600">UHID</span>
+          </div>
+          <div class="px-3 py-1 bg-white flex justify-end items-center">
+            <span class="font-mono font-bold text-slate-900 text-right">1221</span>
+          </div>
+        </div>
+
+        <!-- HERO MAIN ROW (LARGE PRIMARY TEXT) -->
+        <div class="px-4 py-2 bg-white border-b border-slate-300">
+          <span class="text-2xl font-black tracking-tight text-slate-950 block">
+            Pt - David Jeba
+          </span>
+        </div>
+
+        <!-- BOTTOM ROW (2 CELLS: 50/50 SPLIT) -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
+          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+            <span class="text-slate-600">AGE -</span>
+            <span class="font-bold text-slate-900">45</span>
+          </div>
+          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+            <span class="text-slate-600">SEX -</span>
+            <span class="font-bold text-slate-900">Male</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spec Notation Callout -->
+      <div class="flex-1 min-w-[280px] p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2">
+        <div class="text-[11px] text-teal-400 font-bold uppercase tracking-wider font-sans">Shorthand Specification</div>
+        <code class="text-amber-300 text-[11px] block bg-slate-950 p-2 rounded border border-slate-800">
+          MetaTextField("UHID: 1221 | [Pt - David Jeba] | AGE: 45, SEX: Male")
+        </code>
+        <p class="text-[11px] text-slate-400 font-sans leading-relaxed">
+          The single string defines the top metadata, the hero title, and the bottom coordinates. The engine enforces the 2x2 cell cap and the 50% typography ratio automatically.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 2. IN A FORM: PATIENT ADMISSION & TRIAGE INTAKE FORM                    -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>📋</span> 2. In a Form: Editable MetaText with HTMX Auto-Save
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">The hero slot functions as an active form input while metadata coordinates persist.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        FORM INPUT MODE
+      </span>
+    </div>
+
+    <form class="p-5 bg-slate-950/80 rounded-xl border border-slate-800/80 space-y-4 max-w-xl"
+          hx-post="/api/patients/save"
+          hx-trigger="submit, change delay:400ms"
+          hx-swap="none">
+
+      <div class="text-xs font-bold text-slate-300 mb-2">Patient Primary Identity Cell:</div>
+
+      <!-- EDITABLE METATEXT FORM COMPONENT -->
+      <div class="flex flex-col bg-white border border-slate-300 rounded-lg shadow-sm text-slate-900 font-sans overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+        
+        <!-- TOP ROW: READ-ONLY SYSTEM METADATA -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium bg-slate-50">
+          <div class="px-3 py-1 flex items-center justify-between">
+            <span class="text-slate-500">UHID:</span>
+            <input type="hidden" name="uhid" value="1221" />
+            <span class="font-mono font-bold text-slate-900">#1221</span>
+          </div>
+          <div class="px-3 py-1 flex items-center justify-between">
+            <span class="text-slate-500">TRIAGE:</span>
+            <span class="font-bold text-amber-600 font-mono">LEVEL 2</span>
+          </div>
+        </div>
+
+        <!-- HERO MAIN ROW: LIVE FORM TEXT INPUT -->
+        <div class="px-3.5 py-2 flex items-center gap-1.5 bg-white border-b border-slate-300">
+          <span class="text-xl font-bold text-slate-400 select-none">Pt -</span>
+          <input type="text"
+                 name="pt_name"
+                 value="David Jeba"
+                 placeholder="Enter patient full name..."
+                 class="w-full text-xl font-extrabold text-slate-950 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400" />
+        </div>
+
+        <!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium bg-slate-50">
+          <div class="px-3 py-1 flex items-center gap-2">
+            <span class="text-slate-500">AGE:</span>
+            <input type="number" 
+                   name="age" 
+                   value="45" 
+                   class="w-12 font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-400 p-0 focus:outline-none focus:border-indigo-600" />
+            <span class="text-[10px] text-slate-400">Yrs</span>
+          </div>
+          <div class="px-3 py-1 flex items-center gap-2">
+            <span class="text-slate-500">SEX:</span>
+            <select name="sex" class="bg-transparent font-bold text-slate-900 border-0 p-0 text-xs focus:outline-none cursor-pointer">
+              <option value="Male" selected>Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Strip -->
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-[11px] text-slate-500 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          HTMX Auto-saves on input blur or value change
+        </span>
+        <button type="submit" 
+                class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors shadow">
+          Save Patient
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 3. INSIDE A TABLE: CLINICAL WARD ROSTER & REGISTRY TABLE                 -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>📊</span> 3. Inside a Table: High-Density Ward Roster
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">Instead of sprawling 6 disjointed columns, MetaText consolidates identity in one cell.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        TABLE CELL EMBED
+      </span>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead class="bg-slate-900 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">Bed</th>
+            <th class="px-4 py-3 min-w-[280px]">Patient Demographic Identity (MetaText)</th>
+            <th class="px-4 py-3">Attending Physician</th>
+            <th class="px-4 py-3">Diagnosis / Chief Complaint</th>
+            <th class="px-4 py-3">Acuity Status</th>
+            <th class="px-4 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/80 text-slate-200">
+          
+          <!-- ROW 1: DAVID JEBA -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-04</td>
+            <td class="px-4 py-3">
+              <!-- Compact MetaText Cell -->
+              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
+                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">1221</div>
+                </div>
+                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
+                  <span class="text-sm font-extrabold text-slate-950 block">Pt - David Jeba</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 45</div>
+                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Male</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-300">Dr. Sarah Jenkins</td>
+            <td class="px-4 py-3">Acute Coronary Syndrome</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                MONITORING
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors">
+                Chart ➔
+              </button>
+            </td>
+          </tr>
+
+          <!-- ROW 2: ELEANOR VANCE -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-06</td>
+            <td class="px-4 py-3">
+              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
+                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">8820</div>
+                </div>
+                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
+                  <span class="text-sm font-extrabold text-slate-950 block">Pt - Eleanor Vance</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 42</div>
+                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Female</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-300">Dr. Rajesh Patel</td>
+            <td class="px-4 py-3">Post-op Thoracic Resection</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                STABLE
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors">
+                Chart ➔
+              </button>
+            </td>
+          </tr>
+
+          <!-- ROW 3: UNALLOCATED / EMPTY BED (GRACEFUL FALLBACK) -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-slate-500">ICU-07</td>
+            <td class="px-4 py-3">
+              <!-- Empty MetaText State with Em-Dashes -->
+              <div class="inline-flex flex-col bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden w-full max-w-[260px]">
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[10px]">
+                  <div class="px-2 py-0.5 text-slate-400">UHID: —</div>
+                  <div class="px-2 py-0.5 text-right font-mono">AVAILABLE</div>
+                </div>
+                <div class="px-2.5 py-1">
+                  <span class="text-sm font-bold text-slate-400 italic block">Unassigned Bed</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[10px] border-t border-slate-300/60">
+                  <div class="px-2 py-0.5">AGE: —</div>
+                  <div class="px-2 py-0.5">SEX: —</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-500 italic">—</td>
+            <td class="px-4 py-3 text-slate-500 italic">—</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">
+                VACANT
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition-colors">
+                Admit +
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 4. DYNAMIC REACIVITY: HxBOLT SIGNALS LIVE CONTROLLER                    -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4"
+       hx-state="{ uhid: '1221', name: 'David Jeba', age: 45, sex: 'Male' }">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>⚡</span> 4. Dynamic Client-Side Reactive State (HxBolt Signals)
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">Edit the fields below to see the MetaText component react in real time.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+        HxBolt LIVE SIGNAL
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
+      
+      <!-- Interactive Signal Controllers -->
+      <div class="space-y-3 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">UHID:</label>
+          <input type="text" hx-model="uhid" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Name:</label>
+          <input type="text" hx-model="name" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Age:</label>
+          <input type="number" hx-model="age" class="w-24 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Sex:</label>
+          <select hx-model="sex" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400 cursor-pointer">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reactive MetaText Sink -->
+      <div class="flex justify-center">
+        <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-md text-slate-900 font-sans select-none overflow-hidden min-w-[300px]">
+          <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
+            <div class="px-3 py-1 bg-white text-slate-600">UHID</div>
+            <div class="px-3 py-1 bg-white font-mono font-bold text-slate-900 text-right" hx-text="uhid">1221</div>
+          </div>
+          <div class="px-4 py-2 bg-white border-b border-slate-300">
+            <span class="text-2xl font-black tracking-tight text-slate-950 block">
+              Pt - <span hx-text="name">David Jeba</span>
+            </span>
+          </div>
+          <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
+            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+              <span class="text-slate-600">AGE -</span>
+              <span class="font-bold text-slate-900 font-mono" hx-text="age">45</span>
+            </div>
+            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+              <span class="text-slate-600">SEX -</span>
+              <span class="font-bold text-slate-900" hx-text="sex">Male</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <h2 class="text-xl font-bold tracking-tight">HTML Source</h2>
+          <div class="code-block"><pre><code>&lt;!-- 
+  Component: metatext.html
+  The First Hyperstack Meta Component.
+  Compound data field with a dominant Hero text/input flanked by up to 2 metadata cells above
+  and 2 metadata cells below.
+  Strict Guardrails:
+    - 2x2 Cap: Maximum 2 cells Top, Maximum 2 cells Bottom.
+    - 50% Typography Rule: Meta font size strictly 50% smaller than Hero text.
+    - Graceful Fallback: Empty values render as clean em-dash (&quot;—&quot;).
+--&gt;
+&lt;div class=&quot;space-y-10&quot; id=&quot;metatext-showcase-root&quot;&gt;
+
+  &lt;!-- ======================================================================= --&gt;
+  &lt;!-- 1. STANDALONE CLINICAL IDENTITY BADGE (THE CANONICAL REFERENCE)        --&gt;
+  &lt;!-- ======================================================================= --&gt;
+  &lt;div class=&quot;p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4&quot;&gt;
+    &lt;div class=&quot;flex items-center justify-between border-b border-slate-800 pb-3&quot;&gt;
+      &lt;div&gt;
+        &lt;h3 class=&quot;text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2&quot;&gt;
+          &lt;span&gt;🏷️&lt;/span&gt; 1. Standalone MetaText Badge (Reference Display)
+        &lt;/h3&gt;
+        &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;High-density biometric coordinate card with 50% typography scaling.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;span class=&quot;px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20&quot;&gt;
+        READ-ONLY BADGE
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;flex flex-wrap items-center gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80&quot;&gt;
+      
+      &lt;!-- Canonical Patient Card (Matches Exact User Screenshot) --&gt;
+      &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-sm text-slate-900 font-sans select-none overflow-hidden min-w-[320px]&quot;&gt;
+        &lt;!-- TOP ROW (2 CELLS: 30/70 SPLIT) --&gt;
+        &lt;div class=&quot;grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium&quot;&gt;
+          &lt;div class=&quot;px-3 py-1 bg-white flex justify-between items-center&quot;&gt;
+            &lt;span class=&quot;text-slate-600&quot;&gt;UHID&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;px-3 py-1 bg-white flex justify-end items-center&quot;&gt;
+            &lt;span class=&quot;font-mono font-bold text-slate-900 text-right&quot;&gt;1221&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- HERO MAIN ROW (LARGE PRIMARY TEXT) --&gt;
+        &lt;div class=&quot;px-4 py-2 bg-white border-b border-slate-300&quot;&gt;
+          &lt;span class=&quot;text-2xl font-black tracking-tight text-slate-950 block&quot;&gt;
+            Pt - David Jeba
+          &lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- BOTTOM ROW (2 CELLS: 50/50 SPLIT) --&gt;
+        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium&quot;&gt;
+          &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
+            &lt;span class=&quot;text-slate-600&quot;&gt;AGE -&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-slate-900&quot;&gt;45&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
+            &lt;span class=&quot;text-slate-600&quot;&gt;SEX -&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-slate-900&quot;&gt;Male&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Spec Notation Callout --&gt;
+      &lt;div class=&quot;flex-1 min-w-[280px] p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2&quot;&gt;
+        &lt;div class=&quot;text-[11px] text-teal-400 font-bold uppercase tracking-wider font-sans&quot;&gt;Shorthand Specification&lt;/div&gt;
+        &lt;code class=&quot;text-amber-300 text-[11px] block bg-slate-950 p-2 rounded border border-slate-800&quot;&gt;
+          MetaTextField(&quot;UHID: 1221 | [Pt - David Jeba] | AGE: 45, SEX: Male&quot;)
+        &lt;/code&gt;
+        &lt;p class=&quot;text-[11px] text-slate-400 font-sans leading-relaxed&quot;&gt;
+          The single string defines the top metadata, the hero title, and the bottom coordinates. The engine enforces the 2x2 cell cap and the 50% typography ratio automatically.
+        &lt;/p&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ======================================================================= --&gt;
+  &lt;!-- 2. IN A FORM: PATIENT ADMISSION &amp; TRIAGE INTAKE FORM                    --&gt;
+  &lt;!-- ======================================================================= --&gt;
+  &lt;div class=&quot;p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4&quot;&gt;
+    &lt;div class=&quot;flex items-center justify-between border-b border-slate-800 pb-3&quot;&gt;
+      &lt;div&gt;
+        &lt;h3 class=&quot;text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2&quot;&gt;
+          &lt;span&gt;📋&lt;/span&gt; 2. In a Form: Editable MetaText with HTMX Auto-Save
+        &lt;/h3&gt;
+        &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;The hero slot functions as an active form input while metadata coordinates persist.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;span class=&quot;px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20&quot;&gt;
+        FORM INPUT MODE
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;form class=&quot;p-5 bg-slate-950/80 rounded-xl border border-slate-800/80 space-y-4 max-w-xl&quot;
+          hx-post=&quot;/api/patients/save&quot;
+          hx-trigger=&quot;submit, change delay:400ms&quot;
+          hx-swap=&quot;none&quot;&gt;
+
+      &lt;div class=&quot;text-xs font-bold text-slate-300 mb-2&quot;&gt;Patient Primary Identity Cell:&lt;/div&gt;
+
+      &lt;!-- EDITABLE METATEXT FORM COMPONENT --&gt;
+      &lt;div class=&quot;flex flex-col bg-white border border-slate-300 rounded-lg shadow-sm text-slate-900 font-sans overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all&quot;&gt;
+        
+        &lt;!-- TOP ROW: READ-ONLY SYSTEM METADATA --&gt;
+        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium bg-slate-50&quot;&gt;
+          &lt;div class=&quot;px-3 py-1 flex items-center justify-between&quot;&gt;
+            &lt;span class=&quot;text-slate-500&quot;&gt;UHID:&lt;/span&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;uhid&quot; value=&quot;1221&quot; /&gt;
+            &lt;span class=&quot;font-mono font-bold text-slate-900&quot;&gt;#1221&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;px-3 py-1 flex items-center justify-between&quot;&gt;
+            &lt;span class=&quot;text-slate-500&quot;&gt;TRIAGE:&lt;/span&gt;
+            &lt;span class=&quot;font-bold text-amber-600 font-mono&quot;&gt;LEVEL 2&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- HERO MAIN ROW: LIVE FORM TEXT INPUT --&gt;
+        &lt;div class=&quot;px-3.5 py-2 flex items-center gap-1.5 bg-white border-b border-slate-300&quot;&gt;
+          &lt;span class=&quot;text-xl font-bold text-slate-400 select-none&quot;&gt;Pt -&lt;/span&gt;
+          &lt;input type=&quot;text&quot;
+                 name=&quot;pt_name&quot;
+                 value=&quot;David Jeba&quot;
+                 placeholder=&quot;Enter patient full name...&quot;
+                 class=&quot;w-full text-xl font-extrabold text-slate-950 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES --&gt;
+        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium bg-slate-50&quot;&gt;
+          &lt;div class=&quot;px-3 py-1 flex items-center gap-2&quot;&gt;
+            &lt;span class=&quot;text-slate-500&quot;&gt;AGE:&lt;/span&gt;
+            &lt;input type=&quot;number&quot; 
+                   name=&quot;age&quot; 
+                   value=&quot;45&quot; 
+                   class=&quot;w-12 font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-400 p-0 focus:outline-none focus:border-indigo-600&quot; /&gt;
+            &lt;span class=&quot;text-[10px] text-slate-400&quot;&gt;Yrs&lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;px-3 py-1 flex items-center gap-2&quot;&gt;
+            &lt;span class=&quot;text-slate-500&quot;&gt;SEX:&lt;/span&gt;
+            &lt;select name=&quot;sex&quot; class=&quot;bg-transparent font-bold text-slate-900 border-0 p-0 text-xs focus:outline-none cursor-pointer&quot;&gt;
+              &lt;option value=&quot;Male&quot; selected&gt;Male&lt;/option&gt;
+              &lt;option value=&quot;Female&quot;&gt;Female&lt;/option&gt;
+              &lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
+            &lt;/select&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+      &lt;/div&gt;
+
+      &lt;!-- Action Strip --&gt;
+      &lt;div class=&quot;flex items-center justify-between pt-2&quot;&gt;
+        &lt;span class=&quot;text-[11px] text-slate-500 flex items-center gap-1.5&quot;&gt;
+          &lt;span class=&quot;w-1.5 h-1.5 rounded-full bg-emerald-400&quot;&gt;&lt;/span&gt;
+          HTMX Auto-saves on input blur or value change
+        &lt;/span&gt;
+        &lt;button type=&quot;submit&quot; 
+                class=&quot;px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors shadow&quot;&gt;
+          Save Patient
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+    &lt;/form&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ======================================================================= --&gt;
+  &lt;!-- 3. INSIDE A TABLE: CLINICAL WARD ROSTER &amp; REGISTRY TABLE                 --&gt;
+  &lt;!-- ======================================================================= --&gt;
+  &lt;div class=&quot;p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4&quot;&gt;
+    &lt;div class=&quot;flex items-center justify-between border-b border-slate-800 pb-3&quot;&gt;
+      &lt;div&gt;
+        &lt;h3 class=&quot;text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2&quot;&gt;
+          &lt;span&gt;📊&lt;/span&gt; 3. Inside a Table: High-Density Ward Roster
+        &lt;/h3&gt;
+        &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;Instead of sprawling 6 disjointed columns, MetaText consolidates identity in one cell.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;span class=&quot;px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20&quot;&gt;
+        TABLE CELL EMBED
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;overflow-x-auto rounded-xl border border-slate-800 bg-slate-950&quot;&gt;
+      &lt;table class=&quot;w-full text-left text-xs border-collapse&quot;&gt;
+        &lt;thead class=&quot;bg-slate-900 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800&quot;&gt;
+          &lt;tr&gt;
+            &lt;th class=&quot;px-4 py-3&quot;&gt;Bed&lt;/th&gt;
+            &lt;th class=&quot;px-4 py-3 min-w-[280px]&quot;&gt;Patient Demographic Identity (MetaText)&lt;/th&gt;
+            &lt;th class=&quot;px-4 py-3&quot;&gt;Attending Physician&lt;/th&gt;
+            &lt;th class=&quot;px-4 py-3&quot;&gt;Diagnosis / Chief Complaint&lt;/th&gt;
+            &lt;th class=&quot;px-4 py-3&quot;&gt;Acuity Status&lt;/th&gt;
+            &lt;th class=&quot;px-4 py-3 text-right&quot;&gt;Actions&lt;/th&gt;
+          &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody class=&quot;divide-y divide-slate-800/80 text-slate-200&quot;&gt;
+          
+          &lt;!-- ROW 1: DAVID JEBA --&gt;
+          &lt;tr class=&quot;hover:bg-slate-900/50 transition-colors&quot;&gt;
+            &lt;td class=&quot;px-4 py-3 font-mono font-bold text-indigo-400&quot;&gt;ICU-04&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;!-- Compact MetaText Cell --&gt;
+              &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white text-slate-500&quot;&gt;UHID&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right&quot;&gt;1221&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;px-2.5 py-1 bg-white border-b border-slate-300&quot;&gt;
+                  &lt;span class=&quot;text-sm font-extrabold text-slate-950 block&quot;&gt;Pt - David Jeba&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-[10px]&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;AGE: 45&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;SEX: Male&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-slate-300&quot;&gt;Dr. Sarah Jenkins&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;Acute Coronary Syndrome&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;span class=&quot;px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20&quot;&gt;
+                MONITORING
+              &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-right&quot;&gt;
+              &lt;button class=&quot;px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors&quot;&gt;
+                Chart ➔
+              &lt;/button&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+
+          &lt;!-- ROW 2: ELEANOR VANCE --&gt;
+          &lt;tr class=&quot;hover:bg-slate-900/50 transition-colors&quot;&gt;
+            &lt;td class=&quot;px-4 py-3 font-mono font-bold text-indigo-400&quot;&gt;ICU-06&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white text-slate-500&quot;&gt;UHID&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right&quot;&gt;8820&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;px-2.5 py-1 bg-white border-b border-slate-300&quot;&gt;
+                  &lt;span class=&quot;text-sm font-extrabold text-slate-950 block&quot;&gt;Pt - Eleanor Vance&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-[10px]&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;AGE: 42&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;SEX: Female&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-slate-300&quot;&gt;Dr. Rajesh Patel&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;Post-op Thoracic Resection&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;span class=&quot;px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20&quot;&gt;
+                STABLE
+              &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-right&quot;&gt;
+              &lt;button class=&quot;px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors&quot;&gt;
+                Chart ➔
+              &lt;/button&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+
+          &lt;!-- ROW 3: UNALLOCATED / EMPTY BED (GRACEFUL FALLBACK) --&gt;
+          &lt;tr class=&quot;hover:bg-slate-900/50 transition-colors&quot;&gt;
+            &lt;td class=&quot;px-4 py-3 font-mono font-bold text-slate-500&quot;&gt;ICU-07&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;!-- Empty MetaText State with Em-Dashes --&gt;
+              &lt;div class=&quot;inline-flex flex-col bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden w-full max-w-[260px]&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[10px]&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5 text-slate-400&quot;&gt;UHID: —&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5 text-right font-mono&quot;&gt;AVAILABLE&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;px-2.5 py-1&quot;&gt;
+                  &lt;span class=&quot;text-sm font-bold text-slate-400 italic block&quot;&gt;Unassigned Bed&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 text-[10px] border-t border-slate-300/60&quot;&gt;
+                  &lt;div class=&quot;px-2 py-0.5&quot;&gt;AGE: —&lt;/div&gt;
+                  &lt;div class=&quot;px-2 py-0.5&quot;&gt;SEX: —&lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-slate-500 italic&quot;&gt;—&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-slate-500 italic&quot;&gt;—&lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3&quot;&gt;
+              &lt;span class=&quot;px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400&quot;&gt;
+                VACANT
+              &lt;/span&gt;
+            &lt;/td&gt;
+            &lt;td class=&quot;px-4 py-3 text-right&quot;&gt;
+              &lt;button class=&quot;px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition-colors&quot;&gt;
+                Admit +
+              &lt;/button&gt;
+            &lt;/td&gt;
+          &lt;/tr&gt;
+
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- ======================================================================= --&gt;
+  &lt;!-- 4. DYNAMIC REACIVITY: HxBOLT SIGNALS LIVE CONTROLLER                    --&gt;
+  &lt;!-- ======================================================================= --&gt;
+  &lt;div class=&quot;p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4&quot;
+       hx-state=&quot;{ uhid: '1221', name: 'David Jeba', age: 45, sex: 'Male' }&quot;&gt;
+    &lt;div class=&quot;flex items-center justify-between border-b border-slate-800 pb-3&quot;&gt;
+      &lt;div&gt;
+        &lt;h3 class=&quot;text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2&quot;&gt;
+          &lt;span&gt;⚡&lt;/span&gt; 4. Dynamic Client-Side Reactive State (HxBolt Signals)
+        &lt;/h3&gt;
+        &lt;p class=&quot;text-xs text-slate-400 mt-0.5&quot;&gt;Edit the fields below to see the MetaText component react in real time.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;span class=&quot;px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20&quot;&gt;
+        HxBolt LIVE SIGNAL
+      &lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-6 items-center p-4 bg-slate-950/80 rounded-xl border border-slate-800/80&quot;&gt;
+      
+      &lt;!-- Interactive Signal Controllers --&gt;
+      &lt;div class=&quot;space-y-3 font-mono text-xs&quot;&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;label class=&quot;w-16 text-slate-400&quot;&gt;UHID:&lt;/label&gt;
+          &lt;input type=&quot;text&quot; hx-model=&quot;uhid&quot; class=&quot;flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;label class=&quot;w-16 text-slate-400&quot;&gt;Name:&lt;/label&gt;
+          &lt;input type=&quot;text&quot; hx-model=&quot;name&quot; class=&quot;flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;label class=&quot;w-16 text-slate-400&quot;&gt;Age:&lt;/label&gt;
+          &lt;input type=&quot;number&quot; hx-model=&quot;age&quot; class=&quot;w-24 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400&quot; /&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;flex items-center gap-3&quot;&gt;
+          &lt;label class=&quot;w-16 text-slate-400&quot;&gt;Sex:&lt;/label&gt;
+          &lt;select hx-model=&quot;sex&quot; class=&quot;flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400 cursor-pointer&quot;&gt;
+            &lt;option value=&quot;Male&quot;&gt;Male&lt;/option&gt;
+            &lt;option value=&quot;Female&quot;&gt;Female&lt;/option&gt;
+            &lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;!-- Reactive MetaText Sink --&gt;
+      &lt;div class=&quot;flex justify-center&quot;&gt;
+        &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-md text-slate-900 font-sans select-none overflow-hidden min-w-[300px]&quot;&gt;
+          &lt;div class=&quot;grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium&quot;&gt;
+            &lt;div class=&quot;px-3 py-1 bg-white text-slate-600&quot;&gt;UHID&lt;/div&gt;
+            &lt;div class=&quot;px-3 py-1 bg-white font-mono font-bold text-slate-900 text-right&quot; hx-text=&quot;uhid&quot;&gt;1221&lt;/div&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;px-4 py-2 bg-white border-b border-slate-300&quot;&gt;
+            &lt;span class=&quot;text-2xl font-black tracking-tight text-slate-950 block&quot;&gt;
+              Pt - &lt;span hx-text=&quot;name&quot;&gt;David Jeba&lt;/span&gt;
+            &lt;/span&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium&quot;&gt;
+            &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
+              &lt;span class=&quot;text-slate-600&quot;&gt;AGE -&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-slate-900 font-mono&quot; hx-text=&quot;age&quot;&gt;45&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
+              &lt;span class=&quot;text-slate-600&quot;&gt;SEX -&lt;/span&gt;
+              &lt;span class=&quot;font-bold text-slate-900&quot; hx-text=&quot;sex&quot;&gt;Male&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+&lt;/div&gt;
+</code></pre></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

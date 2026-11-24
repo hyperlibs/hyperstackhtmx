@@ -1,0 +1,367 @@
+<!-- 
+  Component: metatext.html
+  The First Hyperstack Meta Component.
+  Compound data field with a dominant Hero text/input flanked by up to 2 metadata cells above
+  and 2 metadata cells below.
+  Strict Guardrails:
+    - 2x2 Cap: Maximum 2 cells Top, Maximum 2 cells Bottom.
+    - 50% Typography Rule: Meta font size strictly 50% smaller than Hero text.
+    - Graceful Fallback: Empty values render as clean em-dash ("—").
+-->
+<div class="space-y-10" id="metatext-showcase-root">
+
+  <!-- ======================================================================= -->
+  <!-- 1. STANDALONE CLINICAL IDENTITY BADGE (THE CANONICAL REFERENCE)        -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>🏷️</span> 1. Standalone MetaText Badge (Reference Display)
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">High-density biometric coordinate card with 50% typography scaling.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-teal-500/10 text-teal-400 border border-teal-500/20">
+        READ-ONLY BADGE
+      </span>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
+      
+      <!-- Canonical Patient Card (Matches Exact User Screenshot) -->
+      <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-sm text-slate-900 font-sans select-none overflow-hidden min-w-[320px]">
+        <!-- TOP ROW (2 CELLS: 30/70 SPLIT) -->
+        <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
+          <div class="px-3 py-1 bg-white flex justify-between items-center">
+            <span class="text-slate-600">UHID</span>
+          </div>
+          <div class="px-3 py-1 bg-white flex justify-end items-center">
+            <span class="font-mono font-bold text-slate-900 text-right">1221</span>
+          </div>
+        </div>
+
+        <!-- HERO MAIN ROW (LARGE PRIMARY TEXT) -->
+        <div class="px-4 py-2 bg-white border-b border-slate-300">
+          <span class="text-2xl font-black tracking-tight text-slate-950 block">
+            Pt - David Jeba
+          </span>
+        </div>
+
+        <!-- BOTTOM ROW (2 CELLS: 50/50 SPLIT) -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
+          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+            <span class="text-slate-600">AGE -</span>
+            <span class="font-bold text-slate-900">45</span>
+          </div>
+          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+            <span class="text-slate-600">SEX -</span>
+            <span class="font-bold text-slate-900">Male</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spec Notation Callout -->
+      <div class="flex-1 min-w-[280px] p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2">
+        <div class="text-[11px] text-teal-400 font-bold uppercase tracking-wider font-sans">Shorthand Specification</div>
+        <code class="text-amber-300 text-[11px] block bg-slate-950 p-2 rounded border border-slate-800">
+          MetaTextField("UHID: 1221 | [Pt - David Jeba] | AGE: 45, SEX: Male")
+        </code>
+        <p class="text-[11px] text-slate-400 font-sans leading-relaxed">
+          The single string defines the top metadata, the hero title, and the bottom coordinates. The engine enforces the 2x2 cell cap and the 50% typography ratio automatically.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 2. IN A FORM: PATIENT ADMISSION & TRIAGE INTAKE FORM                    -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>📋</span> 2. In a Form: Editable MetaText with HTMX Auto-Save
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">The hero slot functions as an active form input while metadata coordinates persist.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+        FORM INPUT MODE
+      </span>
+    </div>
+
+    <form class="p-5 bg-slate-950/80 rounded-xl border border-slate-800/80 space-y-4 max-w-xl"
+          hx-post="/api/patients/save"
+          hx-trigger="submit, change delay:400ms"
+          hx-swap="none">
+
+      <div class="text-xs font-bold text-slate-300 mb-2">Patient Primary Identity Cell:</div>
+
+      <!-- EDITABLE METATEXT FORM COMPONENT -->
+      <div class="flex flex-col bg-white border border-slate-300 rounded-lg shadow-sm text-slate-900 font-sans overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+        
+        <!-- TOP ROW: READ-ONLY SYSTEM METADATA -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium bg-slate-50">
+          <div class="px-3 py-1 flex items-center justify-between">
+            <span class="text-slate-500">UHID:</span>
+            <input type="hidden" name="uhid" value="1221" />
+            <span class="font-mono font-bold text-slate-900">#1221</span>
+          </div>
+          <div class="px-3 py-1 flex items-center justify-between">
+            <span class="text-slate-500">TRIAGE:</span>
+            <span class="font-bold text-amber-600 font-mono">LEVEL 2</span>
+          </div>
+        </div>
+
+        <!-- HERO MAIN ROW: LIVE FORM TEXT INPUT -->
+        <div class="px-3.5 py-2 flex items-center gap-1.5 bg-white border-b border-slate-300">
+          <span class="text-xl font-bold text-slate-400 select-none">Pt -</span>
+          <input type="text"
+                 name="pt_name"
+                 value="David Jeba"
+                 placeholder="Enter patient full name..."
+                 class="w-full text-xl font-extrabold text-slate-950 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400" />
+        </div>
+
+        <!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES -->
+        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium bg-slate-50">
+          <div class="px-3 py-1 flex items-center gap-2">
+            <span class="text-slate-500">AGE:</span>
+            <input type="number" 
+                   name="age" 
+                   value="45" 
+                   class="w-12 font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-400 p-0 focus:outline-none focus:border-indigo-600" />
+            <span class="text-[10px] text-slate-400">Yrs</span>
+          </div>
+          <div class="px-3 py-1 flex items-center gap-2">
+            <span class="text-slate-500">SEX:</span>
+            <select name="sex" class="bg-transparent font-bold text-slate-900 border-0 p-0 text-xs focus:outline-none cursor-pointer">
+              <option value="Male" selected>Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Strip -->
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-[11px] text-slate-500 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+          HTMX Auto-saves on input blur or value change
+        </span>
+        <button type="submit" 
+                class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-colors shadow">
+          Save Patient
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 3. INSIDE A TABLE: CLINICAL WARD ROSTER & REGISTRY TABLE                 -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>📊</span> 3. Inside a Table: High-Density Ward Roster
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">Instead of sprawling 6 disjointed columns, MetaText consolidates identity in one cell.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+        TABLE CELL EMBED
+      </span>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-950">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead class="bg-slate-900 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
+          <tr>
+            <th class="px-4 py-3">Bed</th>
+            <th class="px-4 py-3 min-w-[280px]">Patient Demographic Identity (MetaText)</th>
+            <th class="px-4 py-3">Attending Physician</th>
+            <th class="px-4 py-3">Diagnosis / Chief Complaint</th>
+            <th class="px-4 py-3">Acuity Status</th>
+            <th class="px-4 py-3 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-800/80 text-slate-200">
+          
+          <!-- ROW 1: DAVID JEBA -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-04</td>
+            <td class="px-4 py-3">
+              <!-- Compact MetaText Cell -->
+              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
+                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">1221</div>
+                </div>
+                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
+                  <span class="text-sm font-extrabold text-slate-950 block">Pt - David Jeba</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 45</div>
+                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Male</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-300">Dr. Sarah Jenkins</td>
+            <td class="px-4 py-3">Acute Coronary Syndrome</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                MONITORING
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors">
+                Chart ➔
+              </button>
+            </td>
+          </tr>
+
+          <!-- ROW 2: ELEANOR VANCE -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-06</td>
+            <td class="px-4 py-3">
+              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
+                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">8820</div>
+                </div>
+                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
+                  <span class="text-sm font-extrabold text-slate-950 block">Pt - Eleanor Vance</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
+                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 42</div>
+                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Female</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-300">Dr. Rajesh Patel</td>
+            <td class="px-4 py-3">Post-op Thoracic Resection</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                STABLE
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white transition-colors">
+                Chart ➔
+              </button>
+            </td>
+          </tr>
+
+          <!-- ROW 3: UNALLOCATED / EMPTY BED (GRACEFUL FALLBACK) -->
+          <tr class="hover:bg-slate-900/50 transition-colors">
+            <td class="px-4 py-3 font-mono font-bold text-slate-500">ICU-07</td>
+            <td class="px-4 py-3">
+              <!-- Empty MetaText State with Em-Dashes -->
+              <div class="inline-flex flex-col bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden w-full max-w-[260px]">
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[10px]">
+                  <div class="px-2 py-0.5 text-slate-400">UHID: —</div>
+                  <div class="px-2 py-0.5 text-right font-mono">AVAILABLE</div>
+                </div>
+                <div class="px-2.5 py-1">
+                  <span class="text-sm font-bold text-slate-400 italic block">Unassigned Bed</span>
+                </div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[10px] border-t border-slate-300/60">
+                  <div class="px-2 py-0.5">AGE: —</div>
+                  <div class="px-2 py-0.5">SEX: —</div>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-3 text-slate-500 italic">—</td>
+            <td class="px-4 py-3 text-slate-500 italic">—</td>
+            <td class="px-4 py-3">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">
+                VACANT
+              </span>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <button class="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white transition-colors">
+                Admit +
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- 4. DYNAMIC REACIVITY: HxBOLT SIGNALS LIVE CONTROLLER                    -->
+  <!-- ======================================================================= -->
+  <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl space-y-4"
+       hx-state="{ uhid: '1221', name: 'David Jeba', age: 45, sex: 'Male' }">
+    <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+      <div>
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <span>⚡</span> 4. Dynamic Client-Side Reactive State (HxBolt Signals)
+        </h3>
+        <p class="text-xs text-slate-400 mt-0.5">Edit the fields below to see the MetaText component react in real time.</p>
+      </div>
+      <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+        HxBolt LIVE SIGNAL
+      </span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
+      
+      <!-- Interactive Signal Controllers -->
+      <div class="space-y-3 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">UHID:</label>
+          <input type="text" hx-model="uhid" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Name:</label>
+          <input type="text" hx-model="name" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Age:</label>
+          <input type="number" hx-model="age" class="w-24 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400" />
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="w-16 text-slate-400">Sex:</label>
+          <select hx-model="sex" class="flex-1 bg-slate-900 border border-slate-700 px-3 py-1.5 rounded text-white font-mono text-xs focus:outline-none focus:border-amber-400 cursor-pointer">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Reactive MetaText Sink -->
+      <div class="flex justify-center">
+        <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-md text-slate-900 font-sans select-none overflow-hidden min-w-[300px]">
+          <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
+            <div class="px-3 py-1 bg-white text-slate-600">UHID</div>
+            <div class="px-3 py-1 bg-white font-mono font-bold text-slate-900 text-right" hx-text="uhid">1221</div>
+          </div>
+          <div class="px-4 py-2 bg-white border-b border-slate-300">
+            <span class="text-2xl font-black tracking-tight text-slate-950 block">
+              Pt - <span hx-text="name">David Jeba</span>
+            </span>
+          </div>
+          <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
+            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+              <span class="text-slate-600">AGE -</span>
+              <span class="font-bold text-slate-900 font-mono" hx-text="age">45</span>
+            </div>
+            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
+              <span class="text-slate-600">SEX -</span>
+              <span class="font-bold text-slate-900" hx-text="sex">Male</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

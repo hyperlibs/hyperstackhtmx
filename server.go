@@ -44,6 +44,7 @@ var componentsList = []string{
 	"hy-hook",
 	"bio-profile",
 	"bio-links",
+	"metatext",
 }
 
 func formatName(slug string) string {

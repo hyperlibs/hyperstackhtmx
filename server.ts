@@ -26,7 +26,8 @@ const COMPONENTS = [
   "hy-hook",
   "pgx-hud",
   "bio-profile",
-  "bio-links"
+  "bio-links",
+  "metatext"
 ];
 
 function formatName(slug: string): string {
