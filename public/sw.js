@@ -39,8 +39,8 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(req.url);
 
-  // HTML Navigation: Network first, fall back to cached /bio
-  if (req.mode === 'navigate' || url.pathname === '/bio' || url.pathname === '/') {
+  // HTML Navigation: Strictly scoped to /bio PWA ONLY (never intercept /docs/ or root)
+  if (url.pathname.startsWith('/bio') || url.pathname === '/app/bio' || url.pathname === '/demo/bio') {
     event.respondWith(
       fetch(req)
         .then((networkRes) => {
