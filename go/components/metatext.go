@@ -241,32 +241,32 @@ func MetaText(p MetaTextProps) Component {
 		p.Bottom = p.Bottom[:2]
 	}
 
-	// Rigid sizing configuration (Default md: 48px / h-12 rigid boundary)
-	containerClass := "h-12 w-full box-border" // Standard 48px enterprise cell & input height
-	heroTextClass := "text-xs font-bold"
-	metaTextClass := "text-[9px] font-mono leading-none tracking-wider uppercase" // Strictly 50% smaller
-	topHeightClass := "h-[14px] min-h-[14px] shrink-0"
-	heroHeightClass := "h-[20px] min-h-[20px] shrink-0"
-	bottomHeightClass := "h-[14px] min-h-[14px] shrink-0"
-	paddingX := "px-2.5"
+	// Rigid sizing configuration (Default md: 46px compact with mandatory padding & auto-growing width)
+	containerClass := "h-[46px] min-h-[46px] w-auto min-w-[180px] max-w-full box-border" // Auto-growing width, 46px compact
+	heroTextClass := "text-xs font-bold whitespace-nowrap truncate"
+	metaTextClass := "text-[9px] font-mono leading-none tracking-wider uppercase whitespace-nowrap truncate" // Strictly 50% smaller
+	topHeightClass := "h-[14px] min-h-[14px] shrink-0 whitespace-nowrap overflow-hidden"
+	heroHeightClass := "h-[18px] min-h-[18px] shrink-0 whitespace-nowrap overflow-hidden"
+	bottomHeightClass := "h-[14px] min-h-[14px] shrink-0 whitespace-nowrap overflow-hidden"
+	paddingX := "px-2.5 py-0.5"
 
 	switch p.Size {
 	case "sm":
-		containerClass = "h-10 w-full box-border" // 40px compact form input
-		heroTextClass = "text-xs font-bold"
-		metaTextClass = "text-[8px] font-mono leading-none tracking-wider uppercase"
-		topHeightClass = "h-[12px] min-h-[12px] shrink-0"
-		heroHeightClass = "h-[16px] min-h-[16px] shrink-0"
-		bottomHeightClass = "h-[12px] min-h-[12px] shrink-0"
-		paddingX = "px-2"
+		containerClass = "h-[40px] min-h-[40px] w-auto min-w-[160px] max-w-full box-border" // 40px compact form input
+		heroTextClass = "text-xs font-bold whitespace-nowrap truncate"
+		metaTextClass = "text-[8px] font-mono leading-none tracking-wider uppercase whitespace-nowrap truncate"
+		topHeightClass = "h-[12px] min-h-[12px] shrink-0 whitespace-nowrap overflow-hidden"
+		heroHeightClass = "h-[16px] min-h-[16px] shrink-0 whitespace-nowrap overflow-hidden"
+		bottomHeightClass = "h-[12px] min-h-[12px] shrink-0 whitespace-nowrap overflow-hidden"
+		paddingX = "px-2 py-0.5"
 	case "lg":
-		containerClass = "h-14 w-full box-border" // 56px large input / badge
-		heroTextClass = "text-sm font-bold"
-		metaTextClass = "text-[10px] font-mono leading-none tracking-wider uppercase"
-		topHeightClass = "h-[16px] min-h-[16px] shrink-0"
-		heroHeightClass = "h-[24px] min-h-[24px] shrink-0"
-		bottomHeightClass = "h-[16px] min-h-[16px] shrink-0"
-		paddingX = "px-3"
+		containerClass = "h-[54px] min-h-[54px] w-auto min-w-[200px] max-w-full box-border" // 54px large input / badge
+		heroTextClass = "text-sm font-bold whitespace-nowrap truncate"
+		metaTextClass = "text-[10px] font-mono leading-none tracking-wider uppercase whitespace-nowrap truncate"
+		topHeightClass = "h-[16px] min-h-[16px] shrink-0 whitespace-nowrap overflow-hidden"
+		heroHeightClass = "h-[22px] min-h-[22px] shrink-0 whitespace-nowrap overflow-hidden"
+		bottomHeightClass = "h-[16px] min-h-[16px] shrink-0 whitespace-nowrap overflow-hidden"
+		paddingX = "px-3 py-0.5"
 	}
 
 	// Theming & subtle hairline borders
