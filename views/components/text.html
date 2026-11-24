@@ -1,6 +1,655 @@
 <!-- 
   Component: text.html
-  Configurable State: themeColor ('primary'|'secondary'|'destructive'), size ('sm'|'md'|'lg'), isOpen (boolean)
-  Usage: Bind styles dynamically using hx-class="{ 'bg-primary': themeColor === 'primary' }" or hx-style="{ width: size === 'lg' ? '100%' : 'auto' }"
+  Unified Documentation & Showcase for Text Components:
+    - Tab 1: [Text Field] (Standard Regular Text & Textbox)
+    - Tab 2: [MetaText Field] (Advanced 2x2 Compound Coordinate Textbox)
+  Theme: 100% Clean Light Theme Sitewide
+  Structure:
+    - Forms (Preview + Code Sample)
+    - Table (Preview + Code Sample)
+    - Charts & Telemetry (Preview + Code Sample)
+    - Standalone Badges (Preview + Code Sample)
 -->
-<p hx-ext="reactive" hx-state="{ themeColor: \'primary\', size: \'md\', isOpen: false }"  class="leading-7 [&:not(:first-child)]:mt-6 text-foreground">{content}</p>
+
+<div class="space-y-8 font-sans text-slate-900" id="text-components-root">
+
+  <!-- ======================================================================= -->
+  <!-- TOP CONTROLLER: DUAL-TAB SELECTOR [Text Field] vs [MetaText Field]      -->
+  <!-- ======================================================================= -->
+  <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-xs">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <h2 class="text-lg font-bold text-slate-950 flex items-center gap-2">
+          <span>✍️</span> Text & MetaText Components
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Select a mode below to review use case scenarios across Forms, Tables, and Charts.
+        </p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="inline-flex p-1 bg-slate-100 rounded-lg border border-slate-200 text-xs font-semibold select-none" id="componentTabGroup">
+        <button type="button" 
+                onclick="switchTextTab('textfield')" 
+                id="btn-tab-textfield" 
+                class="px-3.5 py-1.5 rounded-md font-bold transition-all bg-white text-slate-900 shadow-xs">
+          Text Field (Regular)
+        </button>
+        <button type="button" 
+                onclick="switchTextTab('metatext')" 
+                id="btn-tab-metatext" 
+                class="px-3.5 py-1.5 rounded-md font-bold transition-all text-slate-600 hover:text-slate-900">
+          MetaText Field (Advanced 2x2)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- TAB 1: TEXT FIELD (REGULAR SIMPLE TEXTBOX)                              -->
+  <!-- ======================================================================= -->
+  <div id="pane-textfield" class="tab-pane space-y-10">
+
+    <!-- 1. FORMS SCENARIO -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Forms: Simple Text Field</h3>
+          <p class="text-xs text-slate-500">Standard single-value input with native browser ergonomics, validation, and HTMX auto-save.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-slate-200 text-slate-700 rounded">Standard Form</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30">
+        <div class="max-w-md mx-auto space-y-3">
+          <label class="block text-xs font-bold text-slate-700">Patient Full Legal Name</label>
+          <input type="text" 
+                 name="patient_name" 
+                 value="David Jeba" 
+                 class="h-10 w-full rounded border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-900 shadow-2xs focus:border-indigo-600 focus:outline-none focus:ring-1 focus:ring-indigo-500/20" 
+                 placeholder="Enter full name..." />
+          <p class="text-[11px] text-slate-500 italic">Captures a single standalone string value ("David Jeba").</p>
+        </div>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">HTML / HTMX</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>&lt;!-- Simple Textbox --&gt;
+&lt;label class="block text-xs font-bold text-slate-700"&gt;Patient Full Legal Name&lt;/label&gt;
+&lt;input type="text" 
+       name="patient_name" 
+       value="David Jeba" 
+       hx-post="/api/patients/name" 
+       hx-trigger="change" 
+       class="h-10 w-full rounded border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-900" /&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- 2. TABLE SCENARIO -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">2. Table: Simple Text Field</h3>
+          <p class="text-xs text-slate-500">Each column holds a single data value, requiring multiple horizontal columns.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-slate-200 text-slate-700 rounded">Standard Table</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30 overflow-x-auto">
+        <table class="w-full text-left text-xs font-sans border-collapse border border-slate-200 bg-white rounded-lg overflow-hidden">
+          <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+            <tr>
+              <th class="p-3 w-16 text-center">Bed</th>
+              <th class="p-3">Patient Name</th>
+              <th class="p-3">Age</th>
+              <th class="p-3">Sex</th>
+              <th class="p-3">Attending Physician</th>
+              <th class="p-3">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 text-center font-mono font-bold text-slate-600">ICU-01</td>
+              <td class="p-3 font-bold text-slate-900">David Jeba</td>
+              <td class="p-3 font-mono">45</td>
+              <td class="p-3">Male</td>
+              <td class="p-3 text-slate-700">Dr. Sarah Jenkins</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Pre-Op</span></td>
+            </tr>
+            <tr class="hover:bg-slate-50">
+              <td class="p-3 text-center font-mono font-bold text-slate-600">ICU-02</td>
+              <td class="p-3 font-bold text-slate-900">Eleanor Vance</td>
+              <td class="p-3 font-mono">62</td>
+              <td class="p-3">Female</td>
+              <td class="p-3 text-slate-700">Dr. Marcus Chen</td>
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Stable</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">HTML Table</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>&lt;!-- Simple Columns in Table --&gt;
+&lt;tr&gt;
+  &lt;td class="p-3 font-mono font-bold"&gt;ICU-01&lt;/td&gt;
+  &lt;td class="p-3 font-bold text-slate-900"&gt;David Jeba&lt;/td&gt;
+  &lt;td class="p-3 font-mono"&gt;45&lt;/td&gt;
+  &lt;td class="p-3"&gt;Male&lt;/td&gt;
+  &lt;td class="p-3"&gt;Dr. Sarah Jenkins&lt;/td&gt;
+  &lt;td class="p-3"&gt;&lt;span class="badge"&gt;Pre-Op&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- 3. CHARTS & TELEMETRY SCENARIO -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">3. Charts & Metrics: Simple Text Metric</h3>
+          <p class="text-xs text-slate-500">Standard single stat display with value and description.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-slate-200 text-slate-700 rounded">Standard Chart Metric</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+          <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-2xs">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Heart Rate</span>
+            <div class="text-2xl font-black text-slate-900 mt-1">72 <span class="text-xs font-normal text-slate-500">BPM</span></div>
+            <span class="text-[10px] text-emerald-600 font-bold mt-1 block">● Normal Sinus</span>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-2xs">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Oxygen Saturation</span>
+            <div class="text-2xl font-black text-slate-900 mt-1">98 <span class="text-xs font-normal text-slate-500">%</span></div>
+            <span class="text-[10px] text-emerald-600 font-bold mt-1 block">● Optimal Range</span>
+          </div>
+          <div class="p-4 bg-white border border-slate-200 rounded-lg shadow-2xs">
+            <span class="text-[11px] font-bold text-slate-500 uppercase">Blood Pressure</span>
+            <div class="text-2xl font-black text-slate-900 mt-1">120/80 <span class="text-xs font-normal text-slate-500">mmHg</span></div>
+            <span class="text-[10px] text-emerald-600 font-bold mt-1 block">● Pre-Op Baseline</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">HTML</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>&lt;div class="p-4 bg-white border border-slate-200 rounded-lg shadow-2xs"&gt;
+  &lt;span class="text-[11px] font-bold text-slate-500 uppercase"&gt;Heart Rate&lt;/span&gt;
+  &lt;div class="text-2xl font-black text-slate-900 mt-1"&gt;72 &lt;span class="text-xs font-normal text-slate-500"&gt;BPM&lt;/span&gt;&lt;/div&gt;
+  &lt;span class="text-[10px] text-emerald-600 font-bold mt-1 block"&gt;● Normal Sinus&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- TAB 2: METATEXT FIELD (ADVANCED 2x2 COMPOUND FIELD)                     -->
+  <!-- ======================================================================= -->
+  <div id="pane-metatext" class="tab-pane hidden space-y-10">
+
+    <!-- ARCHITECTURE CARD -->
+    <div class="bg-indigo-50/60 border border-indigo-200 rounded-xl p-4 text-xs text-indigo-950 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+      <div>
+        <span class="px-2 py-0.5 rounded bg-indigo-600 text-white font-bold text-[10px] uppercase tracking-wider">Hyperstack Meta Component</span>
+        <h3 class="text-sm font-bold text-indigo-950 mt-1">Strict 2x2 Guardrails & 50% Typography Ratio</h3>
+        <p class="text-indigo-800/80 mt-0.5">Fits in the exact 40px (<code class="font-bold">h-10</code>) vertical budget of a simple textbox. Max 2 cells top, max 2 cells bottom. Zero gap.</p>
+      </div>
+      <div class="flex items-center gap-2 font-mono text-[11px]">
+        <span class="bg-white px-2 py-1 rounded border border-indigo-200 font-bold text-indigo-900">h-10 (40px)</span>
+        <span class="bg-white px-2 py-1 rounded border border-indigo-200 font-bold text-indigo-900">0px Gap</span>
+        <span class="bg-white px-2 py-1 rounded border border-indigo-200 font-bold text-indigo-900">50% Font</span>
+      </div>
+    </div>
+
+    <!-- 1. FORMS SCENARIO (METATEXT) -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">1. Forms: MetaText Compound Field</h3>
+          <p class="text-xs text-slate-500">Packs UHID, Triage, Editable Patient Name, Age (red font alert), and Sex into one 40px form slot.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-indigo-100 text-indigo-800 rounded">Compound Form Input</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30">
+        <div class="max-w-md mx-auto space-y-3">
+          <label class="block text-xs font-bold text-slate-700">Patient Identity & Clinical Coordinates</label>
+
+          <!-- Ultra-Compact Editable MetaText Input (h-10) -->
+          <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-500/20">
+            <!-- TOP TIER (h-[11px], text-[8px], leading-none) -->
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+              <span class="text-slate-600 font-bold">UHID: 1221</span>
+              <span class="text-right text-amber-600 font-bold">TRIAGE: LEVEL 2</span>
+            </div>
+
+            <!-- HERO MAIN TIER (h-[18px], text-sm, leading-none) -->
+            <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+              <span class="text-sm font-bold text-slate-400 select-none mr-1">Pt -</span>
+              <input type="text" 
+                     name="pt_name" 
+                     value="David Jeba" 
+                     class="w-full text-sm font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0" 
+                     placeholder="Enter legal name..." />
+            </div>
+
+            <!-- BOTTOM TIER (h-[11px], text-[8px], leading-none) with Red Font for Age -->
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+              <span>AGE: <strong class="text-red-600 font-bold">45</strong> <span class="text-slate-400 text-[7px]">YRS</span></span>
+              <span class="pl-1">SEX: <strong class="text-slate-900">Male</strong></span>
+            </div>
+          </div>
+
+          <p class="text-[11px] text-slate-500 italic">⚡ Exact same 40px height as a standard textbox; stores 4 linked clinical attributes.</p>
+        </div>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">Go DSL & Declarative HTML</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>// Go DSL (One-line Shorthand with !red color modifier)
+components.MetaTextField("UHID: 1221, TRIAGE: LEVEL 2 | [@pt_name: David Jeba] | AGE: 45!red, SEX: Male")
+
+&lt;!-- Declarative HTML Component --&gt;
+&lt;div class="hs-metatext inline-flex flex-col justify-between h-10 w-full rounded border border-slate-300 bg-white"&gt;
+  &lt;div class="grid grid-cols-2 divide-x border-b text-[8px] font-mono uppercase px-2 h-[11px] items-center leading-none bg-slate-50"&gt;
+    &lt;span&gt;UHID: 1221&lt;/span&gt;
+    &lt;span class="text-right text-amber-600 font-bold"&gt;TRIAGE: LEVEL 2&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="px-2 flex items-center h-[18px] bg-white leading-none"&gt;
+    &lt;span class="text-sm font-bold text-slate-400 mr-1"&gt;Pt -&lt;/span&gt;
+    &lt;input type="text" name="pt_name" value="David Jeba" class="text-sm font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none" /&gt;
+  &lt;/div&gt;
+  &lt;div class="grid grid-cols-2 divide-x border-t text-[8px] font-mono uppercase px-2 h-[11px] items-center leading-none bg-slate-50"&gt;
+    &lt;span&gt;AGE: &lt;strong class="text-red-600 font-bold"&gt;45&lt;/strong&gt;&lt;/span&gt;
+    &lt;span class="pl-1"&gt;SEX: &lt;strong class="text-slate-900"&gt;Male&lt;/strong&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+      </div>
+    </div>
+
+    <!-- 2. TABLE SCENARIO (METATEXT) -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">2. Table: Multi-Column MetaText Integration</h3>
+          <p class="text-xs text-slate-500">Patient Demographic, Attending Physician, and Admit Date all use MetaText inside 40px table rows.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-emerald-100 text-emerald-800 rounded">Multi-Column Table</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30 overflow-x-auto">
+        <table class="w-full text-left text-xs font-sans border-collapse border border-slate-200 bg-white rounded-lg overflow-hidden">
+          <thead class="bg-slate-100 text-slate-700 font-bold uppercase text-[10px] border-b border-slate-200">
+            <tr>
+              <th class="p-3 w-16 text-center">Bed</th>
+              <th class="p-3 w-64">Patient Demographic (MetaText)</th>
+              <th class="p-3 w-56">Attending Physician (MetaText)</th>
+              <th class="p-3 w-44">Admit Date & Time (MetaText)</th>
+              <th class="p-3 w-28">Status</th>
+              <th class="p-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+            
+            <!-- Row 1: David Jeba -->
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-3 text-center font-mono font-bold text-indigo-600 bg-slate-50">ICU-01</td>
+              
+              <!-- Patient MetaText -->
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+                    <span class="text-slate-500 truncate">UHID</span>
+                    <span class="font-mono font-bold text-slate-900 text-right truncate">1221</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate">Pt - David Jeba</span>
+                  </div>
+                  <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+                    <span class="truncate">AGE: <strong class="text-red-600 font-bold">45</strong></span>
+                    <span class="truncate pl-1">SEX: Male</span>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Physician MetaText: [Ortho] / Dr. Sarah Jenkins / [Degree] -->
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-indigo-700 bg-indigo-50/60 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                    <span>[Ortho]</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate">Dr. Sarah Jenkins</span>
+                  </div>
+                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span class="truncate">[Degree] MS, FACS</span>
+                  </div>
+                </div>
+              </td>
+
+              <!-- Admit Date MetaText: 20-Nov-2026 / [hh:mm am/pm] -->
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>ADMIT DATE</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate font-mono">20-Nov-2026</span>
+                  </div>
+                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-600 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span class="text-slate-800 font-bold">[10:45 AM]</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">Pre-Op</span></td>
+              <td class="p-3 text-right">
+                <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded font-bold text-[11px]">Chart</button>
+              </td>
+            </tr>
+
+            <!-- Row 2: Eleanor Vance -->
+            <tr class="hover:bg-slate-50/80 transition">
+              <td class="p-3 text-center font-mono font-bold text-indigo-600 bg-slate-50">ICU-02</td>
+              
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+                    <span class="text-slate-500 truncate">UHID</span>
+                    <span class="font-mono font-bold text-slate-900 text-right truncate">8820</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate">Pt - Eleanor Vance</span>
+                  </div>
+                  <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+                    <span class="truncate">AGE: 42</span>
+                    <span class="truncate pl-1">SEX: Female</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-purple-700 bg-purple-50/60 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                    <span>[Neuro]</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate">Dr. Rajesh Patel</span>
+                  </div>
+                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span class="truncate">[Degree] MD, DM</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-200 text-[8px] font-mono uppercase text-slate-500 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>ADMIT DATE</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                    <span class="text-xs font-bold text-slate-950 block truncate font-mono">22-Nov-2026</span>
+                  </div>
+                  <div class="border-t border-slate-200 text-[8px] font-mono uppercase text-slate-600 bg-slate-50 px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span class="text-slate-800 font-bold">[08:30 AM]</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Stable</span></td>
+              <td class="p-3 text-right">
+                <button class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded font-bold text-[11px]">Chart</button>
+              </td>
+            </tr>
+
+            <!-- Row 3: Vacant Bed Fallback -->
+            <tr class="bg-slate-50/60 opacity-80">
+              <td class="p-3 text-center font-mono font-bold text-slate-400">ICU-03</td>
+              
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
+                  <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none">
+                    <span>UHID: —</span>
+                    <span class="text-right">AVAILABLE</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                    <span class="text-xs font-bold text-slate-400 italic block truncate">Unassigned Bed</span>
+                  </div>
+                  <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[8px] font-mono uppercase border-t border-slate-300/60 px-2 py-0 h-[11px] items-center leading-none">
+                    <span>AGE: —</span>
+                    <span class="pl-1">SEX: —</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[210px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>[DEPT: —]</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                    <span class="text-xs font-bold text-slate-400 italic block truncate">[Unassigned]</span>
+                  </div>
+                  <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>[Degree: —]</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-2">
+                <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[160px] bg-slate-100/70 border border-dashed border-slate-300 rounded text-slate-400 font-sans select-none overflow-hidden">
+                  <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>ADMIT DATE</span>
+                  </div>
+                  <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                    <span class="text-xs font-bold text-slate-400 italic block truncate font-mono">—</span>
+                  </div>
+                  <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase px-2 py-0 h-[11px] flex items-center leading-none">
+                    <span>[--:--]</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-600">Sanitized</span></td>
+              <td class="p-3 text-right">
+                <button class="px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded font-bold text-[11px]">Admit</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">Go DSL Table Composition</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>// 3 MetaText Components in a Single High-Density Table Row
+TableRow(
+  TableCell("ICU-01"),
+  components.MetaTextField("UHID: 1221 | [Pt - David Jeba] | AGE: 45!red, SEX: Male"),
+  components.MetaTextField("[Ortho] | [Dr. Sarah Jenkins] | [Degree] MS, FACS"),
+  components.MetaTextField("ADMIT DATE | [20-Nov-2026] | [10:45 AM]"),
+  Badge("Pre-Op", "amber"),
+)</code></pre>
+      </div>
+    </div>
+
+    <!-- 3. CHARTS & TELEMETRY SCENARIO (METATEXT) -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">3. Charts & Telemetry: Sensor & Micro-Grid Nodes</h3>
+          <p class="text-xs text-slate-500">Pack device node IDs, primary asset telemetry, and real-time sensory units into compact 40px badges.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-amber-100 text-amber-800 rounded">SCADA / Telemetry</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+          
+          <!-- Node 1: Reactor Turbine -->
+          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none">
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+              <span class="text-amber-700 font-bold">NODE: #09-A</span>
+              <span class="text-right text-emerald-600 font-bold">ONLINE ●</span>
+            </div>
+            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
+              <span class="text-sm font-black text-slate-900 truncate">Reactor Turbine 01</span>
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+              <span>TEMP: <strong class="text-amber-700">412 °C</strong></span>
+              <span class="text-right pl-1">PRESS: <strong class="text-slate-800">124 PSI</strong></span>
+            </div>
+          </div>
+
+          <!-- Node 2: Substation -->
+          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none">
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+              <span class="text-sky-700 font-bold">NODE: #14-C</span>
+              <span class="text-right text-emerald-600 font-bold">ONLINE ●</span>
+            </div>
+            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
+              <span class="text-sm font-black text-slate-900 truncate">Grid Substation 4</span>
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-slate-50">
+              <span>LOAD: <strong class="text-emerald-700">84.2 %</strong></span>
+              <span class="text-right pl-1">FREQ: <strong class="text-purple-700">60.01 Hz</strong></span>
+            </div>
+          </div>
+
+          <!-- Node 3: Fault Warning -->
+          <div class="hs-metatext inline-flex flex-col justify-between h-12 w-full rounded border-2 border-red-400 bg-red-50/20 shadow-2xs overflow-hidden select-none">
+            <div class="grid grid-cols-2 divide-x divide-red-200 border-b border-red-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-red-100/50">
+              <span class="text-red-800 font-bold">NODE: #02-F</span>
+              <span class="text-right text-red-600 font-bold">ALERT ▲</span>
+            </div>
+            <div class="px-2 py-0 flex items-center h-[22px] bg-white leading-none">
+              <span class="text-sm font-black text-red-700 truncate">Coolant Valve 3</span>
+            </div>
+            <div class="grid grid-cols-2 divide-x divide-red-200 border-t border-red-200 text-[8px] font-mono uppercase px-2 py-0 h-[11px] items-center leading-none bg-red-50">
+              <span>FLOW: <strong class="text-red-600">0.0 GPM</strong></span>
+              <span class="text-right pl-1">STATUS: <strong class="text-red-700">TRIPPED</strong></span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">Go DSL Telemetry Spec</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>// Industrial SCADA Sensor Shorthand
+components.MetaTextField("NODE: #09-A, ONLINE ● | [Reactor Turbine 01] | TEMP: 412 °C, PRESS: 124 PSI", "lg")</code></pre>
+      </div>
+    </div>
+
+    <!-- 4. STANDALONE BADGE & CANONICAL COORDINATES -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden">
+      <div class="p-4 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-bold text-slate-900 uppercase tracking-wide">4. Standalone MetaText Badge (Reference Display)</h3>
+          <p class="text-xs text-slate-500">Pure light theme monospaced badge matching clinical identity specifications.</p>
+        </div>
+        <span class="px-2 py-0.5 text-[10px] font-bold bg-teal-100 text-teal-800 rounded">Read-Only Badge</span>
+      </div>
+
+      <!-- Preview -->
+      <div class="p-6 bg-slate-50/30 flex justify-center">
+        <div class="hs-metatext font-mono border border-slate-300 bg-white rounded shadow-2xs w-80 select-none overflow-hidden">
+          <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-200 border-b border-slate-200 text-[10px] py-1 px-3 bg-slate-50 text-slate-600 font-medium">
+            <span>UHID</span>
+            <span class="text-right font-bold text-slate-900 tabular-nums">1221</span>
+          </div>
+          <div class="py-2.5 px-3 text-xl font-black text-slate-950 tracking-tight bg-white">
+            Pt - David Jeba
+          </div>
+          <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[10px] py-1 px-3 bg-slate-50 text-slate-600 font-medium">
+            <span>AGE - <strong class="text-red-600 font-bold">45</strong></span>
+            <span class="pl-2">SEX - <strong class="text-slate-900 font-bold">Male</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Sample -->
+      <div class="border-t border-slate-200 p-4 bg-slate-50">
+        <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center justify-between">
+          <span>Code Sample</span>
+          <span class="text-[10px] font-mono text-slate-400">Micro-Syntax</span>
+        </div>
+        <pre class="bg-slate-900 text-slate-100 p-3.5 rounded-lg text-xs font-mono overflow-x-auto leading-relaxed"><code>components.MetaTextField("UHID: 1221 | [Pt - David Jeba] | AGE: 45!red, SEX: Male")</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Client-side Tab Switcher Script -->
+<script>
+  function switchTextTab(tab) {
+    const btnText = document.getElementById('btn-tab-textfield');
+    const btnMeta = document.getElementById('btn-tab-metatext');
+    const paneText = document.getElementById('pane-textfield');
+    const paneMeta = document.getElementById('pane-metatext');
+
+    if (tab === 'metatext') {
+      btnMeta.className = "px-3.5 py-1.5 rounded-md font-bold transition-all bg-white text-indigo-700 shadow-xs";
+      btnText.className = "px-3.5 py-1.5 rounded-md font-bold transition-all text-slate-600 hover:text-slate-900";
+      paneMeta.classList.remove('hidden');
+      paneText.classList.add('hidden');
+      if (window.history && window.history.replaceState) {
+        const url = new URL(window.location);
+        url.searchParams.set('tab', 'metatext');
+        window.history.replaceState({}, '', url);
+      }
+    } else {
+      btnText.className = "px-3.5 py-1.5 rounded-md font-bold transition-all bg-white text-slate-900 shadow-xs";
+      btnMeta.className = "px-3.5 py-1.5 rounded-md font-bold transition-all text-slate-600 hover:text-slate-900";
+      paneText.classList.remove('hidden');
+      paneMeta.classList.add('hidden');
+      if (window.history && window.history.replaceState) {
+        const url = new URL(window.location);
+        url.searchParams.set('tab', 'textfield');
+        window.history.replaceState({}, '', url);
+      }
+    }
+  }
+
+  // Auto-detect tab from URL query params (e.g., ?tab=metatext) or hash
+  (function initTab() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('tab') === 'metatext' || window.location.hash === '#metatext' || window.location.pathname.includes('/metatext')) {
+      switchTextTab('metatext');
+    }
+  })();
+</script>
