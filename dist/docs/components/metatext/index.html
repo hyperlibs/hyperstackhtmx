@@ -240,48 +240,54 @@
       </span>
     </div>
 
-    <div class="flex flex-wrap items-center gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
+    <div class="flex flex-col gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80">
       
-      <!-- Canonical Patient Card (Matches Exact User Screenshot) -->
-      <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-sm text-slate-900 font-sans select-none overflow-hidden min-w-[320px]">
-        <!-- TOP ROW (2 CELLS: 30/70 SPLIT) -->
-        <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
-          <div class="px-3 py-1 bg-white flex justify-between items-center">
-            <span class="text-slate-600">UHID</span>
-          </div>
-          <div class="px-3 py-1 bg-white flex justify-end items-center">
-            <span class="font-mono font-bold text-slate-900 text-right">1221</span>
-          </div>
+      <!-- 1:1 Footprint Comparison: Simple Textbox vs Advanced MetaText -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b border-slate-800">
+        <div>
+          <span class="block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1.5 font-bold">Standard Regular Textbox (h-10 / 40px)</span>
+          <input type="text" 
+                 value="David Jeba" 
+                 readonly 
+                 class="h-10 w-full rounded border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 shadow-2xs focus:outline-none" />
+          <p class="text-[10px] text-slate-500 mt-1">Single simple text string. Zero metadata capacity.</p>
         </div>
 
-        <!-- HERO MAIN ROW (LARGE PRIMARY TEXT) -->
-        <div class="px-4 py-2 bg-white border-b border-slate-300">
-          <span class="text-2xl font-black tracking-tight text-slate-950 block">
-            Pt - David Jeba
-          </span>
-        </div>
+        <div>
+          <span class="block text-[11px] font-mono text-teal-400 uppercase tracking-wider mb-1.5 font-bold">Advanced MetaText Field (Exact Same h-10 / 40px Footprint!)</span>
+          <!-- Ultra-Compact MetaText Component (Zero Gap, 50% typography ratio) -->
+          <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none">
+            <!-- TOP TIER (h-[11px], text-[8px], leading-none) -->
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+              <span class="text-slate-600">UHID</span>
+              <span class="text-right font-bold text-slate-900 tabular-nums">1221</span>
+            </div>
 
-        <!-- BOTTOM ROW (2 CELLS: 50/50 SPLIT) -->
-        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
-          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
-            <span class="text-slate-600">AGE -</span>
-            <span class="font-bold text-slate-900">45</span>
+            <!-- HERO MAIN TIER (h-[18px], text-sm, leading-none) -->
+            <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+              <span class="text-sm font-black text-slate-950 tracking-tight block truncate">
+                Pt - David Jeba
+              </span>
+            </div>
+
+            <!-- BOTTOM TIER (h-[11px], text-[8px], leading-none) -->
+            <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+              <span class="truncate"><span class="text-slate-500">AGE -</span> <strong class="text-slate-900">45</strong></span>
+              <span class="truncate pl-1"><span class="text-slate-500">SEX -</span> <strong class="text-slate-900">Male</strong></span>
+            </div>
           </div>
-          <div class="px-3 py-1 bg-white flex items-center gap-1.5">
-            <span class="text-slate-600">SEX -</span>
-            <span class="font-bold text-slate-900">Male</span>
-          </div>
+          <p class="text-[10px] text-teal-400 mt-1">✓ Drops 1:1 into standard input slots with zero vertical expansion.</p>
         </div>
       </div>
 
       <!-- Spec Notation Callout -->
-      <div class="flex-1 min-w-[280px] p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2">
+      <div class="p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2">
         <div class="text-[11px] text-teal-400 font-bold uppercase tracking-wider font-sans">Shorthand Specification</div>
         <code class="text-amber-300 text-[11px] block bg-slate-950 p-2 rounded border border-slate-800">
           MetaTextField("UHID: 1221 | [Pt - David Jeba] | AGE: 45, SEX: Male")
         </code>
         <p class="text-[11px] text-slate-400 font-sans leading-relaxed">
-          The single string defines the top metadata, the hero title, and the bottom coordinates. The engine enforces the 2x2 cell cap and the 50% typography ratio automatically.
+          Ultra-compact compound field: packs UHID, Age, and Sex metadata into the exact 40px vertical budget of a single text box. No wasted padding, 0 gap, 50% typography ratio strictly enforced.
         </p>
       </div>
 
@@ -311,45 +317,45 @@
 
       <div class="text-xs font-bold text-slate-300 mb-2">Patient Primary Identity Cell:</div>
 
-      <!-- EDITABLE METATEXT FORM COMPONENT -->
-      <div class="flex flex-col bg-white border border-slate-300 rounded-lg shadow-sm text-slate-900 font-sans overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all">
+      <!-- ULTRA-COMPACT EDITABLE METATEXT FORM COMPONENT (Matches standard h-10 textbox) -->
+      <div class="hs-metatext flex flex-col justify-between h-10 w-full bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans overflow-hidden focus-within:ring-1 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all select-none">
         
-        <!-- TOP ROW: READ-ONLY SYSTEM METADATA -->
-        <div class="grid grid-cols-2 divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium bg-slate-50">
-          <div class="px-3 py-1 flex items-center justify-between">
+        <!-- TOP ROW: READ-ONLY SYSTEM METADATA (h-[11px], text-[8px], leading-none) -->
+        <div class="grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+          <div class="flex items-center gap-1">
             <span class="text-slate-500">UHID:</span>
             <input type="hidden" name="uhid" value="1221" />
             <span class="font-mono font-bold text-slate-900">#1221</span>
           </div>
-          <div class="px-3 py-1 flex items-center justify-between">
+          <div class="flex items-center justify-end gap-1">
             <span class="text-slate-500">TRIAGE:</span>
             <span class="font-bold text-amber-600 font-mono">LEVEL 2</span>
           </div>
         </div>
 
-        <!-- HERO MAIN ROW: LIVE FORM TEXT INPUT -->
-        <div class="px-3.5 py-2 flex items-center gap-1.5 bg-white border-b border-slate-300">
-          <span class="text-xl font-bold text-slate-400 select-none">Pt -</span>
+        <!-- HERO MAIN ROW: LIVE FORM TEXT INPUT (h-[18px], text-sm, leading-none) -->
+        <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+          <span class="text-sm font-bold text-slate-400 select-none mr-1">Pt -</span>
           <input type="text"
                  name="pt_name"
                  value="David Jeba"
                  placeholder="Enter patient full name..."
-                 class="w-full text-xl font-extrabold text-slate-950 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400" />
+                 class="w-full text-sm font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0 placeholder:text-slate-400" />
         </div>
 
-        <!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES -->
-        <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium bg-slate-50">
-          <div class="px-3 py-1 flex items-center gap-2">
+        <!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES (h-[11px], text-[8px], leading-none) -->
+        <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none">
+          <div class="flex items-center gap-1">
             <span class="text-slate-500">AGE:</span>
             <input type="number" 
                    name="age" 
                    value="45" 
-                   class="w-12 font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-400 p-0 focus:outline-none focus:border-indigo-600" />
-            <span class="text-[10px] text-slate-400">Yrs</span>
+                   class="w-8 font-bold text-slate-900 bg-transparent border-none p-0 m-0 text-[8px] leading-none focus:outline-none" />
+            <span class="text-slate-400">YRS</span>
           </div>
-          <div class="px-3 py-1 flex items-center gap-2">
+          <div class="flex items-center justify-end gap-1">
             <span class="text-slate-500">SEX:</span>
-            <select name="sex" class="bg-transparent font-bold text-slate-900 border-0 p-0 text-xs focus:outline-none cursor-pointer">
+            <select name="sex" class="bg-transparent font-bold text-slate-900 border-0 p-0 m-0 text-[8px] leading-none focus:outline-none cursor-pointer">
               <option value="Male" selected>Male</option>
               <option value="Female">Female</option>
               <option value="Other">Other</option>
@@ -408,18 +414,18 @@
           <tr class="hover:bg-slate-900/50 transition-colors">
             <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-04</td>
             <td class="px-4 py-3">
-              <!-- Compact MetaText Cell -->
-              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
-                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
-                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
-                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">1221</div>
+              <!-- Compact Ultra-Dense MetaText Cell (h-10) -->
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+                  <div class="text-slate-500 truncate">UHID</div>
+                  <div class="font-mono font-bold text-slate-900 text-right truncate">1221</div>
                 </div>
-                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
-                  <span class="text-sm font-extrabold text-slate-950 block">Pt - David Jeba</span>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate">Pt - David Jeba</span>
                 </div>
-                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
-                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 45</div>
-                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Male</div>
+                <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+                  <div class="truncate">AGE: 45</div>
+                  <div class="truncate pl-1">SEX: Male</div>
                 </div>
               </div>
             </td>
@@ -441,17 +447,17 @@
           <tr class="hover:bg-slate-900/50 transition-colors">
             <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-06</td>
             <td class="px-4 py-3">
-              <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm">
-                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]">
-                  <div class="px-2 py-0.5 bg-white text-slate-500">UHID</div>
-                  <div class="px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right">8820</div>
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+                  <div class="text-slate-500 truncate">UHID</div>
+                  <div class="font-mono font-bold text-slate-900 text-right truncate">8820</div>
                 </div>
-                <div class="px-2.5 py-1 bg-white border-b border-slate-300">
-                  <span class="text-sm font-extrabold text-slate-950 block">Pt - Eleanor Vance</span>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate">Pt - Eleanor Vance</span>
                 </div>
-                <div class="grid grid-cols-2 divide-x divide-slate-300 text-[10px]">
-                  <div class="px-2 py-0.5 bg-white font-medium">AGE: 42</div>
-                  <div class="px-2 py-0.5 bg-white font-medium">SEX: Female</div>
+                <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+                  <div class="truncate">AGE: 42</div>
+                  <div class="truncate pl-1">SEX: Female</div>
                 </div>
               </div>
             </td>
@@ -474,17 +480,17 @@
             <td class="px-4 py-3 font-mono font-bold text-slate-500">ICU-07</td>
             <td class="px-4 py-3">
               <!-- Empty MetaText State with Em-Dashes -->
-              <div class="inline-flex flex-col bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden w-full max-w-[260px]">
-                <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[10px]">
-                  <div class="px-2 py-0.5 text-slate-400">UHID: —</div>
-                  <div class="px-2 py-0.5 text-right font-mono">AVAILABLE</div>
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden">
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none">
+                  <div class="truncate">UHID: —</div>
+                  <div class="text-right font-mono truncate">AVAILABLE</div>
                 </div>
-                <div class="px-2.5 py-1">
-                  <span class="text-sm font-bold text-slate-400 italic block">Unassigned Bed</span>
+                <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <span class="text-xs font-bold text-slate-400 italic block truncate">Unassigned Bed</span>
                 </div>
-                <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[10px] border-t border-slate-300/60">
-                  <div class="px-2 py-0.5">AGE: —</div>
-                  <div class="px-2 py-0.5">SEX: —</div>
+                <div class="grid grid-cols-2 divide-x divide-slate-300/60 text-[8px] font-mono uppercase tracking-wider border-t border-slate-300/60 px-2 py-0 h-[11px] items-center leading-none">
+                  <div class="truncate">AGE: —</div>
+                  <div class="truncate pl-1">SEX: —</div>
                 </div>
               </div>
             </td>
@@ -550,25 +556,25 @@
         </div>
       </div>
 
-      <!-- Reactive MetaText Sink -->
-      <div class="flex justify-center">
-        <div class="inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-md text-slate-900 font-sans select-none overflow-hidden min-w-[300px]">
-          <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium">
-            <div class="px-3 py-1 bg-white text-slate-600">UHID</div>
-            <div class="px-3 py-1 bg-white font-mono font-bold text-slate-900 text-right" hx-text="uhid">1221</div>
+      <!-- Reactive MetaText Sink (Ultra-Compact h-10) -->
+      <div class="flex justify-center w-full">
+        <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[280px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+          <div class="grid grid-cols-[3fr_7fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+            <div class="text-slate-600 truncate">UHID</div>
+            <div class="font-mono font-bold text-slate-900 text-right truncate" hx-text="uhid">1221</div>
           </div>
-          <div class="px-4 py-2 bg-white border-b border-slate-300">
-            <span class="text-2xl font-black tracking-tight text-slate-950 block">
+          <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+            <span class="text-sm font-bold text-slate-950 block truncate">
               Pt - <span hx-text="name">David Jeba</span>
             </span>
           </div>
-          <div class="grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium">
-            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
-              <span class="text-slate-600">AGE -</span>
+          <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
+            <div class="truncate">
+              <span class="text-slate-500">AGE -</span>
               <span class="font-bold text-slate-900 font-mono" hx-text="age">45</span>
             </div>
-            <div class="px-3 py-1 bg-white flex items-center gap-1.5">
-              <span class="text-slate-600">SEX -</span>
+            <div class="truncate pl-1">
+              <span class="text-slate-500">SEX -</span>
               <span class="font-bold text-slate-900" hx-text="sex">Male</span>
             </div>
           </div>
@@ -612,48 +618,54 @@
       &lt;/span&gt;
     &lt;/div&gt;
 
-    &lt;div class=&quot;flex flex-wrap items-center gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80&quot;&gt;
+    &lt;div class=&quot;flex flex-col gap-6 p-4 bg-slate-950/80 rounded-xl border border-slate-800/80&quot;&gt;
       
-      &lt;!-- Canonical Patient Card (Matches Exact User Screenshot) --&gt;
-      &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-sm text-slate-900 font-sans select-none overflow-hidden min-w-[320px]&quot;&gt;
-        &lt;!-- TOP ROW (2 CELLS: 30/70 SPLIT) --&gt;
-        &lt;div class=&quot;grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium&quot;&gt;
-          &lt;div class=&quot;px-3 py-1 bg-white flex justify-between items-center&quot;&gt;
-            &lt;span class=&quot;text-slate-600&quot;&gt;UHID&lt;/span&gt;
-          &lt;/div&gt;
-          &lt;div class=&quot;px-3 py-1 bg-white flex justify-end items-center&quot;&gt;
-            &lt;span class=&quot;font-mono font-bold text-slate-900 text-right&quot;&gt;1221&lt;/span&gt;
-          &lt;/div&gt;
+      &lt;!-- 1:1 Footprint Comparison: Simple Textbox vs Advanced MetaText --&gt;
+      &lt;div class=&quot;grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b border-slate-800&quot;&gt;
+        &lt;div&gt;
+          &lt;span class=&quot;block text-[11px] font-mono text-slate-400 uppercase tracking-wider mb-1.5 font-bold&quot;&gt;Standard Regular Textbox (h-10 / 40px)&lt;/span&gt;
+          &lt;input type=&quot;text&quot; 
+                 value=&quot;David Jeba&quot; 
+                 readonly 
+                 class=&quot;h-10 w-full rounded border border-slate-300 bg-white px-3 text-sm font-semibold text-slate-800 shadow-2xs focus:outline-none&quot; /&gt;
+          &lt;p class=&quot;text-[10px] text-slate-500 mt-1&quot;&gt;Single simple text string. Zero metadata capacity.&lt;/p&gt;
         &lt;/div&gt;
 
-        &lt;!-- HERO MAIN ROW (LARGE PRIMARY TEXT) --&gt;
-        &lt;div class=&quot;px-4 py-2 bg-white border-b border-slate-300&quot;&gt;
-          &lt;span class=&quot;text-2xl font-black tracking-tight text-slate-950 block&quot;&gt;
-            Pt - David Jeba
-          &lt;/span&gt;
-        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;span class=&quot;block text-[11px] font-mono text-teal-400 uppercase tracking-wider mb-1.5 font-bold&quot;&gt;Advanced MetaText Field (Exact Same h-10 / 40px Footprint!)&lt;/span&gt;
+          &lt;!-- Ultra-Compact MetaText Component (Zero Gap, 50% typography ratio) --&gt;
+          &lt;div class=&quot;hs-metatext inline-flex flex-col justify-between h-10 w-full rounded border border-slate-300 bg-white shadow-2xs overflow-hidden select-none&quot;&gt;
+            &lt;!-- TOP TIER (h-[11px], text-[8px], leading-none) --&gt;
+            &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+              &lt;span class=&quot;text-slate-600&quot;&gt;UHID&lt;/span&gt;
+              &lt;span class=&quot;text-right font-bold text-slate-900 tabular-nums&quot;&gt;1221&lt;/span&gt;
+            &lt;/div&gt;
 
-        &lt;!-- BOTTOM ROW (2 CELLS: 50/50 SPLIT) --&gt;
-        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium&quot;&gt;
-          &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
-            &lt;span class=&quot;text-slate-600&quot;&gt;AGE -&lt;/span&gt;
-            &lt;span class=&quot;font-bold text-slate-900&quot;&gt;45&lt;/span&gt;
+            &lt;!-- HERO MAIN TIER (h-[18px], text-sm, leading-none) --&gt;
+            &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] bg-white leading-none&quot;&gt;
+              &lt;span class=&quot;text-sm font-black text-slate-950 tracking-tight block truncate&quot;&gt;
+                Pt - David Jeba
+              &lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;!-- BOTTOM TIER (h-[11px], text-[8px], leading-none) --&gt;
+            &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+              &lt;span class=&quot;truncate&quot;&gt;&lt;span class=&quot;text-slate-500&quot;&gt;AGE -&lt;/span&gt; &lt;strong class=&quot;text-slate-900&quot;&gt;45&lt;/strong&gt;&lt;/span&gt;
+              &lt;span class=&quot;truncate pl-1&quot;&gt;&lt;span class=&quot;text-slate-500&quot;&gt;SEX -&lt;/span&gt; &lt;strong class=&quot;text-slate-900&quot;&gt;Male&lt;/strong&gt;&lt;/span&gt;
+            &lt;/div&gt;
           &lt;/div&gt;
-          &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
-            &lt;span class=&quot;text-slate-600&quot;&gt;SEX -&lt;/span&gt;
-            &lt;span class=&quot;font-bold text-slate-900&quot;&gt;Male&lt;/span&gt;
-          &lt;/div&gt;
+          &lt;p class=&quot;text-[10px] text-teal-400 mt-1&quot;&gt;✓ Drops 1:1 into standard input slots with zero vertical expansion.&lt;/p&gt;
         &lt;/div&gt;
       &lt;/div&gt;
 
       &lt;!-- Spec Notation Callout --&gt;
-      &lt;div class=&quot;flex-1 min-w-[280px] p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2&quot;&gt;
+      &lt;div class=&quot;p-4 rounded-lg bg-slate-900 border border-slate-800 font-mono text-xs text-slate-300 space-y-2&quot;&gt;
         &lt;div class=&quot;text-[11px] text-teal-400 font-bold uppercase tracking-wider font-sans&quot;&gt;Shorthand Specification&lt;/div&gt;
         &lt;code class=&quot;text-amber-300 text-[11px] block bg-slate-950 p-2 rounded border border-slate-800&quot;&gt;
           MetaTextField(&quot;UHID: 1221 | [Pt - David Jeba] | AGE: 45, SEX: Male&quot;)
         &lt;/code&gt;
         &lt;p class=&quot;text-[11px] text-slate-400 font-sans leading-relaxed&quot;&gt;
-          The single string defines the top metadata, the hero title, and the bottom coordinates. The engine enforces the 2x2 cell cap and the 50% typography ratio automatically.
+          Ultra-compact compound field: packs UHID, Age, and Sex metadata into the exact 40px vertical budget of a single text box. No wasted padding, 0 gap, 50% typography ratio strictly enforced.
         &lt;/p&gt;
       &lt;/div&gt;
 
@@ -683,45 +695,45 @@
 
       &lt;div class=&quot;text-xs font-bold text-slate-300 mb-2&quot;&gt;Patient Primary Identity Cell:&lt;/div&gt;
 
-      &lt;!-- EDITABLE METATEXT FORM COMPONENT --&gt;
-      &lt;div class=&quot;flex flex-col bg-white border border-slate-300 rounded-lg shadow-sm text-slate-900 font-sans overflow-hidden focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all&quot;&gt;
+      &lt;!-- ULTRA-COMPACT EDITABLE METATEXT FORM COMPONENT (Matches standard h-10 textbox) --&gt;
+      &lt;div class=&quot;hs-metatext flex flex-col justify-between h-10 w-full bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans overflow-hidden focus-within:ring-1 focus-within:ring-indigo-500 focus-within:border-indigo-500 transition-all select-none&quot;&gt;
         
-        &lt;!-- TOP ROW: READ-ONLY SYSTEM METADATA --&gt;
-        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium bg-slate-50&quot;&gt;
-          &lt;div class=&quot;px-3 py-1 flex items-center justify-between&quot;&gt;
+        &lt;!-- TOP ROW: READ-ONLY SYSTEM METADATA (h-[11px], text-[8px], leading-none) --&gt;
+        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+          &lt;div class=&quot;flex items-center gap-1&quot;&gt;
             &lt;span class=&quot;text-slate-500&quot;&gt;UHID:&lt;/span&gt;
             &lt;input type=&quot;hidden&quot; name=&quot;uhid&quot; value=&quot;1221&quot; /&gt;
             &lt;span class=&quot;font-mono font-bold text-slate-900&quot;&gt;#1221&lt;/span&gt;
           &lt;/div&gt;
-          &lt;div class=&quot;px-3 py-1 flex items-center justify-between&quot;&gt;
+          &lt;div class=&quot;flex items-center justify-end gap-1&quot;&gt;
             &lt;span class=&quot;text-slate-500&quot;&gt;TRIAGE:&lt;/span&gt;
             &lt;span class=&quot;font-bold text-amber-600 font-mono&quot;&gt;LEVEL 2&lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
 
-        &lt;!-- HERO MAIN ROW: LIVE FORM TEXT INPUT --&gt;
-        &lt;div class=&quot;px-3.5 py-2 flex items-center gap-1.5 bg-white border-b border-slate-300&quot;&gt;
-          &lt;span class=&quot;text-xl font-bold text-slate-400 select-none&quot;&gt;Pt -&lt;/span&gt;
+        &lt;!-- HERO MAIN ROW: LIVE FORM TEXT INPUT (h-[18px], text-sm, leading-none) --&gt;
+        &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] bg-white leading-none&quot;&gt;
+          &lt;span class=&quot;text-sm font-bold text-slate-400 select-none mr-1&quot;&gt;Pt -&lt;/span&gt;
           &lt;input type=&quot;text&quot;
                  name=&quot;pt_name&quot;
                  value=&quot;David Jeba&quot;
                  placeholder=&quot;Enter patient full name...&quot;
-                 class=&quot;w-full text-xl font-extrabold text-slate-950 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400&quot; /&gt;
+                 class=&quot;w-full text-sm font-bold text-slate-950 bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0 placeholder:text-slate-400&quot; /&gt;
         &lt;/div&gt;
 
-        &lt;!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES --&gt;
-        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium bg-slate-50&quot;&gt;
-          &lt;div class=&quot;px-3 py-1 flex items-center gap-2&quot;&gt;
+        &lt;!-- BOTTOM ROW: EDITABLE MICRO-COORDINATES (h-[11px], text-[8px], leading-none) --&gt;
+        &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+          &lt;div class=&quot;flex items-center gap-1&quot;&gt;
             &lt;span class=&quot;text-slate-500&quot;&gt;AGE:&lt;/span&gt;
             &lt;input type=&quot;number&quot; 
                    name=&quot;age&quot; 
                    value=&quot;45&quot; 
-                   class=&quot;w-12 font-bold text-slate-900 bg-transparent border-b border-dashed border-slate-400 p-0 focus:outline-none focus:border-indigo-600&quot; /&gt;
-            &lt;span class=&quot;text-[10px] text-slate-400&quot;&gt;Yrs&lt;/span&gt;
+                   class=&quot;w-8 font-bold text-slate-900 bg-transparent border-none p-0 m-0 text-[8px] leading-none focus:outline-none&quot; /&gt;
+            &lt;span class=&quot;text-slate-400&quot;&gt;YRS&lt;/span&gt;
           &lt;/div&gt;
-          &lt;div class=&quot;px-3 py-1 flex items-center gap-2&quot;&gt;
+          &lt;div class=&quot;flex items-center justify-end gap-1&quot;&gt;
             &lt;span class=&quot;text-slate-500&quot;&gt;SEX:&lt;/span&gt;
-            &lt;select name=&quot;sex&quot; class=&quot;bg-transparent font-bold text-slate-900 border-0 p-0 text-xs focus:outline-none cursor-pointer&quot;&gt;
+            &lt;select name=&quot;sex&quot; class=&quot;bg-transparent font-bold text-slate-900 border-0 p-0 m-0 text-[8px] leading-none focus:outline-none cursor-pointer&quot;&gt;
               &lt;option value=&quot;Male&quot; selected&gt;Male&lt;/option&gt;
               &lt;option value=&quot;Female&quot;&gt;Female&lt;/option&gt;
               &lt;option value=&quot;Other&quot;&gt;Other&lt;/option&gt;
@@ -780,18 +792,18 @@
           &lt;tr class=&quot;hover:bg-slate-900/50 transition-colors&quot;&gt;
             &lt;td class=&quot;px-4 py-3 font-mono font-bold text-indigo-400&quot;&gt;ICU-04&lt;/td&gt;
             &lt;td class=&quot;px-4 py-3&quot;&gt;
-              &lt;!-- Compact MetaText Cell --&gt;
-              &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm&quot;&gt;
-                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white text-slate-500&quot;&gt;UHID&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right&quot;&gt;1221&lt;/div&gt;
+              &lt;!-- Compact Ultra-Dense MetaText Cell (h-10) --&gt;
+              &lt;div class=&quot;hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+                  &lt;div class=&quot;text-slate-500 truncate&quot;&gt;UHID&lt;/div&gt;
+                  &lt;div class=&quot;font-mono font-bold text-slate-900 text-right truncate&quot;&gt;1221&lt;/div&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;px-2.5 py-1 bg-white border-b border-slate-300&quot;&gt;
-                  &lt;span class=&quot;text-sm font-extrabold text-slate-950 block&quot;&gt;Pt - David Jeba&lt;/span&gt;
+                &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] bg-white leading-none&quot;&gt;
+                  &lt;span class=&quot;text-xs font-bold text-slate-950 block truncate&quot;&gt;Pt - David Jeba&lt;/span&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-[10px]&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;AGE: 45&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;SEX: Male&lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+                  &lt;div class=&quot;truncate&quot;&gt;AGE: 45&lt;/div&gt;
+                  &lt;div class=&quot;truncate pl-1&quot;&gt;SEX: Male&lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/td&gt;
@@ -813,17 +825,17 @@
           &lt;tr class=&quot;hover:bg-slate-900/50 transition-colors&quot;&gt;
             &lt;td class=&quot;px-4 py-3 font-mono font-bold text-indigo-400&quot;&gt;ICU-06&lt;/td&gt;
             &lt;td class=&quot;px-4 py-3&quot;&gt;
-              &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded text-slate-900 font-sans select-none overflow-hidden w-full max-w-[260px] shadow-sm&quot;&gt;
-                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-300 border-b border-slate-300 text-[10px]&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white text-slate-500&quot;&gt;UHID&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-mono font-bold text-slate-900 text-right&quot;&gt;8820&lt;/div&gt;
+              &lt;div class=&quot;hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+                  &lt;div class=&quot;text-slate-500 truncate&quot;&gt;UHID&lt;/div&gt;
+                  &lt;div class=&quot;font-mono font-bold text-slate-900 text-right truncate&quot;&gt;8820&lt;/div&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;px-2.5 py-1 bg-white border-b border-slate-300&quot;&gt;
-                  &lt;span class=&quot;text-sm font-extrabold text-slate-950 block&quot;&gt;Pt - Eleanor Vance&lt;/span&gt;
+                &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] bg-white leading-none&quot;&gt;
+                  &lt;span class=&quot;text-xs font-bold text-slate-950 block truncate&quot;&gt;Pt - Eleanor Vance&lt;/span&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-[10px]&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;AGE: 42&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5 bg-white font-medium&quot;&gt;SEX: Female&lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+                  &lt;div class=&quot;truncate&quot;&gt;AGE: 42&lt;/div&gt;
+                  &lt;div class=&quot;truncate pl-1&quot;&gt;SEX: Female&lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/td&gt;
@@ -846,17 +858,17 @@
             &lt;td class=&quot;px-4 py-3 font-mono font-bold text-slate-500&quot;&gt;ICU-07&lt;/td&gt;
             &lt;td class=&quot;px-4 py-3&quot;&gt;
               &lt;!-- Empty MetaText State with Em-Dashes --&gt;
-              &lt;div class=&quot;inline-flex flex-col bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden w-full max-w-[260px]&quot;&gt;
-                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[10px]&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5 text-slate-400&quot;&gt;UHID: —&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5 text-right font-mono&quot;&gt;AVAILABLE&lt;/div&gt;
+              &lt;div class=&quot;hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden&quot;&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+                  &lt;div class=&quot;truncate&quot;&gt;UHID: —&lt;/div&gt;
+                  &lt;div class=&quot;text-right font-mono truncate&quot;&gt;AVAILABLE&lt;/div&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;px-2.5 py-1&quot;&gt;
-                  &lt;span class=&quot;text-sm font-bold text-slate-400 italic block&quot;&gt;Unassigned Bed&lt;/span&gt;
+                &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] leading-none&quot;&gt;
+                  &lt;span class=&quot;text-xs font-bold text-slate-400 italic block truncate&quot;&gt;Unassigned Bed&lt;/span&gt;
                 &lt;/div&gt;
-                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 text-[10px] border-t border-slate-300/60&quot;&gt;
-                  &lt;div class=&quot;px-2 py-0.5&quot;&gt;AGE: —&lt;/div&gt;
-                  &lt;div class=&quot;px-2 py-0.5&quot;&gt;SEX: —&lt;/div&gt;
+                &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300/60 text-[8px] font-mono uppercase tracking-wider border-t border-slate-300/60 px-2 py-0 h-[11px] items-center leading-none&quot;&gt;
+                  &lt;div class=&quot;truncate&quot;&gt;AGE: —&lt;/div&gt;
+                  &lt;div class=&quot;truncate pl-1&quot;&gt;SEX: —&lt;/div&gt;
                 &lt;/div&gt;
               &lt;/div&gt;
             &lt;/td&gt;
@@ -922,25 +934,25 @@
         &lt;/div&gt;
       &lt;/div&gt;
 
-      &lt;!-- Reactive MetaText Sink --&gt;
-      &lt;div class=&quot;flex justify-center&quot;&gt;
-        &lt;div class=&quot;inline-flex flex-col bg-slate-50 border border-slate-300 rounded shadow-md text-slate-900 font-sans select-none overflow-hidden min-w-[300px]&quot;&gt;
-          &lt;div class=&quot;grid grid-cols-[3fr_7fr] divide-x divide-slate-300 border-b border-slate-300 text-xs font-medium&quot;&gt;
-            &lt;div class=&quot;px-3 py-1 bg-white text-slate-600&quot;&gt;UHID&lt;/div&gt;
-            &lt;div class=&quot;px-3 py-1 bg-white font-mono font-bold text-slate-900 text-right&quot; hx-text=&quot;uhid&quot;&gt;1221&lt;/div&gt;
+      &lt;!-- Reactive MetaText Sink (Ultra-Compact h-10) --&gt;
+      &lt;div class=&quot;flex justify-center w-full&quot;&gt;
+        &lt;div class=&quot;hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[280px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden&quot;&gt;
+          &lt;div class=&quot;grid grid-cols-[3fr_7fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+            &lt;div class=&quot;text-slate-600 truncate&quot;&gt;UHID&lt;/div&gt;
+            &lt;div class=&quot;font-mono font-bold text-slate-900 text-right truncate&quot; hx-text=&quot;uhid&quot;&gt;1221&lt;/div&gt;
           &lt;/div&gt;
-          &lt;div class=&quot;px-4 py-2 bg-white border-b border-slate-300&quot;&gt;
-            &lt;span class=&quot;text-2xl font-black tracking-tight text-slate-950 block&quot;&gt;
+          &lt;div class=&quot;px-2 py-0 flex items-center h-[18px] bg-white leading-none&quot;&gt;
+            &lt;span class=&quot;text-sm font-bold text-slate-950 block truncate&quot;&gt;
               Pt - &lt;span hx-text=&quot;name&quot;&gt;David Jeba&lt;/span&gt;
             &lt;/span&gt;
           &lt;/div&gt;
-          &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-300 text-xs font-medium&quot;&gt;
-            &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
-              &lt;span class=&quot;text-slate-600&quot;&gt;AGE -&lt;/span&gt;
+          &lt;div class=&quot;grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70&quot;&gt;
+            &lt;div class=&quot;truncate&quot;&gt;
+              &lt;span class=&quot;text-slate-500&quot;&gt;AGE -&lt;/span&gt;
               &lt;span class=&quot;font-bold text-slate-900 font-mono&quot; hx-text=&quot;age&quot;&gt;45&lt;/span&gt;
             &lt;/div&gt;
-            &lt;div class=&quot;px-3 py-1 bg-white flex items-center gap-1.5&quot;&gt;
-              &lt;span class=&quot;text-slate-600&quot;&gt;SEX -&lt;/span&gt;
+            &lt;div class=&quot;truncate pl-1&quot;&gt;
+              &lt;span class=&quot;text-slate-500&quot;&gt;SEX -&lt;/span&gt;
               &lt;span class=&quot;font-bold text-slate-900&quot; hx-text=&quot;sex&quot;&gt;Male&lt;/span&gt;
             &lt;/div&gt;
           &lt;/div&gt;

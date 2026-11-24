@@ -8,12 +8,14 @@ import (
 
 // =============================================================================
 // METATEXT COMPONENT (FIRST HYPERSTACK META COMPONENT)
-// High-density compound field featuring a dominant hero text/input flanked by
-// up to 2 metadata cells above and 2 metadata cells below.
+// Ultra-compact compound text component that drops in wherever a simple textbox
+// fits (standard 40px/h-10 height). A dominant hero text/input is flanked by
+// micro-metadata tiers above and below with ZERO wasted gap.
 // Strict Guardrails:
 //   1. Max 2 cells Top, Max 2 cells Bottom (2x2 cap).
 //   2. Meta font size is strictly 50% smaller than Hero text.
 //   3. Empty values gracefully fall back to clean em-dash ("—").
+//   4. Ultra-compact footprint: fits 1:1 into standard text input form slots.
 // =============================================================================
 
 // MetaCell represents an individual metadata slot (Label + Value).
@@ -197,49 +199,52 @@ func MetaText(p MetaTextProps) Component {
 		p.Bottom = p.Bottom[:2]
 	}
 
-	// Sizing configuration
-	heroTextClass := "text-2xl font-black"
-	metaTextClass := "text-xs font-medium" // Strictly 50% smaller
-	paddingHero := "px-3.5 py-2"
-	paddingMeta := "px-3 py-1"
-	minWidth := "min-w-[280px]"
+	// Sizing configuration (Ultra-compact: 1:1 drop-in replacement for standard textbox)
+	containerClass := "h-10 w-full" // Standard 40px input height
+	heroTextClass := "text-sm font-bold"
+	metaTextClass := "text-[8px] font-mono leading-none tracking-wider uppercase" // Strictly 50% smaller
+	topHeightClass := "h-[11px]"
+	heroHeightClass := "h-[18px]"
+	bottomHeightClass := "h-[11px]"
+	paddingX := "px-2"
 
 	switch p.Size {
 	case "sm":
-		heroTextClass = "text-lg font-extrabold"
-		metaTextClass = "text-[10px] font-medium"
-		paddingHero = "px-2.5 py-1.5"
-		paddingMeta = "px-2.5 py-0.5"
-		minWidth = "min-w-[220px]"
+		containerClass = "h-8.5 w-full" // ~34px compact input
+		heroTextClass = "text-xs font-bold"
+		metaTextClass = "text-[7.5px] font-mono leading-none tracking-wider uppercase"
+		topHeightClass = "h-[9px]"
+		heroHeightClass = "h-[15px]"
+		bottomHeightClass = "h-[9px]"
+		paddingX = "px-1.5"
 	case "lg":
-		heroTextClass = "text-3xl font-black"
-		metaTextClass = "text-sm font-semibold"
-		paddingHero = "px-4 py-2.5"
-		paddingMeta = "px-3.5 py-1.5"
-		minWidth = "min-w-[340px]"
+		containerClass = "h-12 w-full" // 48px large input
+		heroTextClass = "text-base font-bold"
+		metaTextClass = "text-[9px] font-mono leading-none tracking-wider uppercase"
+		topHeightClass = "h-[13px]"
+		heroHeightClass = "h-[22px]"
+		bottomHeightClass = "h-[13px]"
+		paddingX = "px-2.5"
 	}
 
-	if p.MinWidth != "" {
-		minWidth = p.MinWidth
-	}
-
-	// Theming
-	borderClass := "border-slate-300 dark:border-slate-800"
+	// Theming & subtle hairline borders
+	borderClass := "border-slate-300 dark:border-slate-700 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500/20"
+	dividerClass := "border-slate-200 dark:border-slate-800"
 	bgCardClass := "bg-white dark:bg-slate-900"
-	bgCellClass := "bg-slate-50/80 dark:bg-slate-950/60"
+	bgCellClass := "bg-slate-50/70 dark:bg-slate-950/50"
 	textHeroClass := "text-slate-900 dark:text-slate-100"
-	textMetaClass := "text-slate-600 dark:text-slate-400"
-	textMetaValClass := "text-slate-900 dark:text-slate-200 font-semibold"
+	textMetaClass := "text-slate-500 dark:text-slate-400"
+	textMetaValClass := "text-slate-800 dark:text-slate-200 font-semibold"
 
 	var sb strings.Builder
 
-	// Wrapper
-	sb.WriteString(`<div class="inline-flex flex-col `)
+	// Wrapper: ultra-compact flex column fitting 1:1 in textbox slot
+	sb.WriteString(`<div class="hs-metatext inline-flex flex-col justify-between `)
 	sb.WriteString(bgCardClass)
 	sb.WriteString(` border `)
 	sb.WriteString(borderClass)
-	sb.WriteString(` rounded-lg shadow-sm font-sans select-none overflow-hidden `)
-	sb.WriteString(minWidth)
+	sb.WriteString(` rounded shadow-2xs font-sans select-none overflow-hidden `)
+	sb.WriteString(containerClass)
 	if p.Class != "" {
 		sb.WriteString(` `)
 		sb.WriteString(p.Class)
@@ -264,7 +269,7 @@ func MetaText(p MetaTextProps) Component {
 	}
 	sb.WriteString(`>`)
 
-	// 1. TOP TIER (Max 2 cells)
+	// 1. TOP TIER (Max 2 cells) - Hairline micro-row
 	if len(p.Top) > 0 {
 		gridCols := "grid-cols-2"
 		if len(p.Top) == 1 {
@@ -275,8 +280,8 @@ func MetaText(p MetaTextProps) Component {
 			gridCols = "grid-cols-[4fr_6fr]"
 		}
 
-		sb.WriteString(fmt.Sprintf(`<div class="grid %s divide-x %s border-b %s %s tracking-tight">`,
-			gridCols, borderClass, borderClass, metaTextClass))
+		sb.WriteString(fmt.Sprintf(`<div class="grid %s divide-x %s border-b %s %s %s leading-none">`,
+			gridCols, dividerClass, dividerClass, topHeightClass, metaTextClass))
 
 		for _, cell := range p.Top {
 			label := cell.Label
@@ -286,14 +291,14 @@ func MetaText(p MetaTextProps) Component {
 			val := cell.Value
 			if val == "" && len(p.Top) == 1 {
 				// Single cell with just label
-				sb.WriteString(fmt.Sprintf(`<div class="%s %s %s truncate">%s</div>`,
-					paddingMeta, bgCellClass, textMetaClass, label))
+				sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center %s truncate"><span>%s</span></div>`,
+					paddingX, bgCellClass, textMetaClass, label))
 			} else {
 				if val == "" {
 					val = "—"
 				}
-				sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center justify-between gap-2 overflow-hidden">`,
-					paddingMeta, bgCellClass))
+				sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center justify-between gap-1 overflow-hidden">`,
+					paddingX, bgCellClass))
 				sb.WriteString(fmt.Sprintf(`<span class="%s truncate">%s</span>`, textMetaClass, label))
 				sb.WriteString(fmt.Sprintf(`<span class="%s font-mono truncate">%s</span>`, textMetaValClass, val))
 				sb.WriteString(`</div>`)
@@ -302,8 +307,8 @@ func MetaText(p MetaTextProps) Component {
 		sb.WriteString(`</div>`)
 	}
 
-	// 2. HERO MAIN TIER (Dominant central entity)
-	sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center">`, paddingHero, bgCardClass))
+	// 2. HERO MAIN TIER (Dominant central entity, fits 1:1 in textbox line)
+	sb.WriteString(fmt.Sprintf(`<div class="%s %s %s flex items-center">`, paddingX, heroHeightClass, bgCardClass))
 	if p.HeroEditable {
 		// Editable Form Input Mode
 		inputName := p.InputName
@@ -312,11 +317,11 @@ func MetaText(p MetaTextProps) Component {
 		}
 		sb.WriteString(`<div class="flex items-center w-full gap-1">`)
 		if p.HeroPrefix != "" {
-			sb.WriteString(fmt.Sprintf(`<span class="%s text-slate-400 select-none">%s</span>`, heroTextClass, p.HeroPrefix))
+			sb.WriteString(fmt.Sprintf(`<span class="%s text-slate-400 select-none leading-none">%s</span>`, heroTextClass, p.HeroPrefix))
 		}
 		sb.WriteString(fmt.Sprintf(`<input type="text" name="%s" value="%s" placeholder="%s" `,
 			inputName, p.HeroValue, p.Placeholder))
-		sb.WriteString(fmt.Sprintf(`class="%s %s w-full bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400" />`,
+		sb.WriteString(fmt.Sprintf(`class="%s %s w-full bg-transparent border-0 p-0 m-0 leading-none focus:outline-none focus:ring-0 placeholder:text-slate-400" />`,
 			heroTextClass, textHeroClass))
 		sb.WriteString(`</div>`)
 	} else {
@@ -325,7 +330,7 @@ func MetaText(p MetaTextProps) Component {
 		if displayVal == "" {
 			displayVal = "—"
 		}
-		sb.WriteString(fmt.Sprintf(`<span class="%s %s tracking-tight truncate">`, heroTextClass, textHeroClass))
+		sb.WriteString(fmt.Sprintf(`<span class="%s %s leading-none tracking-tight truncate">`, heroTextClass, textHeroClass))
 		if p.HeroPrefix != "" {
 			sb.WriteString(p.HeroPrefix)
 		}
@@ -334,7 +339,7 @@ func MetaText(p MetaTextProps) Component {
 	}
 	sb.WriteString(`</div>`)
 
-	// 3. BOTTOM TIER (Max 2 cells)
+	// 3. BOTTOM TIER (Max 2 cells) - Hairline micro-row
 	if len(p.Bottom) > 0 {
 		gridCols := "grid-cols-2"
 		if len(p.Bottom) == 1 {
@@ -345,8 +350,8 @@ func MetaText(p MetaTextProps) Component {
 			gridCols = "grid-cols-[3fr_7fr]"
 		}
 
-		sb.WriteString(fmt.Sprintf(`<div class="grid %s divide-x %s border-t %s %s">`,
-			gridCols, borderClass, borderClass, metaTextClass))
+		sb.WriteString(fmt.Sprintf(`<div class="grid %s divide-x %s border-t %s %s %s leading-none">`,
+			gridCols, dividerClass, dividerClass, bottomHeightClass, metaTextClass))
 
 		for _, cell := range p.Bottom {
 			label := cell.Label
@@ -354,8 +359,8 @@ func MetaText(p MetaTextProps) Component {
 			if val == "" {
 				val = "—"
 			}
-			sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center gap-1.5 overflow-hidden">`,
-				paddingMeta, bgCellClass))
+			sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center justify-between gap-1 overflow-hidden">`,
+				paddingX, bgCellClass))
 			sb.WriteString(fmt.Sprintf(`<span class="%s truncate">%s</span>`, textMetaClass, label))
 			sb.WriteString(fmt.Sprintf(`<span class="%s truncate font-mono">%s</span>`, textMetaValClass, val))
 			sb.WriteString(`</div>`)
