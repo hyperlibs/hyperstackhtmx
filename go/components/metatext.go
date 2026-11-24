@@ -18,10 +18,12 @@ import (
 //   4. Ultra-compact footprint: fits 1:1 into standard text input form slots.
 // =============================================================================
 
-// MetaCell represents an individual metadata slot (Label + Value).
+// MetaCell represents an individual metadata slot (Label + Value + optional Color/Class).
 type MetaCell struct {
 	Label string
 	Value string
+	Color string // Semantic color: "red", "amber", "emerald", "sky", "purple", "rose"
+	Class string // Custom CSS class overrides for the cell/value
 }
 
 // MetaTextProps configures the MetaText component.
@@ -102,11 +104,12 @@ func parseMetaRow(raw string) []MetaCell {
 	var cells []MetaCell
 	// Check for optional ratio syntax: e.g. "(30/70)"
 	cleanRaw := raw
-	if idx := strings.Index(cleanRaw, "("); idx != -1 {
-		endIdx := strings.Index(cleanRaw, ")")
-		if endIdx > idx {
-			cleanRaw = strings.TrimSpace(cleanRaw[:idx] + cleanRaw[endIdx+1:])
-		}
+	if strings.Contains(cleanRaw, "(50/50)") {
+		cleanRaw = strings.ReplaceAll(cleanRaw, "(50/50)", "")
+	} else if strings.Contains(cleanRaw, "(30/70)") {
+		cleanRaw = strings.ReplaceAll(cleanRaw, "(30/70)", "")
+	} else if strings.Contains(cleanRaw, "(40/60)") {
+		cleanRaw = strings.ReplaceAll(cleanRaw, "(40/60)", "")
 	}
 
 	parts := strings.Split(cleanRaw, ",")
@@ -116,31 +119,70 @@ func parseMetaRow(raw string) []MetaCell {
 			continue
 		}
 
+		var label, val, color string
+
 		// Split on colon or hyphen
 		if strings.Contains(part, ":") {
 			kv := strings.SplitN(part, ":", 2)
-			cells = append(cells, MetaCell{
-				Label: strings.TrimSpace(kv[0]),
-				Value: strings.TrimSpace(kv[1]),
-			})
+			label = strings.TrimSpace(kv[0])
+			val = strings.TrimSpace(kv[1])
 		} else if strings.Contains(part, " - ") {
 			kv := strings.SplitN(part, " - ", 2)
-			cells = append(cells, MetaCell{
-				Label: strings.TrimSpace(kv[0]),
-				Value: strings.TrimSpace(kv[1]),
-			})
+			label = strings.TrimSpace(kv[0])
+			val = strings.TrimSpace(kv[1])
 		} else {
-			cells = append(cells, MetaCell{
-				Label: part,
-				Value: "",
-			})
+			label = part
+			val = ""
 		}
+
+		// Detect color modifier in value or label: e.g. "45!red" or "45 (red)" or "AGE!red: 45"
+		if strings.Contains(val, "!") {
+			vp := strings.SplitN(val, "!", 2)
+			val = strings.TrimSpace(vp[0])
+			color = strings.TrimSpace(vp[1])
+		} else if strings.Contains(label, "!") {
+			lp := strings.SplitN(label, "!", 2)
+			label = strings.TrimSpace(lp[0])
+			color = strings.TrimSpace(lp[1])
+		} else if strings.HasSuffix(val, ")") && strings.Contains(val, "(") {
+			idx := strings.LastIndex(val, "(")
+			colorCandidate := strings.Trim(val[idx:], "()")
+			val = strings.TrimSpace(val[:idx])
+			color = colorCandidate
+		}
+
+		cells = append(cells, MetaCell{
+			Label: label,
+			Value: val,
+			Color: color,
+		})
+
 		// Strict guardrail: max 2 cells per row
 		if len(cells) == 2 {
 			break
 		}
 	}
 	return cells
+}
+
+func resolveCellColorClass(cell MetaCell, defaultValClass string) string {
+	if cell.Class != "" {
+		return cell.Class
+	}
+	switch strings.ToLower(cell.Color) {
+	case "red", "rose", "danger", "alert":
+		return "text-red-600 dark:text-red-400 font-bold"
+	case "amber", "yellow", "orange", "warning":
+		return "text-amber-600 dark:text-amber-400 font-bold"
+	case "emerald", "green", "success":
+		return "text-emerald-600 dark:text-emerald-400 font-bold"
+	case "sky", "blue", "cyan", "info":
+		return "text-sky-600 dark:text-sky-400 font-bold"
+	case "purple", "violet", "indigo":
+		return "text-purple-600 dark:text-purple-400 font-bold"
+	default:
+		return defaultValClass
+	}
 }
 
 func parseHeroSlot(p *MetaTextProps, raw string) {
@@ -297,10 +339,11 @@ func MetaText(p MetaTextProps) Component {
 				if val == "" {
 					val = "—"
 				}
+				valClass := resolveCellColorClass(cell, textMetaValClass)
 				sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center justify-between gap-1 overflow-hidden">`,
 					paddingX, bgCellClass))
 				sb.WriteString(fmt.Sprintf(`<span class="%s truncate">%s</span>`, textMetaClass, label))
-				sb.WriteString(fmt.Sprintf(`<span class="%s font-mono truncate">%s</span>`, textMetaValClass, val))
+				sb.WriteString(fmt.Sprintf(`<span class="%s font-mono truncate">%s</span>`, valClass, val))
 				sb.WriteString(`</div>`)
 			}
 		}
@@ -359,10 +402,11 @@ func MetaText(p MetaTextProps) Component {
 			if val == "" {
 				val = "—"
 			}
+			valClass := resolveCellColorClass(cell, textMetaValClass)
 			sb.WriteString(fmt.Sprintf(`<div class="%s %s flex items-center justify-between gap-1 overflow-hidden">`,
 				paddingX, bgCellClass))
 			sb.WriteString(fmt.Sprintf(`<span class="%s truncate">%s</span>`, textMetaClass, label))
-			sb.WriteString(fmt.Sprintf(`<span class="%s truncate font-mono">%s</span>`, textMetaValClass, val))
+			sb.WriteString(fmt.Sprintf(`<span class="%s truncate font-mono">%s</span>`, valClass, val))
 			sb.WriteString(`</div>`)
 		}
 		sb.WriteString(`</div>`)

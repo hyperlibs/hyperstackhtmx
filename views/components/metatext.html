@@ -187,9 +187,9 @@
         <thead class="bg-slate-900 text-slate-400 uppercase font-mono text-[10px] border-b border-slate-800">
           <tr>
             <th class="px-4 py-3">Bed</th>
-            <th class="px-4 py-3 min-w-[280px]">Patient Demographic Identity (MetaText)</th>
-            <th class="px-4 py-3">Attending Physician</th>
-            <th class="px-4 py-3">Diagnosis / Chief Complaint</th>
+            <th class="px-4 py-3 min-w-[240px]">Patient Demographic (MetaText)</th>
+            <th class="px-4 py-3 min-w-[200px]">Attending Physician (MetaText)</th>
+            <th class="px-4 py-3 min-w-[170px]">Admit Date & Time (MetaText)</th>
             <th class="px-4 py-3">Acuity Status</th>
             <th class="px-4 py-3 text-right">Actions</th>
           </tr>
@@ -199,8 +199,9 @@
           <!-- ROW 1: DAVID JEBA -->
           <tr class="hover:bg-slate-900/50 transition-colors">
             <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-04</td>
+            
+            <!-- Patient Identity MetaText -->
             <td class="px-4 py-3">
-              <!-- Compact Ultra-Dense MetaText Cell (h-10) -->
               <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
                 <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
                   <div class="text-slate-500 truncate">UHID</div>
@@ -210,13 +211,42 @@
                   <span class="text-xs font-bold text-slate-950 block truncate">Pt - David Jeba</span>
                 </div>
                 <div class="grid grid-cols-2 divide-x divide-slate-200 border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
-                  <div class="truncate">AGE: 45</div>
+                  <div class="truncate">AGE: <strong class="text-red-600 font-bold">45</strong></div>
                   <div class="truncate pl-1">SEX: Male</div>
                 </div>
               </div>
             </td>
-            <td class="px-4 py-3 text-slate-300">Dr. Sarah Jenkins</td>
-            <td class="px-4 py-3">Acute Coronary Syndrome</td>
+
+            <!-- Attending Physician MetaText (Ortho / Dr. Sarah Jenkins / Degree) -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[200px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-indigo-700 bg-indigo-50/50 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                  <span>[Ortho]</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate">Dr. Sarah Jenkins</span>
+                </div>
+                <div class="border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span class="truncate">[Degree] MS, FACS</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Admit Date & Time MetaText (20-Nov-2026 / hh:mm am/pm) -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[170px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>ADMIT DATE</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate font-mono">20-Nov-2026</span>
+                </div>
+                <div class="border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span class="text-slate-700 font-bold">[10:45 AM]</span>
+                </div>
+              </div>
+            </td>
+
             <td class="px-4 py-3">
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                 MONITORING
@@ -232,6 +262,8 @@
           <!-- ROW 2: ELEANOR VANCE -->
           <tr class="hover:bg-slate-900/50 transition-colors">
             <td class="px-4 py-3 font-mono font-bold text-indigo-400">ICU-06</td>
+            
+            <!-- Patient Identity MetaText -->
             <td class="px-4 py-3">
               <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
                 <div class="grid grid-cols-[4fr_6fr] divide-x divide-slate-200 border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none bg-slate-50/70">
@@ -247,8 +279,37 @@
                 </div>
               </div>
             </td>
-            <td class="px-4 py-3 text-slate-300">Dr. Rajesh Patel</td>
-            <td class="px-4 py-3">Post-op Thoracic Resection</td>
+
+            <!-- Attending Physician MetaText (Neuro / Dr. Rajesh Patel / Degree) -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[200px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-purple-700 bg-purple-50/50 px-2 py-0 h-[11px] flex items-center leading-none font-bold">
+                  <span>[Neuro]</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate">Dr. Rajesh Patel</span>
+                </div>
+                <div class="border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span class="truncate">[Degree] MD, DM</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Admit Date & Time MetaText (22-Nov-2026 / hh:mm am/pm) -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[170px] bg-white border border-slate-300 rounded shadow-2xs text-slate-900 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-500 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>ADMIT DATE</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] bg-white leading-none">
+                  <span class="text-xs font-bold text-slate-950 block truncate font-mono">22-Nov-2026</span>
+                </div>
+                <div class="border-t border-slate-200 text-[8px] font-mono uppercase tracking-wider text-slate-600 bg-slate-50/70 px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span class="text-slate-700 font-bold">[08:30 AM]</span>
+                </div>
+              </div>
+            </td>
+
             <td class="px-4 py-3">
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 STABLE
@@ -264,8 +325,8 @@
           <!-- ROW 3: UNALLOCATED / EMPTY BED (GRACEFUL FALLBACK) -->
           <tr class="hover:bg-slate-900/50 transition-colors">
             <td class="px-4 py-3 font-mono font-bold text-slate-500">ICU-07</td>
+            
             <td class="px-4 py-3">
-              <!-- Empty MetaText State with Em-Dashes -->
               <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[240px] bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden">
                 <div class="grid grid-cols-2 divide-x divide-slate-300/60 border-b border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] items-center leading-none">
                   <div class="truncate">UHID: —</div>
@@ -280,8 +341,36 @@
                 </div>
               </div>
             </td>
-            <td class="px-4 py-3 text-slate-500 italic">—</td>
-            <td class="px-4 py-3 text-slate-500 italic">—</td>
+
+            <!-- Attending Physician Fallback MetaText -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[200px] bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>[DEPT: —]</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <span class="text-xs font-bold text-slate-400 italic block truncate">[Unassigned]</span>
+                </div>
+                <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>[Degree: —]</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Admit Date Fallback MetaText -->
+            <td class="px-4 py-3">
+              <div class="hs-metatext inline-flex flex-col justify-between h-10 w-full max-w-[170px] bg-slate-100/60 border border-dashed border-slate-400/50 rounded text-slate-400 font-sans select-none overflow-hidden">
+                <div class="border-b border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>ADMIT DATE</span>
+                </div>
+                <div class="px-2 py-0 flex items-center h-[18px] leading-none">
+                  <span class="text-xs font-bold text-slate-400 italic block truncate font-mono">—</span>
+                </div>
+                <div class="border-t border-slate-300/60 text-[8px] font-mono uppercase tracking-wider px-2 py-0 h-[11px] flex items-center leading-none">
+                  <span>[--:--]</span>
+                </div>
+              </div>
+            </td>
             <td class="px-4 py-3">
               <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">
                 VACANT

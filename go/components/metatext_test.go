@@ -87,3 +87,32 @@ func TestMetaTextStreaming(t *testing.T) {
 		t.Errorf("Streamed buffer missing content: %s", buf.String())
 	}
 }
+
+func TestMetaTextColoring(t *testing.T) {
+	// 1. Via Shorthand !red notation
+	spec := "UHID: 1221 | [Pt - David Jeba] | AGE: 45!red, SEX: Male"
+	comp := MetaTextField(spec)
+	html := comp.Render()
+
+	if !strings.Contains(html, "text-red-600") {
+		t.Errorf("Expected red font class for age in shorthand, got: %s", html)
+	}
+	if !strings.Contains(html, "45") {
+		t.Errorf("Expected value 45, got: %s", html)
+	}
+
+	// 2. Via typed struct Color field
+	p := MetaTextProps{
+		HeroValue: "David Jeba",
+		Bottom: []MetaCell{
+			{Label: "AGE", Value: "78", Color: "red"},
+			{Label: "SEX", Value: "Male"},
+		},
+	}
+	comp2 := MetaText(p)
+	html2 := comp2.Render()
+
+	if !strings.Contains(html2, "text-red-600") || !strings.Contains(html2, "78") {
+		t.Errorf("Expected red font class for age in struct, got: %s", html2)
+	}
+}
