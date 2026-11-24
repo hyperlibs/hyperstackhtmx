@@ -35,7 +35,10 @@ const COMPONENTS = [
   "smart-tire-pressure-tpms","smart-turn-by-turn-nav","smart-uv-index-dial","smart-weather-hero",
   "smart-wind-compass",
   "hy-hook",
-  "pgx-hud",
+  "pgx-hud"
+];
+
+const META_COMPONENTS = [
   "metatext"
 ];
 
@@ -49,8 +52,13 @@ function buildSidebar(active: string): string {
     const isActive = c === active;
     return `<a href="/docs/components/${c}/" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
   }).join("\n");
-  html += `</div></div><div><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1">`;
+  html += `</div></div><div class="mb-6"><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1">`;
   html += COMPONENTS.map(c => {
+    const isActive = c === active;
+    return `<a href="/docs/components/${c}/" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
+  }).join("\n");
+  html += `</div></div><div><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight flex items-center justify-between"><span>Meta Components</span><span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-200">High-Density</span></h4><div class="space-y-1">`;
+  html += META_COMPONENTS.map(c => {
     const isActive = c === active;
     return `<a href="/docs/components/${c}/" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
   }).join("\n");
@@ -65,7 +73,9 @@ function escapeHtml(str: string): string {
 function buildComponentPage(slug: string): string {
   const name = formatName(slug);
   const sidebar = buildSidebar(slug);
-  const filePath = path.join(__dirname, "..", "views", "components", `${slug}.html`);
+  const filePath = slug === "metatext" 
+    ? path.join(__dirname, "..", "views", "components", "text.html") 
+    : path.join(__dirname, "..", "views", "components", `${slug}.html`);
   const sourceHtml = fs.existsSync(filePath) ? fs.readFileSync(filePath, "utf8") : "<!-- Component source not found -->";
   
   return `<!DOCTYPE html>
@@ -90,7 +100,7 @@ function buildComponentPage(slug: string): string {
   <script src="/htmx-canvas.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <style>
-    .code-block { background: #1e293b; color: #e2e8f0; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.6; }
+    .code-block { background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.6; }
     .code-block code { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace; }
   </style>
 </head>
@@ -114,6 +124,9 @@ function buildComponentPage(slug: string): string {
         <a href="https://github.com/hyperlibs/hyperstack" target="_blank" class="text-xs text-muted-foreground hover:text-foreground">GitHub ↗</a>
       </header>
       <div class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-8">
+        ${slug === "text" || slug === "metatext" ? `
+          ${sourceHtml}
+        ` : `
         <div class="space-y-2">
           <h1 class="text-3xl font-extrabold tracking-tight">${name}</h1>
           <p class="text-muted-foreground text-sm">Interactive Shadcn-quality hypermedia component for Hyperstack.</p>
@@ -128,6 +141,7 @@ function buildComponentPage(slug: string): string {
           <h2 class="text-xl font-bold tracking-tight">HTML Source</h2>
           <div class="code-block"><pre><code>${escapeHtml(sourceHtml)}</code></pre></div>
         </div>
+        `}
       </div>
     </main>
   </div>
@@ -181,7 +195,7 @@ writePage("app/dicom/index.html", dicomHtml);
 writePage("dicom/index.html", dicomHtml);
 
 // 4. Docs Component Pages
-[...GETTING_STARTED, ...COMPONENTS].forEach(slug => {
+[...GETTING_STARTED, ...COMPONENTS, ...META_COMPONENTS].forEach(slug => {
   const pageHtml = buildComponentPage(slug);
   writePage(`docs/components/${slug}/index.html`, pageHtml);
 });

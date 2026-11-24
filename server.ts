@@ -26,7 +26,10 @@ const COMPONENTS = [
   "hy-hook",
   "pgx-hud",
   "bio-profile",
-  "bio-links",
+  "bio-links"
+];
+
+const META_COMPONENTS = [
   "metatext"
 ];
 
@@ -40,8 +43,13 @@ function buildSidebar(active: string): string {
     const isActive = c === active;
     return `<a href="/docs/components/${c}" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
   }).join("\n");
-  html += `</div></div><div><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1">`;
+  html += `</div></div><div class="mb-6"><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1">`;
   html += COMPONENTS.map(c => {
+    const isActive = c === active;
+    return `<a href="/docs/components/${c}" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
+  }).join("\n");
+  html += `</div></div><div><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight flex items-center justify-between"><span>Meta Components</span><span class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded border border-indigo-200">High-Density</span></h4><div class="space-y-1">`;
+  html += META_COMPONENTS.map(c => {
     const isActive = c === active;
     return `<a href="/docs/components/${c}" class="block rounded-md px-3 py-1.5 text-sm ${isActive ? 'bg-accent font-medium text-accent-foreground' : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'} transition-colors">${formatName(c)}</a>`;
   }).join("\n");
@@ -66,7 +74,7 @@ async function buildComponentPage(slug: string): Promise<string> {
   const name = formatName(slug);
   const sidebar = buildSidebar(slug);
   const isGettingStarted = GETTING_STARTED.includes(slug);
-  const sourceFile = Bun.file(`views/components/${slug}.html`);
+  const sourceFile = slug === "metatext" ? Bun.file("views/components/text.html") : Bun.file(`views/components/${slug}.html`);
   const sourceHtml = await sourceFile.exists() ? await sourceFile.text() : "<!-- Component source not found -->";
   
   const demo = DEMOS[slug] || (await sourceFile.exists() ? sourceHtml : `<div class="flex items-center justify-center py-12 text-muted-foreground text-sm">Interactive demo coming soon.</div>`);
@@ -90,7 +98,7 @@ async function buildComponentPage(slug: string): Promise<string> {
   <script src="/htmx-canvas.js"></script>
   <link rel="stylesheet" href="/styles.css">
   <style>
-    .code-block { background: #1e293b; color: #e2e8f0; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.6; }
+    .code-block { background: #f8fafc; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.6; }
     .code-block code { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace; }
   </style>
 </head>
@@ -122,15 +130,15 @@ async function buildComponentPage(slug: string): Promise<string> {
         <nav class="flex items-center gap-1 text-sm text-muted-foreground">
           <a href="/" class="hover:text-foreground transition-colors">Docs</a>
           <span>/</span>
-          <a href="/" class="hover:text-foreground transition-colors">Components</a>
+          <a href="/docs/components/text" class="hover:text-foreground transition-colors">${META_COMPONENTS.includes(slug) ? "Meta Components" : "Components"}</a>
           <span>/</span>
           <span class="text-foreground font-medium">${name}</span>
         </nav>
       </header>
 
       <main class="flex-1 p-6 lg:p-10 max-w-4xl">
-        ${isGettingStarted ? `
-          ${demo}
+        ${isGettingStarted || slug === "text" || slug === "metatext" ? `
+          ${sourceHtml}
         ` : `
         <!-- Title -->
         <div class="space-y-2 mb-8">
@@ -598,7 +606,7 @@ const server = Bun.serve({
     const match = url.pathname.match(/^\/docs\/components\/(.+)$/);
     if (match) {
       const slug = match[1];
-      if (COMPONENTS.includes(slug) || GETTING_STARTED.includes(slug)) {
+      if (COMPONENTS.includes(slug) || GETTING_STARTED.includes(slug) || META_COMPONENTS.includes(slug)) {
         return new Response(await buildComponentPage(slug), { headers: { "Content-Type": "text/html" } });
       }
     }
