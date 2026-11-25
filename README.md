@@ -179,6 +179,21 @@ Hyperstack includes 10 domain-specific, zero-dependency engineering workstations
 
 ---
 
+## 🧩 MetaComponents — High-Density Primitives for ERP & Data Systems
+
+Standard web components typically display a single isolated data value per element. In enterprise workflows—such as ERP rosters, hospital bed managers, telemetry consoles, and order manifests—this model often results in sprawling tables with excessive horizontal columns and disjointed forms.
+
+**MetaComponents** augment standard UI primitives with compact, multi-zone information layers that fit within standard component footprints:
+
+- **Footprint Parity**: Fits directly into standard table rows and form slots without breaking grid alignment.
+- **Structured 3-Tier Hierarchy**: Organizes information into a clean top header (ID, tag, triage), primary center value (name, description, metric), and bottom footer (status, metadata, unit).
+- **Protected Baseline Padding**: Enforces mandatory vertical and horizontal padding around text, preventing font ascenders and descenders from clipping against hairline borders.
+- **Single-Line Truncation**: Disables multi-line wrapping so text never stacks or pushes adjacent tiers; text truncates cleanly with ellipsis when constrained.
+- **Auto-Growing Width**: In unconstrained layouts or auto-width tables, the component naturally expands to accommodate the length of its content.
+- **1:1 Go DSL & Declarative HTML**: Available via `components.MetaText()` / `components.MetaTextField()` in Go, and `<div class="hs-metatext">` in HTML partials.
+
+---
+
 ## 🐹 Go DSL Component Architecture (1:1 Parity)
 
 Every HTML component in Hyperstack has an exact 1:1 Go DSL counterpart in `go/components/`:

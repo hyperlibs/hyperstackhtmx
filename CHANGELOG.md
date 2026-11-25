@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased] - 2026-11-25
+
+### Added
+- **MetaComponents Tier**: High-density components designed for ERP and data-heavy interfaces. Provides regular components enhanced with structured metadata tiers (Header, Hero, Footer) that fit within standard component footprints.
+- **`MetaText` Component**: Added `views/components/text.html` and `go/components/metatext.go` featuring strict single-line truncation, mandatory baseline padding, auto-growing widths, and 1:1 Go DSL parity.
+- **Unified Documentation**: Updated `/docs/components/text` with dual-tab comparison (`[Text Field]` and `[MetaText Field]`) demonstrating Form, Table, and Telemetry use cases in light theme.
+
+---
+
 ## [0.1.0] - 2026-09-12
 
 ### 🌟 Initial Production Release (The Hypermedia Platform for Go, Rust, Python & .NET)
