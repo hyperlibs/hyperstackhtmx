@@ -246,6 +246,56 @@ async function buildComponentPage(slug: string): Promise<string> {
 // Landing page (dashboard)
 const dashboardHtml = await Bun.file("views/layout-dashboard.html").text().catch(() => "");
 
+interface ServerDiagEvent {
+  id: string;
+  timestamp: string;
+  timeMs: number;
+  code: string;
+  category: '404_ROUTE' | 'CSS_ASSET' | 'HTMX_SWAP' | 'RUNTIME_JS' | 'SECURITY_RBAC' | 'INTERNAL';
+  severity: 'CRITICAL' | 'ERROR' | 'WARNING' | 'INFO';
+  url: string;
+  culprit: string;
+  target?: string;
+  message: string;
+  status?: number;
+  fixHint: string;
+  stack?: string;
+}
+
+const SERVER_DIAG_LOGS: ServerDiagEvent[] = [];
+
+function recordDiagLog(event: Partial<ServerDiagEvent>): ServerDiagEvent {
+  const timeMs = Date.now();
+  const entry: ServerDiagEvent = {
+    id: event.id || `diag-${Math.random().toString(36).substring(2, 9)}`,
+    timestamp: event.timestamp || new Date(timeMs).toLocaleTimeString(),
+    timeMs,
+    code: event.code || 'UNKNOWN_ERROR',
+    category: event.category || 'INTERNAL',
+    severity: event.severity || 'ERROR',
+    url: event.url || '/',
+    culprit: event.culprit || 'unknown',
+    target: event.target,
+    message: event.message || 'Diagnostic error recorded',
+    status: event.status,
+    fixHint: event.fixHint || 'Check server.ts route mappings or public assets',
+    stack: event.stack
+  };
+
+  const isDuplicate = SERVER_DIAG_LOGS.length > 0 &&
+    SERVER_DIAG_LOGS[0].code === entry.code &&
+    SERVER_DIAG_LOGS[0].culprit === entry.culprit &&
+    (timeMs - SERVER_DIAG_LOGS[0].timeMs) < 1000;
+
+  if (!isDuplicate) {
+    SERVER_DIAG_LOGS.unshift(entry);
+    if (SERVER_DIAG_LOGS.length > 200) {
+      SERVER_DIAG_LOGS.pop();
+    }
+  }
+  return entry;
+}
+
 const server = Bun.serve({
   port: 3000,
   async fetch(req: Request): Promise<Response> {
@@ -575,6 +625,97 @@ const server = Bun.serve({
       return new Response(JSON.stringify(status), { headers: { "Content-Type": "application/json" } });
     }
 
+    if (url.pathname === "/api/diag/log" && req.method === "POST") {
+      try {
+        const body = await req.json();
+        recordDiagLog(body);
+        return new Response(JSON.stringify({ ok: true, count: SERVER_DIAG_LOGS.length }), {
+          headers: { "Content-Type": "application/json" }
+        });
+      } catch (e: any) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 400, headers: { "Content-Type": "application/json" } });
+      }
+    }
+
+    if (url.pathname === "/api/diag/logs") {
+      let errors = 0, warnings = 0, routes404 = 0, cssAssets = 0, htmxSwaps = 0;
+      SERVER_DIAG_LOGS.forEach(e => {
+        if (e.severity === "CRITICAL" || e.severity === "ERROR") errors++;
+        if (e.severity === "WARNING") warnings++;
+        if (e.category === "404_ROUTE" || e.code.includes("404")) routes404++;
+        if (e.category === "CSS_ASSET") cssAssets++;
+        if (e.category === "HTMX_SWAP") htmxSwaps++;
+      });
+      const health = SERVER_DIAG_LOGS.length === 0 ? "100%" : `${Math.max(0, Math.round(100 - (errors * 5)))}%`;
+      return new Response(JSON.stringify({
+        logs: SERVER_DIAG_LOGS,
+        stats: { total: SERVER_DIAG_LOGS.length, errors, warnings, routes404, cssAssets, htmxSwaps, health }
+      }), { headers: { "Content-Type": "application/json" } });
+    }
+
+    if (url.pathname === "/api/diag/clear" && (req.method === "POST" || req.method === "DELETE")) {
+      SERVER_DIAG_LOGS.length = 0;
+      return new Response(JSON.stringify({ ok: true, count: 0 }), {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    if (url.pathname === "/api/diag/simulate" && req.method === "POST") {
+      try {
+        const body = await req.json();
+        const type = body.type || "404";
+        let entry: Partial<ServerDiagEvent> = {};
+        if (type === "404") {
+          entry = {
+            code: "SERVER_404_SIMULATED",
+            category: "404_ROUTE",
+            severity: "ERROR",
+            url: "/demo/missing-page-simulation",
+            culprit: "/demo/missing-page-simulation",
+            status: 404,
+            message: "Simulated 404: Route /demo/missing-page-simulation was requested",
+            fixHint: "Create route handler in server.ts and server.go."
+          };
+        } else if (type === "css") {
+          entry = {
+            code: "CSS_ASSET_404_SIMULATED",
+            category: "CSS_ASSET",
+            severity: "ERROR",
+            url: "/demo/tailadmin",
+            culprit: "/css/missing-theme.css",
+            message: "Simulated CSS load error: /css/missing-theme.css not found",
+            fixHint: "Verify stylesheet path or compile with bun run build:css."
+          };
+        } else if (type === "swap") {
+          entry = {
+            code: "HTMX_SWAP_ERROR_SIMULATED",
+            category: "HTMX_SWAP",
+            severity: "ERROR",
+            url: "/demo/tailadmin",
+            culprit: "/api/ward/telemetry",
+            target: "#ward-stream",
+            status: 500,
+            message: "Simulated HTMX Swap Failure: 500 Internal Server Error",
+            fixHint: "Inspect backend stack trace and ensure JSON/HTML partial is valid."
+          };
+        } else {
+          entry = {
+            code: "RUNTIME_EXCEPTION_SIMULATED",
+            category: "RUNTIME_JS",
+            severity: "CRITICAL",
+            url: "/demo/tailadmin",
+            culprit: "admin-analytics.ts:142",
+            message: "TypeError: Simulated null pointer dereference in analytics feed",
+            fixHint: "Add optional chaining before accessing properties on stream."
+          };
+        }
+        recordDiagLog(entry);
+        return new Response(JSON.stringify({ ok: true, entry }), { headers: { "Content-Type": "application/json" } });
+      } catch (e: any) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 400, headers: { "Content-Type": "application/json" } });
+      }
+    }
+
     if (url.pathname === "/schema/hyperstack.json") {
       return new Response(Bun.file("schema/hyperstack.json"), { headers: { "Content-Type": "application/json" } });
     }
@@ -615,6 +756,18 @@ const server = Bun.serve({
     if (url.pathname === "/docs" || url.pathname === "/docs/" || url.pathname === "/docs/1.0" || url.pathname === "/docs/release-1.0") {
       return new Response(Bun.file("public/docs/index.html"), { headers: { "Content-Type": "text/html; charset=utf-8" } });
     }
+
+    // Auto-record 404 in Diagnostics telemetry
+    recordDiagLog({
+      code: "SERVER_404_NOT_FOUND",
+      category: "404_ROUTE",
+      severity: "ERROR",
+      url: url.pathname,
+      culprit: url.pathname,
+      status: 404,
+      message: `HTTP 404 Not Found: ${url.pathname}`,
+      fixHint: `Ensure route is handled in server.ts / server.go or file exists in public/.`
+    });
 
     return new Response("Not Found", { status: 404 });
   }

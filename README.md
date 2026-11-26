@@ -121,7 +121,7 @@ Hyperstack = HTMX 4 (Modern DOM & Fetch Hypermedia Core)
 | **🧬 Sim** | `htmx-sim.ts` | `htmx-sim.js` | 5.99 KB | Particle physics, Boids Reynolds rules, 2D Barnes-Hut gravity | Swarm intelligence flocking, N-Body orbital dynamics, elastic momentum, 23/3 Conway Life, slime mould sensors. |
 | **♿ A11y** | `htmx-a11y.ts` | `htmx-a11y.js` | 3.05 KB | WAI-ARIA roving coordinate space navigation | Modal focus trapping (`hx-trap-focus`), roving tabindex, 2D matrix navigation, Excel range selection. |
 | **📶 Offline** | `htmx-offline.ts` | `htmx-offline.js` | 2.32 KB | FIFO transaction journal with exponential backoff | IndexedDB mutation queues with exponential retry backoff and online sync. |
-| **🛠️ DevTools** | `htmx-devtools.ts` | `htmx-devtools.js` | 2.03 KB | Telemetry bridge & SARIF 2.1.0 diagnostic stream | Real-time signal inspector, swap latency timing metrics, `@diag` HUD. |
+| **🛠️ DevTools** | `htmx-devtools.ts` | `htmx-devtools.js` | 6.72 KB | Telemetry bridge & SARIF 2.1.0 diagnostic stream | Real-time signal inspector, swap latency timing metrics, `@diag` HUD. |
 | **🖼️ Canvas** | `htmx-canvas.ts` | `htmx-canvas.js` | 2.14 KB | Layer-indexed spatial node graph with live connector routing | Draggable node diagrams, automatic connector/bézier routing between nodes, per-node layer resolution. |
 | **📱 Appz** | `appz.ts` | `appz.js` | 9.22 KB | 0–9 Photoshop-style layer stack, viewport OS modes & coroutine channels | `app-shellui`, `app-bar`, `app-seg`, `app-layer`, `app-navbar`, bottom sheets, joystick HUD, haptics, hardware/network/battery bridge. |
 

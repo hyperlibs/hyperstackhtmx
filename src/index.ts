@@ -15,7 +15,8 @@ export { HxA11y, trapFocus, initRovingTabindex, initMatrixNav, announce, initA11
 export { VirtualScroller, VirtualScroller2D, initVirtual } from './htmx-virtual';
 export { EnterpriseDataGrid, initGrids } from './htmx-grid';
 export { HxOffline } from './htmx-offline';
-export { HxDevTools } from './htmx-devtools';
+export { HxDevTools, $diag, DiagnosticService } from './htmx-devtools';
+export type { LiveDiagEvent, DiagCategory, DiagSeverity } from './htmx-devtools';
 export { HxCalc, CalcEngine, cellToCoords, coordsToCell, expandRange } from './htmx-calc';
 export { HxSim, SimCanvasRunner, Vec2, Boid, GravitySimulation, CollisionSimulation, LifeSimulation, SlimeSimulation } from './htmx-sim';
 export { Appz, AppzChan, AppzNavigator, HardwareBridge, applySegmentLayerStyles, getAppzChannel } from './appz';

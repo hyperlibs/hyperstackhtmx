@@ -22,6 +22,8 @@ declare global {
     HxGrid?: any;
     HxOffline?: any;
     HxDevTools?: any;
+    $diag?: any;
+    HxDiag?: any;
     HxCalc?: any;
     Hyperstack?: any;
     htmFX?: any;

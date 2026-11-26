@@ -24,7 +24,7 @@
 | **HxGrid** | `htmx-grid.js` | 5.17KB | Enterprise Data Grid (`<div hx-grid>`), interactive column resize handles, drag-and-drop column reordering, bulk actions, CSV export. |
 | **HxCalc** | `htmx-calc.js` | 3.18KB | Zero-dependency reactive formula engine with topological sorting DAG (Kahn's algorithm), cycle detection (`#CYCLE!`), coordinate resolver (`A1` $\leftrightarrow$ `(0, 0)`). |
 | **HxOffline** | `htmx-offline.js` | 2.32KB | IndexedDB offline mutation queue, optimistic local persistence, automatic sync on reconnect, 409 conflict resolution. |
-| **HxDevTools**| `htmx-devtools.js`| 2.03KB | In-browser visualizer (`Hyperstack.devtools`), reactive signal inspector, mutation timeline profiler. |
+| **HxDevTools**| `htmx-devtools.js`| 6.72KB | In-browser visualizer (`Hyperstack.devtools`), reactive signal inspector, mutation timeline profiler. |
 | **HxSim** | `htmx-sim.js` | 5.99KB | Kinetic particle physics, Boids flocking, N-body orbital dynamics, elastic momentum, Conway Life. |
 | **HxCanvas** | `htmx-canvas.js` | 2.14KB | Layer-indexed spatial node graph (`hx-canvas`), draggable nodes, automatic connector routing between nodes. |
 | **Appz** | `appz.js` | 9.22KB | Mobile & spatial OS shell: `<app-shellui>`, `<app-bar>`, `<app-seg>`, `<app-layer level="0..9">`, `<app-navbar>`, bottom sheets, joystick HUD, haptics, coroutine channels (`AppzChan`). |

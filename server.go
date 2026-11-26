@@ -10,8 +10,54 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
+
+type GoDiagEvent struct {
+	ID        string `json:"id"`
+	Timestamp string `json:"timestamp"`
+	TimeMs    int64  `json:"timeMs"`
+	Code      string `json:"code"`
+	Category  string `json:"category"`
+	Severity  string `json:"severity"`
+	URL       string `json:"url"`
+	Culprit   string `json:"culprit"`
+	Target    string `json:"target,omitempty"`
+	Message   string `json:"message"`
+	Status    int    `json:"status,omitempty"`
+	FixHint   string `json:"fixHint"`
+	Stack     string `json:"stack,omitempty"`
+}
+
+var (
+	diagMu   sync.Mutex
+	diagLogs []GoDiagEvent
+)
+
+func recordGoDiag(e GoDiagEvent) {
+	diagMu.Lock()
+	defer diagMu.Unlock()
+	if e.ID == "" {
+		e.ID = fmt.Sprintf("diag-%x", rand.Int63()&0xffffffff)
+	}
+	if e.Timestamp == "" {
+		e.Timestamp = time.Now().Format("15:04:05")
+	}
+	if e.TimeMs == 0 {
+		e.TimeMs = time.Now().UnixMilli()
+	}
+	if len(diagLogs) > 0 {
+		top := diagLogs[0]
+		if top.Code == e.Code && top.Culprit == e.Culprit && (e.TimeMs-top.TimeMs) < 1000 {
+			return
+		}
+	}
+	diagLogs = append([]GoDiagEvent{e}, diagLogs...)
+	if len(diagLogs) > 200 {
+		diagLogs = diagLogs[:200]
+	}
+}
 
 var gettingStarted = []string{
 	"introduction", "installation", "rosetta-stone", "common-ai-hallucinations", "directives-guide",
@@ -321,6 +367,136 @@ func main() {
 			return
 		}
 
+		if p == "/api/diag/log" && r.Method == "POST" {
+			var evt GoDiagEvent
+			if err := json.NewDecoder(r.Body).Decode(&evt); err == nil {
+				recordGoDiag(evt)
+				w.Header().Set("Content-Type", "application/json")
+				diagMu.Lock()
+				count := len(diagLogs)
+				diagMu.Unlock()
+				json.NewEncoder(w).Encode(map[string]interface{}{"ok": true, "count": count})
+			} else {
+				w.WriteHeader(http.StatusBadRequest)
+				json.NewEncoder(w).Encode(map[string]string{"error": err.Error()})
+			}
+			return
+		}
+
+		if p == "/api/diag/logs" {
+			diagMu.Lock()
+			logsCopy := make([]GoDiagEvent, len(diagLogs))
+			copy(logsCopy, diagLogs)
+			diagMu.Unlock()
+
+			errors, warnings, routes404, cssAssets, htmxSwaps := 0, 0, 0, 0, 0
+			for _, e := range logsCopy {
+				if e.Severity == "CRITICAL" || e.Severity == "ERROR" {
+					errors++
+				}
+				if e.Severity == "WARNING" {
+					warnings++
+				}
+				if e.Category == "404_ROUTE" || strings.Contains(e.Code, "404") {
+					routes404++
+				}
+				if e.Category == "CSS_ASSET" {
+					cssAssets++
+				}
+				if e.Category == "HTMX_SWAP" {
+					htmxSwaps++
+				}
+			}
+			health := "100%"
+			if len(logsCopy) > 0 {
+				score := 100 - (errors * 5)
+				if score < 0 {
+					score = 0
+				}
+				health = fmt.Sprintf("%d%%", score)
+			}
+
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]interface{}{
+				"logs": logsCopy,
+				"stats": map[string]interface{}{
+					"total":      len(logsCopy),
+					"errors":     errors,
+					"warnings":   warnings,
+					"routes404":  routes404,
+					"cssAssets":  cssAssets,
+					"htmxSwaps":  htmxSwaps,
+					"health":     health,
+				},
+			})
+			return
+		}
+
+		if p == "/api/diag/clear" && (r.Method == "POST" || r.Method == "DELETE") {
+			diagMu.Lock()
+			diagLogs = nil
+			diagMu.Unlock()
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]interface{}{"ok": true, "count": 0})
+			return
+		}
+
+		if p == "/api/diag/simulate" && r.Method == "POST" {
+			var body map[string]string
+			json.NewDecoder(r.Body).Decode(&body)
+			simType := body["type"]
+			if simType == "" {
+				simType = "404"
+			}
+			evt := GoDiagEvent{
+				Code:     "SERVER_404_SIMULATED",
+				Category: "404_ROUTE",
+				Severity: "ERROR",
+				URL:      "/demo/missing-page-simulation",
+				Culprit:  "/demo/missing-page-simulation",
+				Status:   404,
+				Message:  "Simulated 404: Route /demo/missing-page-simulation was requested",
+				FixHint:  "Create route handler in server.go / server.ts.",
+			}
+			if simType == "css" {
+				evt = GoDiagEvent{
+					Code:     "CSS_ASSET_404_SIMULATED",
+					Category: "CSS_ASSET",
+					Severity: "ERROR",
+					URL:      "/demo/tailadmin",
+					Culprit:  "/css/missing-theme.css",
+					Message:  "Simulated CSS load error: /css/missing-theme.css not found",
+					FixHint:  "Verify stylesheet path or compile with bun run build:css.",
+				}
+			} else if simType == "swap" {
+				evt = GoDiagEvent{
+					Code:     "HTMX_SWAP_ERROR_SIMULATED",
+					Category: "HTMX_SWAP",
+					Severity: "ERROR",
+					URL:      "/demo/tailadmin",
+					Culprit:  "/api/ward/telemetry",
+					Target:   "#ward-stream",
+					Status:   500,
+					Message:  "Simulated HTMX Swap Failure: 500 Internal Server Error",
+					FixHint:  "Inspect backend stack trace and ensure valid HTML response.",
+				}
+			} else if simType == "js" {
+				evt = GoDiagEvent{
+					Code:     "RUNTIME_EXCEPTION_SIMULATED",
+					Category: "RUNTIME_JS",
+					Severity: "CRITICAL",
+					URL:      "/demo/tailadmin",
+					Culprit:  "admin-analytics.ts:142",
+					Message:  "TypeError: Simulated null pointer dereference in analytics feed",
+					FixHint:  "Add optional chaining before accessing properties on stream.",
+				}
+			}
+			recordGoDiag(evt)
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(map[string]interface{}{"ok": true, "entry": evt})
+			return
+		}
+
 		if p == "/api/erp-invoices.json" {
 			countStr := r.URL.Query().Get("count")
 			count := 10000
@@ -373,6 +549,16 @@ func main() {
 			return
 		}
 
+		recordGoDiag(GoDiagEvent{
+			Code:     "SERVER_404_NOT_FOUND",
+			Category: "404_ROUTE",
+			Severity: "ERROR",
+			URL:      p,
+			Culprit:  p,
+			Status:   404,
+			Message:  fmt.Sprintf("HTTP 404 Not Found: %s", p),
+			FixHint:  "Ensure route is mapped in server.go / server.ts or file is placed in public/.",
+		})
 		http.NotFound(w, r)
 	})
 
