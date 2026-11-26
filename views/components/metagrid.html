@@ -1,0 +1,435 @@
+<div class="space-y-8 max-w-6xl py-4 font-sans text-slate-800">
+
+  <!-- Header -->
+  <div class="space-y-2 border-b border-slate-200 pb-5">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+        META COMPONENT #2
+      </span>
+      <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        metagrid &amp; metagrid-ext
+      </span>
+      <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-amber-50 text-amber-700 border border-amber-200">
+        .fx CONFIGURABLE
+      </span>
+    </div>
+    <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">MetaGrid (&lt;meta-grid&gt;)</h1>
+    <p class="text-sm text-slate-600 leading-relaxed max-w-3xl">
+      The second Hyperstack Meta Component—an enterprise upgrade of <code class="font-mono text-indigo-600 font-semibold">&lt;hx-grid&gt;</code>. Controlled declaratively by <code class="font-mono text-indigo-600 font-semibold">metagrid.fx</code>, it provides two official views: <strong>metagrid</strong> (integrated table browser + formula bar + sheet) and <strong>metagrid-ext</strong> (2-tier parent totals &rarr; child breakups). Disable interactive flags in <code class="font-mono text-indigo-600 font-semibold">.fx</code> and it degrades cleanly to a simple static table.
+    </p>
+  </div>
+
+  <!-- View Switcher Tabs: [metagrid] vs [metagrid-ext] -->
+  <div class="space-y-4">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="inline-flex rounded-lg bg-slate-100 p-1 border border-slate-200">
+        <button id="tab-metagrid" type="button" onclick="switchMetaGridView('metagrid')"
+                class="px-4 py-1.5 rounded-md text-xs font-mono font-bold bg-white text-indigo-700 shadow-xs border border-slate-200 cursor-pointer">
+          [metagrid] Standard (Browser + Sheet)
+        </button>
+        <button id="tab-metagrid-ext" type="button" onclick="switchMetaGridView('metagrid-ext')"
+                class="px-4 py-1.5 rounded-md text-xs font-mono font-bold text-slate-600 hover:text-slate-900 cursor-pointer">
+          [metagrid-ext] Extended (2-Tier Parent &harr; Child)
+        </button>
+      </div>
+
+      <!-- Live .fx Feature Controls -->
+      <div class="flex flex-wrap items-center gap-2 text-[11px] font-mono">
+        <label class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-50 border border-slate-200 cursor-pointer">
+          <input type="checkbox" id="fx-toggle-simple" class="accent-indigo-600" onchange="toggleSimpleTableMode(this.checked)">
+          <span>Simple Table Mode (disable kbd/edit/fx)</span>
+        </label>
+        <select id="fx-pagination-mode" onchange="setMetaGridPagination(this.value)"
+                class="px-2 py-1 rounded bg-white border border-slate-300 text-slate-700 font-mono text-[11px] cursor-pointer">
+          <option value="vscroll">Pagination: vscroll</option>
+          <option value="numbers">Pagination: numbers (3/page)</option>
+          <option value="hscroll">Pagination: hscroll</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 1: metagrid (Integrated Left Browser + Formula Bar + Grid)         -->
+    <!-- ======================================================================= -->
+    <div id="panel-metagrid" class="space-y-3">
+      <meta-grid id="demoMetaGrid" mode="metagrid" class="flex flex-col border border-slate-300 bg-white rounded-xl overflow-hidden shadow-xs h-[420px]">
+        <script type="application/json" data-fx>
+          {
+            "id": "demoMetaGrid",
+            "mode": "metagrid",
+            "features": { "keyboard": true, "editable": true, "formulaBar": true, "statusBar": true },
+            "browser": { "enabled": true, "scrollbars": true },
+            "pane1": { "pagination": "vscroll", "pageSize": 3, "scrollbars": "auto" }
+          }
+        </script>
+
+        <!-- Header -->
+        <div class="bg-slate-800 text-white px-3 py-1.5 flex justify-between items-center shrink-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold tracking-wide uppercase">Master Content Authoring</span>
+            <span class="text-[10px] font-mono bg-slate-700 text-indigo-300 px-1.5 py-0.5 rounded">&lt;meta-grid mode="metagrid"&gt;</span>
+          </div>
+          <span class="text-[10px] font-mono text-slate-300">Arrows: Move | Enter: Edit | Esc: Browser</span>
+        </div>
+
+        <!-- Formula Bar -->
+        <div id="mg-formula-bar" class="bg-slate-100 border-b border-slate-300 px-2 py-1 flex items-center gap-2 shrink-0">
+          <span data-meta-address class="w-12 text-center font-mono text-[11px] font-bold bg-white border border-slate-300 py-0.5 text-slate-800">A1</span>
+          <span class="text-xs font-serif italic font-bold text-slate-500">fx</span>
+          <input data-meta-formula type="text" class="flex-1 bg-white border border-slate-300 px-2 py-0.5 text-xs font-mono outline-none focus:border-indigo-600" placeholder="Select a cell to inspect or edit...">
+        </div>
+
+        <!-- Split Workspace: Left Browser (Independent Scrollbar) + Right Grid (Independent Scrollbar) -->
+        <div class="flex flex-1 min-h-0 divide-x divide-slate-300">
+          <!-- Left Browser -->
+          <div data-meta-browser data-meta-scroll="y" class="w-48 shrink-0 bg-white divide-y divide-slate-200 overflow-y-auto">
+            <div class="bg-slate-100 px-2.5 py-1 text-[10px] font-mono font-bold text-slate-600 uppercase">Tables (7)</div>
+            <div data-meta-page="pm" onclick="loadMetaGridTable('pm', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer bg-[#ffeb9c] font-bold text-black"><span>Purchase Masters</span><span class="text-[10px] font-mono text-slate-500">PM</span></div>
+            <div data-meta-page="stk" onclick="loadMetaGridTable('stk', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Stock Master</span><span class="text-[10px] font-mono text-slate-400">STK</span></div>
+            <div data-meta-page="prc" onclick="loadMetaGridTable('prc', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Pricing &amp; Margin</span><span class="text-[10px] font-mono text-slate-400">PRC</span></div>
+            <div data-meta-page="vnd" onclick="loadMetaGridTable('vnd', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Vendor Directory</span><span class="text-[10px] font-mono text-slate-400">VND</span></div>
+            <div data-meta-page="rol" onclick="loadMetaGridTable('rol', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Department Roles</span><span class="text-[10px] font-mono text-slate-400">ROL</span></div>
+            <div data-meta-page="tpl" onclick="loadMetaGridTable('tpl', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Content Templates</span><span class="text-[10px] font-mono text-slate-400">TPL</span></div>
+            <div data-meta-page="aud" onclick="loadMetaGridTable('aud', this)" class="px-2.5 py-1.5 text-xs flex justify-between items-center cursor-pointer hover:bg-slate-50"><span>Audit &amp; Publishing</span><span class="text-[10px] font-mono text-slate-400">AUD</span></div>
+          </div>
+
+          <!-- Right Sheet -->
+          <div data-meta-pane="1" data-meta-scroll="auto" class="flex-1 min-w-0 overflow-auto bg-white">
+            <table class="w-full text-left border-collapse table-fixed min-w-[640px]">
+              <thead class="sticky top-0 z-10 bg-slate-100 border-b border-slate-300 text-[11px] font-bold text-slate-700">
+                <tr>
+                  <th class="w-10 px-2 py-1.5 border-r border-slate-300 text-center font-mono">#</th>
+                  <th class="w-32 px-2 py-1.5 border-r border-slate-300">Code (mono)</th>
+                  <th class="w-48 px-2 py-1.5 border-r border-slate-300">Master Name</th>
+                  <th class="w-40 px-2 py-1.5 border-r border-slate-300">Type (select)</th>
+                  <th class="px-2 py-1.5 border-r border-slate-300">Categories (chips)</th>
+                  <th class="w-24 px-2 py-1.5 text-center">Status</th>
+                </tr>
+              </thead>
+              <tbody id="mg-std-tbody" class="divide-y divide-slate-200 text-xs">
+                <tr data-row-id="PM-PhSg-2026" class="hover:bg-slate-50">
+                  <td class="px-2 py-1.5 text-center font-mono text-[10px] text-slate-500 bg-slate-50 border-r border-slate-200">1</td>
+                  <td data-cell data-field="code" data-val="PM-PhSg-2026" class="px-2 py-1.5 font-mono font-bold text-blue-700 border-r border-slate-200 truncate hx-cell-active bg-[#ffeb9c]">PM-PhSg-2026</td>
+                  <td data-cell data-field="name" data-val="Main Pharmacy (Inpatient)" class="px-2 py-1.5 font-semibold text-slate-900 border-r border-slate-200 truncate">Main Pharmacy (Inpatient)</td>
+                  <td data-cell data-field="type" data-val="Pharmacy &amp; Surgicals" class="px-2 py-1.5 text-slate-700 border-r border-slate-200 truncate">Pharmacy &amp; Surgicals</td>
+                  <td data-cell data-field="categories" data-val="Tablets, Injections, Implants" class="px-2 py-1.5 border-r border-slate-200 truncate"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px] mr-1">Tablets</span><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px]">Implants</span></td>
+                  <td data-cell data-field="status" data-val="Active" class="px-2 py-1.5 text-center"><span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">Active</span></td>
+                </tr>
+                <tr data-row-id="PM-LabPath-2026" class="hover:bg-slate-50">
+                  <td class="px-2 py-1.5 text-center font-mono text-[10px] text-slate-500 bg-slate-50 border-r border-slate-200">2</td>
+                  <td data-cell data-field="code" data-val="PM-LabPath-2026" class="px-2 py-1.5 font-mono font-bold text-blue-700 border-r border-slate-200 truncate">PM-LabPath-2026</td>
+                  <td data-cell data-field="name" data-val="Central Pathology Lab" class="px-2 py-1.5 font-semibold text-slate-900 border-r border-slate-200 truncate">Central Pathology Lab</td>
+                  <td data-cell data-field="type" data-val="Lab (Pathology)" class="px-2 py-1.5 text-slate-700 border-r border-slate-200 truncate">Lab (Pathology)</td>
+                  <td data-cell data-field="categories" data-val="Reagents, Glassware, QC" class="px-2 py-1.5 border-r border-slate-200 truncate"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px] mr-1">Reagents</span><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px]">QC</span></td>
+                  <td data-cell data-field="status" data-val="Active" class="px-2 py-1.5 text-center"><span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">Active</span></td>
+                </tr>
+                <tr data-row-id="PM-LabRad-2026" class="hover:bg-slate-50">
+                  <td class="px-2 py-1.5 text-center font-mono text-[10px] text-slate-500 bg-slate-50 border-r border-slate-200">3</td>
+                  <td data-cell data-field="code" data-val="PM-LabRad-2026" class="px-2 py-1.5 font-mono font-bold text-blue-700 border-r border-slate-200 truncate">PM-LabRad-2026</td>
+                  <td data-cell data-field="name" data-val="Diagnostic Radiology" class="px-2 py-1.5 font-semibold text-slate-900 border-r border-slate-200 truncate">Diagnostic Radiology</td>
+                  <td data-cell data-field="type" data-val="Lab (Radiology)" class="px-2 py-1.5 text-slate-700 border-r border-slate-200 truncate">Lab (Radiology)</td>
+                  <td data-cell data-field="categories" data-val="Contrast, X-Ray, Sensors" class="px-2 py-1.5 border-r border-slate-200 truncate"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px] mr-1">Contrast</span><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px]">Sensors</span></td>
+                  <td data-cell data-field="status" data-val="Active" class="px-2 py-1.5 text-center"><span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">Active</span></td>
+                </tr>
+                <tr data-row-id="PM-ITES-2026" class="hover:bg-slate-50">
+                  <td class="px-2 py-1.5 text-center font-mono text-[10px] text-slate-500 bg-slate-50 border-r border-slate-200">4</td>
+                  <td data-cell data-field="code" data-val="PM-ITES-2026" class="px-2 py-1.5 font-mono font-bold text-blue-700 border-r border-slate-200 truncate">PM-ITES-2026</td>
+                  <td data-cell data-field="name" data-val="IT Procurement 2026" class="px-2 py-1.5 font-semibold text-slate-900 border-r border-slate-200 truncate">IT Procurement 2026</td>
+                  <td data-cell data-field="type" data-val="IT Supplies" class="px-2 py-1.5 text-slate-700 border-r border-slate-200 truncate">IT Supplies</td>
+                  <td data-cell data-field="categories" data-val="Hardware, Networking" class="px-2 py-1.5 border-r border-slate-200 truncate"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px] mr-1">Hardware</span><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px]">Networking</span></td>
+                  <td data-cell data-field="status" data-val="Active" class="px-2 py-1.5 text-center"><span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">Active</span></td>
+                </tr>
+                <tr data-row-id="PM-Hskp-2026" class="hover:bg-slate-50 bg-slate-50/70 text-slate-500">
+                  <td class="px-2 py-1.5 text-center font-mono text-[10px] text-slate-500 bg-slate-50 border-r border-slate-200">5</td>
+                  <td data-cell data-field="code" data-val="PM-Hskp-2026" class="px-2 py-1.5 font-mono font-bold text-slate-500 border-r border-slate-200 truncate">PM-Hskp-2026</td>
+                  <td data-cell data-field="name" data-val="Facility &amp; Housekeeping" class="px-2 py-1.5 font-semibold border-r border-slate-200 truncate">Facility &amp; Housekeeping</td>
+                  <td data-cell data-field="type" data-val="Housekeeping" class="px-2 py-1.5 border-r border-slate-200 truncate">Housekeeping</td>
+                  <td data-cell data-field="categories" data-val="Chemicals, Linens" class="px-2 py-1.5 border-r border-slate-200 truncate"><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px] mr-1">Chemicals</span><span class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-[10px]">Linens</span></td>
+                  <td data-cell data-field="status" data-val="Paused" class="px-2 py-1.5 text-center"><span class="px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 border border-slate-300 text-[10px] font-bold">Paused</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Footer + Numbered Pagination Controls -->
+        <div class="bg-slate-50 border-t border-slate-300 px-3 py-1 flex justify-between items-center text-[10px] font-mono text-slate-600 shrink-0">
+          <div class="flex items-center gap-3">
+            <span id="mg-mode-badge" class="font-bold text-indigo-700">READY (Keyboard + Formula)</span>
+            <span data-meta-page-info>Rows: 5</span>
+          </div>
+          <div id="mg-page-buttons" class="hidden items-center gap-1">
+            <button type="button" onclick="window._demoMetaGrid?.applyPagination(1)" class="px-2 py-0.5 rounded bg-indigo-600 text-white font-bold cursor-pointer">1</button>
+            <button type="button" onclick="window._demoMetaGrid?.applyPagination(2)" class="px-2 py-0.5 rounded bg-white border border-slate-300 hover:bg-slate-100 cursor-pointer">2</button>
+          </div>
+        </div>
+      </meta-grid>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 2: metagrid-ext (Parent Totals -> Child Left + Detailed Right)     -->
+    <!-- ======================================================================= -->
+    <div id="panel-metagrid-ext" class="hidden space-y-3">
+      <meta-grid id="demoMetaGridExt" mode="metagrid-ext" class="flex flex-col border border-slate-300 bg-white rounded-xl overflow-hidden shadow-xs h-[480px]">
+        <script type="application/json" data-fx>
+          {
+            "id": "demoMetaGridExt",
+            "mode": "metagrid-ext",
+            "features": { "keyboard": true, "editable": true, "formulaBar": false, "statusBar": true },
+            "pane1": { "title": "Daily Financial Summary (Parent Totals)", "scrollbars": "y" },
+            "pane2": { "title": "Cost Centre Breakup (Child Left)", "scrollbars": "y" },
+            "pane3": { "title": "Detailed Ledger Breakup (Child Right)", "scrollbars": "auto" },
+            "link": { "masterKey": "date", "filterByColumn": true, "rollupFields": ["opRev", "ipRev", "opExp", "ipExp", "margin"] }
+          }
+        </script>
+
+        <!-- TOP: PARENT TOTALS GRID -->
+        <div class="flex flex-col h-[42%] border-b-2 border-slate-300">
+          <div class="bg-[#b3d4f0] border-b border-blue-500 px-3 py-1 flex justify-between items-center shrink-0">
+            <span class="text-xs font-bold text-slate-900">Pane 1: Daily Financial Summary (Parent Totals)</span>
+            <span class="text-[10px] font-mono text-slate-700">Click any cell to filter Child Breakups</span>
+          </div>
+          <div data-meta-pane="1" data-meta-scroll="y" class="flex-1 overflow-y-auto bg-white">
+            <table class="w-full text-left border-collapse table-fixed text-[11px]">
+              <thead class="sticky top-0 bg-slate-100 border-b border-slate-300 font-bold text-slate-800">
+                <tr>
+                  <th class="px-2 py-1.5 border-r border-slate-300 w-28">Date</th>
+                  <th class="px-2 py-1.5 border-r border-slate-300 text-right">OP Revenue</th>
+                  <th class="px-2 py-1.5 border-r border-slate-300 text-right">IP Revenue</th>
+                  <th class="px-2 py-1.5 border-r border-slate-300 text-right">OP Expense</th>
+                  <th class="px-2 py-1.5 border-r border-slate-300 text-right">IP Expense</th>
+                  <th class="px-2 py-1.5 text-right bg-slate-200/60">Net Margin</th>
+                </tr>
+              </thead>
+              <tbody id="mg-ext-master-body" class="divide-y divide-slate-200 font-mono"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BOTTOM: CHILD BREAKUPS (LEFT) + DETAILED BREAKUPS (RIGHT) -->
+        <div class="flex flex-1 min-h-0 divide-x divide-slate-300">
+          <!-- Bottom Left: Department Summary Breakup -->
+          <div class="flex flex-col w-64 shrink-0 bg-white">
+            <div class="bg-slate-100 border-b border-slate-300 px-2.5 py-1 text-[11px] font-bold text-slate-800 flex justify-between">
+              <span>Pane 2: Dept Breakup</span>
+              <span id="mg-ext-date-badge" class="font-mono text-indigo-700">2026-11-26</span>
+            </div>
+            <div data-meta-pane="2" data-meta-scroll="y" class="flex-1 overflow-y-auto divide-y divide-slate-200 text-xs" id="mg-ext-left-breakup"></div>
+          </div>
+
+          <!-- Bottom Right: Granular Editable Ledger (Debit/Credit smart-skip) -->
+          <div class="flex flex-col flex-1 min-w-0 bg-white">
+            <div class="bg-slate-100 border-b border-slate-300 px-2.5 py-1 text-[11px] font-bold text-slate-800 flex justify-between items-center">
+              <span>Pane 3: Detailed Breakup <span id="mg-ext-filter-badge" class="text-indigo-700 font-mono ml-1">(All Transactions)</span></span>
+              <span class="text-[10px] font-mono text-slate-500">Edit Amount to recalculate Parent Margin</span>
+            </div>
+            <div data-meta-pane="3" data-meta-scroll="auto" class="flex-1 overflow-auto">
+              <table class="w-full text-left border-collapse text-[11px]">
+                <thead class="sticky top-0 bg-white border-b border-slate-300 italic text-slate-700">
+                  <tr>
+                    <th class="px-2 py-1.5 border-r border-slate-200 w-24">Dept</th>
+                    <th class="px-2 py-1.5 border-r border-slate-200 w-40">Particulars</th>
+                    <th class="px-2 py-1.5 border-r border-slate-200">Narration</th>
+                    <th class="px-2 py-1.5 border-r border-slate-200 text-right w-28">Debit (Exp)</th>
+                    <th class="px-2 py-1.5 text-right w-28">Credit (Inc)</th>
+                  </tr>
+                </thead>
+                <tbody id="mg-ext-detail-body" class="divide-y divide-slate-200"></tbody>
+                <tfoot class="sticky bottom-0 bg-[#eef5fa] border-t-2 border-slate-400 font-mono font-bold text-[11px]">
+                  <tr>
+                    <td colspan="3" class="px-2 py-1 text-right uppercase">Grand Total</td>
+                    <td id="mg-ext-total-dr" class="px-2 py-1 text-right border-r border-slate-300">0.00</td>
+                    <td id="mg-ext-total-cr" class="px-2 py-1 text-right">0.00</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </meta-grid>
+    </div>
+  </div>
+
+  <!-- Interactive Script for Dual-View Documentation Demo -->
+  <script>
+    function switchMetaGridView(view) {
+      const pStd = document.getElementById('panel-metagrid');
+      const pExt = document.getElementById('panel-metagrid-ext');
+      const tStd = document.getElementById('tab-metagrid');
+      const tExt = document.getElementById('tab-metagrid-ext');
+      if (view === 'metagrid') {
+        pStd.classList.remove('hidden'); pExt.classList.add('hidden');
+        tStd.className = 'px-4 py-1.5 rounded-md text-xs font-mono font-bold bg-white text-indigo-700 shadow-xs border border-slate-200 cursor-pointer';
+        tExt.className = 'px-4 py-1.5 rounded-md text-xs font-mono font-bold text-slate-600 hover:text-slate-900 cursor-pointer';
+      } else {
+        pStd.classList.add('hidden'); pExt.classList.remove('hidden');
+        tExt.className = 'px-4 py-1.5 rounded-md text-xs font-mono font-bold bg-white text-indigo-700 shadow-xs border border-slate-200 cursor-pointer';
+        tStd.className = 'px-4 py-1.5 rounded-md text-xs font-mono font-bold text-slate-600 hover:text-slate-900 cursor-pointer';
+        renderExtDemo();
+      }
+    }
+
+    function toggleSimpleTableMode(isSimple) {
+      const formulaBar = document.getElementById('mg-formula-bar');
+      const badge = document.getElementById('mg-mode-badge');
+      if (formulaBar) formulaBar.style.display = isSimple ? 'none' : 'flex';
+      if (badge) badge.textContent = isSimple ? 'SIMPLE TABLE (.fx kbd/edit/fx = false)' : 'READY (Keyboard + Formula)';
+    }
+
+    function setMetaGridPagination(mode) {
+      const btns = document.getElementById('mg-page-buttons');
+      const rows = Array.from(document.querySelectorAll('#mg-std-tbody tr'));
+      if (mode === 'numbers') {
+        btns.classList.remove('hidden'); btns.classList.add('flex');
+        rows.forEach((tr, i) => tr.style.display = i < 3 ? '' : 'none');
+        window._demoMetaGrid = {
+          applyPagination(p) {
+            rows.forEach((tr, i) => tr.style.display = (i >= (p - 1) * 3 && i < p * 3) ? '' : 'none');
+          }
+        };
+      } else {
+        btns.classList.add('hidden'); btns.classList.remove('flex');
+        rows.forEach(tr => tr.style.display = '');
+      }
+    }
+
+    function loadMetaGridTable(id, el) {
+      document.querySelectorAll('[data-meta-page]').forEach(n => n.classList.remove('bg-[#ffeb9c]', 'font-bold', 'text-black'));
+      el.classList.add('bg-[#ffeb9c]', 'font-bold', 'text-black');
+    }
+
+    // Master-Detail Demo Data for metagrid-ext
+    const extData = [
+      {
+        date: '2026-11-26',
+        items: [
+          { id: 1, dept: 'OPD', cat: '0. CONSULTATION', desc: 'Patient Receipt #1042', type: 'Income', amt: 18500 },
+          { id: 2, dept: 'IPD', cat: '0. PACKAGES', desc: 'Patient Receipt #1088', type: 'Income', amt: 64000 },
+          { id: 3, dept: 'OPD', cat: '2. CONSUMABLES', desc: 'Vendor Bill #5012', type: 'Expense', amt: 9200 },
+          { id: 4, dept: 'IPD', cat: '1. CLINICAL', desc: 'Vendor Bill #5019', type: 'Expense', amt: 21400 }
+        ]
+      },
+      {
+        date: '2026-11-25',
+        items: [
+          { id: 5, dept: 'OPD', cat: '0. DIRECT BILLING', desc: 'Patient Receipt #1011', type: 'Income', amt: 14200 },
+          { id: 6, dept: 'IPD', cat: '0. DIRECT BILLING', desc: 'Patient Receipt #1019', type: 'Income', amt: 42000 },
+          { id: 7, dept: 'IPD', cat: '3. HUMAN CAPITAL', desc: 'Vendor Bill #4981', type: 'Expense', amt: 19500 }
+        ]
+      }
+    ];
+    let extSelectedDay = 0, extFilter = 'ALL';
+
+    function renderExtDemo() {
+      const mBody = document.getElementById('mg-ext-master-body');
+      const dBody = document.getElementById('mg-ext-detail-body');
+      const lBreak = document.getElementById('mg-ext-left-breakup');
+      if (!mBody || !dBody || !lBreak) return;
+
+      const fmt = n => Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      mBody.innerHTML = extData.map((day, idx) => {
+        const opRev = day.items.filter(x => x.type === 'Income' && x.dept === 'OPD').reduce((s, x) => s + x.amt, 0);
+        const ipRev = day.items.filter(x => x.type === 'Income' && x.dept === 'IPD').reduce((s, x) => s + x.amt, 0);
+        const opExp = day.items.filter(x => x.type === 'Expense' && x.dept === 'OPD').reduce((s, x) => s + x.amt, 0);
+        const ipExp = day.items.filter(x => x.type === 'Expense' && x.dept === 'IPD').reduce((s, x) => s + x.amt, 0);
+        const margin = (opRev + ipRev) - (opExp + ipExp);
+        const sel = idx === extSelectedDay;
+        return `<tr class="cursor-pointer ${sel ? 'bg-[#ffeb9c]/60 font-bold' : 'hover:bg-slate-50'}">
+          <td onclick="extSelectedDay=${idx};extFilter='ALL';renderExtDemo()" class="px-2 py-1.5 border-r border-slate-200">${day.date}</td>
+          <td onclick="extSelectedDay=${idx};extFilter='OP_REV';renderExtDemo()" class="px-2 py-1.5 border-r border-slate-200 text-right">${fmt(opRev)}</td>
+          <td onclick="extSelectedDay=${idx};extFilter='IP_REV';renderExtDemo()" class="px-2 py-1.5 border-r border-slate-200 text-right">${fmt(ipRev)}</td>
+          <td onclick="extSelectedDay=${idx};extFilter='OP_EXP';renderExtDemo()" class="px-2 py-1.5 border-r border-slate-200 text-right">${fmt(opExp)}</td>
+          <td onclick="extSelectedDay=${idx};extFilter='IP_EXP';renderExtDemo()" class="px-2 py-1.5 border-r border-slate-200 text-right">${fmt(ipExp)}</td>
+          <td onclick="extSelectedDay=${idx};extFilter='ALL';renderExtDemo()" class="px-2 py-1.5 text-right ${margin >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${fmt(margin)}</td>
+        </tr>`;
+      }).join('');
+
+      const activeDay = extData[extSelectedDay];
+      document.getElementById('mg-ext-date-badge').textContent = activeDay.date;
+      document.getElementById('mg-ext-filter-badge').textContent = `(${extFilter})`;
+
+      const depts = ['OPD', 'IPD'];
+      lBreak.innerHTML = depts.map(d => {
+        const sum = activeDay.items.filter(x => x.dept === d).reduce((s, x) => s + (x.type === 'Income' ? x.amt : -x.amt), 0);
+        return `<div onclick="extFilter='${d}';renderExtDemo()" class="px-2.5 py-2 flex justify-between items-center cursor-pointer hover:bg-slate-50">
+          <span class="font-bold text-slate-800">${d} Net</span>
+          <span class="font-mono ${sum >= 0 ? 'text-emerald-700' : 'text-rose-700'}">${fmt(sum)}</span>
+        </div>`;
+      }).join('');
+
+      const filtered = activeDay.items.filter(x => {
+        if (extFilter === 'OP_REV') return x.type === 'Income' && x.dept === 'OPD';
+        if (extFilter === 'IP_REV') return x.type === 'Income' && x.dept === 'IPD';
+        if (extFilter === 'OP_EXP') return x.type === 'Expense' && x.dept === 'OPD';
+        if (extFilter === 'IP_EXP') return x.type === 'Expense' && x.dept === 'IPD';
+        if (extFilter === 'OPD' || extFilter === 'IPD') return x.dept === extFilter;
+        return true;
+      });
+
+      let drTotal = 0, crTotal = 0;
+      dBody.innerHTML = filtered.map(it => {
+        if (it.type === 'Expense') drTotal += it.amt; else crTotal += it.amt;
+        return `<tr class="hover:bg-slate-50">
+          <td class="px-2 py-1.5 border-r border-slate-200">${it.dept}</td>
+          <td class="px-2 py-1.5 border-r border-slate-200 font-medium">${it.cat}</td>
+          <td class="px-2 py-1.5 border-r border-slate-200 italic text-slate-600">${it.desc}</td>
+          <td ${it.type === 'Income' ? 'data-cell-skip' : ''} class="px-2 py-1.5 border-r border-slate-200 text-right font-mono">${it.type === 'Expense' ? `<input type="number" value="${it.amt}" onchange="updateExtAmt(${it.id}, this.value)" class="w-24 text-right border border-slate-200 rounded px-1 py-0.5">` : '-'}</td>
+          <td ${it.type === 'Expense' ? 'data-cell-skip' : ''} class="px-2 py-1.5 text-right font-mono">${it.type === 'Income' ? `<input type="number" value="${it.amt}" onchange="updateExtAmt(${it.id}, this.value)" class="w-24 text-right border border-slate-200 rounded px-1 py-0.5">` : '-'}</td>
+        </tr>`;
+      }).join('');
+
+      document.getElementById('mg-ext-total-dr').textContent = fmt(drTotal);
+      document.getElementById('mg-ext-total-cr').textContent = fmt(crTotal);
+    }
+
+    window.updateExtAmt = function(id, val) {
+      const day = extData[extSelectedDay];
+      const item = day.items.find(x => x.id === id);
+      if (item) { item.amt = Number(val) || 0; renderExtDemo(); }
+    };
+  </script>
+
+  <!-- Section: Configuration via metagrid.fx -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-4 border-t border-slate-200">
+    <div class="space-y-3">
+      <h2 class="text-lg font-bold text-slate-900">1. Configuring via <code class="text-indigo-600 font-mono">metagrid.fx</code></h2>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Every pane, scrollbar, pagination strategy (<code class="font-mono">numbers</code>, <code class="font-mono">vscroll</code>, <code class="font-mono">hscroll</code>), and interactive capability is governed by <code class="font-mono">.fx</code>. Turning off <code class="font-mono">keyboard</code>, <code class="font-mono">editable</code>, and <code class="font-mono">formulaBar</code> degrades the grid to a zero-listener static table.
+      </p>
+      <pre class="bg-[#1e293b] text-[#e2e8f0] rounded-xl p-4 font-mono text-[11px] overflow-x-auto leading-relaxed">{
+  "id": "ledgerMetaGrid",
+  "mode": "metagrid-ext",
+  "features": {
+    "keyboard": true,
+    "editable": true,
+    "formulaBar": false
+  },
+  "pane1": { "src": "/api/summary", "pagination": "numbers", "pageSize": 25, "scrollbars": "y" },
+  "pane2": { "src": "/api/dept-breakup", "scrollbars": "y" },
+  "pane3": { "src": "/api/ledger-details", "pagination": "hscroll", "scrollbars": "both" }
+}</pre>
+    </div>
+
+    <div class="space-y-3">
+      <h2 class="text-lg font-bold text-slate-900">2. Go DSL 1:1 Parity (<code class="text-indigo-600 font-mono">go/components/metagrid.go</code>)</h2>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Or compose two standalone <code class="font-mono">&lt;hx-grid&gt;</code> elements listening to <code class="font-mono">hx-grid:select</code> for custom parent&ndash;child workflows.
+      </p>
+      <pre class="bg-[#1e293b] text-[#e2e8f0] rounded-xl p-4 font-mono text-[11px] overflow-x-auto leading-relaxed">components.MetaGrid(components.MetaGridProps{
+    ID:    "pmGrid",
+    Mode:  "metagrid",
+    Title: "Master Content Authoring",
+    Features: &amp;components.MetaGridFeatures{
+        Keyboard: true, Editable: true, FormulaBar: true,
+    },
+    Pages: []components.MetaGridPage{
+        {ID: "pm", Label: "Purchase Masters", Code: "PM", Src: "/api/pages/pm"},
+    },
+    Pane1: components.MetaGridPane{
+        Pagination: "numbers", PageSize: 25, Scrollbars: "auto",
+    },
+})</pre>
+    </div>
+  </div>
+
+</div>

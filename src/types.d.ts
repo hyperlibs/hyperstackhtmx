@@ -59,6 +59,50 @@ export interface GridColumn {
   formatter?: (val: any, row: any) => string;
 }
 
+export interface MetaGridPageSpec {
+  id: string;
+  label: string;
+  code?: string;
+  src?: string;
+}
+
+export interface MetaGridPaneConfig {
+  id?: string;
+  title?: string;
+  src?: string;
+  columns?: GridColumn[];
+  scrollbars?: 'auto' | 'both' | 'x' | 'y' | 'none';
+  pagination?: 'numbers' | 'vscroll' | 'hscroll' | 'none';
+  pageSize?: number;
+}
+
+export interface MetaGridFxConfig {
+  id?: string;
+  mode?: 'metagrid' | 'metagrid-ext' | 'standard' | 'extended';
+  features?: {
+    keyboard?: boolean;
+    editable?: boolean;
+    formulaBar?: boolean;
+    statusBar?: boolean;
+    search?: boolean;
+    provisionForm?: boolean;
+  };
+  browser?: {
+    enabled?: boolean;
+    width?: string;
+    scrollbars?: boolean;
+    pages?: MetaGridPageSpec[];
+  };
+  pane1?: MetaGridPaneConfig;
+  pane2?: MetaGridPaneConfig;
+  pane3?: MetaGridPaneConfig;
+  link?: {
+    masterKey?: string;
+    filterByColumn?: boolean;
+    rollupFields?: string[];
+  };
+}
+
 export type PatchOp = 'set_attribute' | 'set_style' | 'set_text' | 'set_state' | 'insert_child' | 'remove_child' | 'reparent';
 
 export interface StreamPatch {

@@ -1,18 +1,4 @@
-/**
- * HTMX-GRID — Enterprise Data Grid Component
- * 
- * Features:
- * - 100k-row Viewport Virtualization
- * - Interactive Column Resizing with drag handles
- * - Drag-and-drop Column Reordering
- * - Sticky Left / Right Pinned Columns
- * - Full WAI-ARIA Treegrid Roles (role="grid", role="row", role="gridcell")
- * - Keyboard Arrow & Enter Cell Navigation
- * - Multi-row Selection with Bulk Actions Toolbar
- * - Inline Cell Editing with Validation
- * - Instant Client-side CSV & JSON Export
- * - Multi-column Sorting and Aggregation
- */
+/** HTMX-GRID — Enterprise Data Grid & MetaGrid Component */
 
 export interface CellDirectives {
   mode?: 'single' | 'multi';
@@ -197,6 +183,44 @@ export const CellRegistry: Record<string, CellComponent> = {
     update(refs, val) {
       refs.date.textContent = val !== undefined && val !== null ? String(val) : '';
     }
+  },
+
+  'mono-text': {
+    mount(el) {
+      el.className = 'grid-cell flex items-center px-2 h-full w-full font-mono font-bold text-[11px] text-blue-700 truncate';
+      const s = document.createElement('span');
+      el.appendChild(s);
+      return { text: s };
+    },
+    update(refs, val) { refs.text.textContent = val ?? ''; }
+  },
+
+  currency: {
+    mount(el) {
+      el.className = 'grid-cell flex items-center justify-end px-2 h-full w-full font-mono text-[11px] tabular-nums';
+      const s = document.createElement('span');
+      el.appendChild(s);
+      return { amount: s };
+    },
+    update(refs, val) {
+      const n = Number(val);
+      refs.amount.textContent = Number.isFinite(n) ? n.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : (val ?? '-');
+      refs.amount.className = n < 0 ? 'text-rose-600 font-semibold' : '';
+    }
+  },
+
+  'status-badge': {
+    mount(el) {
+      el.className = 'grid-cell flex items-center justify-center px-2 h-full w-full';
+      const b = document.createElement('span');
+      el.appendChild(b);
+      return { badge: b };
+    },
+    update(refs, val) {
+      const s = String(val || 'Active');
+      refs.badge.textContent = s;
+      refs.badge.className = `px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase border ${/active|paid|deliver|cleared/i.test(s) ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-300'}`;
+    }
   }
 };
 
@@ -204,6 +228,7 @@ CellRegistry['txt'] = CellRegistry['text'];
 CellRegistry['mtxt'] = CellRegistry['metatext'];
 CellRegistry['chips'] = CellRegistry['chipsui'];
 CellRegistry['chk'] = CellRegistry['checkbox'];
+CellRegistry['select'] = CellRegistry['dropdown'];
 
 export interface GridOptions {
   columns: GridColumn[];
@@ -717,55 +742,187 @@ export class EnterpriseDataGrid {
   }
 }
 
+export function parseFxConfig(el: HTMLElement): any {
+  let cfg: any = {};
+  const s = el.querySelector?.('script[data-fx]')?.textContent?.trim();
+  const a = el.getAttribute('hx-fx');
+  const raw = s || (a && a[0] === '{' ? a : '');
+  if (raw) { try { cfg = JSON.parse(raw); } catch {} }
+  const m = el.getAttribute('mode');
+  if (m) cfg.mode = m;
+  cfg.features = { keyboard: true, editable: true, formulaBar: true, statusBar: true, ...cfg.features };
+  return cfg;
+}
+
+export class MetaGridController {
+  root: HTMLElement;
+  config: any;
+  activePane: 'browser' | 'master' | 'detail' | 'right' = 'master';
+  cursor = { r: 0, c: 0 };
+  detailCursor = { r: 0, c: 0 };
+  pageIndex = 1;
+  private onKey?: (e: KeyboardEvent) => void;
+
+  constructor(root: HTMLElement, config?: any) {
+    this.root = root;
+    this.config = config || parseFxConfig(root);
+    this.init();
+  }
+
+  private q(sel: string, ctx: any = this.root): any { return ctx?.querySelector?.(sel) || null; }
+  private qa(sel: string, ctx: any = this.root): any[] { return ctx?.querySelectorAll ? Array.from(ctx.querySelectorAll(sel)) : []; }
+
+  private init(): void {
+    this.qa('[data-meta-scroll]').forEach((p: any) => {
+      const m = p.getAttribute('data-meta-scroll') || 'auto';
+      p.classList.add(m === 'none' ? 'overflow-hidden' : m === 'x' || m === 'hscroll' ? 'overflow-x-auto' : m === 'y' || m === 'vscroll' ? 'overflow-y-auto' : 'overflow-auto');
+    });
+    this.applyPagination();
+
+    const f = this.config.features || {};
+    if (!f.keyboard && !f.editable && !f.formulaBar) return;
+
+    if (f.keyboard !== false) {
+      if (!this.root.hasAttribute('tabindex')) this.root.setAttribute('tabindex', '0');
+      this.onKey = (e: KeyboardEvent) => this.handleKeyDown(e);
+      this.root.addEventListener('keydown', this.onKey);
+    }
+
+    this.root.addEventListener('click', (e: any) => {
+      const pg = e.target?.closest?.('[data-meta-page]');
+      if (pg) {
+        this.activePane = 'browser';
+        this.qa('[data-meta-page]').forEach((n: any) => n.classList.remove('bg-[#ffeb9c]', 'font-bold', 'text-black'));
+        pg.classList.add('bg-[#ffeb9c]', 'font-bold', 'text-black');
+        this.root.dispatchEvent(new CustomEvent('hx-metagrid:page', { bubbles: true, detail: { pageId: pg.getAttribute('data-meta-page'), src: pg.getAttribute('hx-get') } }));
+        return;
+      }
+      const td = e.target?.closest?.('td[data-cell]');
+      if (td) {
+        const pn = td.closest('[data-meta-pane]')?.getAttribute('data-meta-pane');
+        this.activePane = pn === '2' ? 'detail' : (pn === '3' ? 'right' : 'master');
+        this.selectCell(td, pn === '2' || pn === '3');
+      }
+    });
+
+    if (f.formulaBar !== false) {
+      this.q('[data-meta-formula]')?.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter') { e.preventDefault(); this.commitFormula((e.target as HTMLInputElement).value); }
+      });
+    }
+  }
+
+  applyPagination(page = this.pageIndex): void {
+    this.pageIndex = Math.max(1, page);
+    const p1 = this.config.pane1;
+    if (!p1 || p1.pagination !== 'numbers') return;
+    const sz = p1.pageSize || 25;
+    const rows = this.getRows('[data-meta-pane="1"]');
+    const tot = Math.max(1, Math.ceil(rows.length / sz));
+    if (this.pageIndex > tot) this.pageIndex = tot;
+    rows.forEach((tr, i) => { tr.style.display = i >= (this.pageIndex - 1) * sz && i < this.pageIndex * sz ? '' : 'none'; });
+    const lbl = this.q('[data-meta-page-info]');
+    if (lbl) lbl.textContent = `Page ${this.pageIndex} / ${tot}`;
+  }
+
+  private getRows(sel = '[data-meta-pane="1"]'): HTMLElement[] {
+    return this.qa('tbody tr', this.q(sel) || this.root).filter((tr: any) => tr.style?.display !== 'none');
+  }
+
+  private paneSel(dtl: boolean): string { return dtl ? '[data-meta-pane="2"]' : '[data-meta-pane="1"]'; }
+  private cellVal(td: HTMLElement): string { return td.getAttribute('data-val') ?? td.textContent?.trim() ?? ''; }
+
+  private selectCell(td: HTMLElement, isDtl = false): void {
+    const sel = this.paneSel(isDtl), rows = this.getRows(sel), tr = td.closest('tr') as HTMLElement;
+    const r = rows.indexOf(tr), c = tr ? this.qa('td[data-cell]', tr).indexOf(td) : -1;
+    if (r < 0 || c < 0) return;
+    if (isDtl) this.detailCursor = { r, c }; else this.cursor = { r, c };
+    this.syncFocus(sel, r, c);
+    this.root.dispatchEvent(new CustomEvent('hx-grid:select', {
+      bubbles: true,
+      detail: { pane: isDtl ? 'detail' : 'master', rowIdx: r, colIdx: c, rowId: tr.getAttribute('data-row-id'), field: td.getAttribute('data-field'), value: this.cellVal(td) }
+    }));
+  }
+
+  private syncFocus(sel: string, r: number, c: number): void {
+    this.qa('td.hx-cell-active', this.q(sel) || this.root).forEach(el => el.classList.remove('hx-cell-active'));
+    const tr = this.getRows(sel)[r], td = tr ? this.qa('td[data-cell]', tr)[c] : null;
+    if (!td) return;
+    td.classList.add('hx-cell-active');
+    const addr = this.q('[data-meta-address]'), fml = this.q('[data-meta-formula]');
+    if (addr) addr.textContent = `${String.fromCharCode(65 + c)}${r + 1}`;
+    if (fml) fml.value = this.cellVal(td);
+  }
+
+  private commitFormula(val: string): void {
+    const isDtl = this.activePane === 'detail', cur = isDtl ? this.detailCursor : this.cursor;
+    const tr = this.getRows(this.paneSel(isDtl))[cur.r], td = tr ? this.qa('td[data-cell]', tr)[cur.c] : null;
+    if (!td || this.config.features?.editable === false) return;
+    td.setAttribute('data-val', val);
+    td.textContent = val;
+    this.root.dispatchEvent(new CustomEvent('hx-metagrid:commit', { bubbles: true, detail: { rowId: tr.getAttribute('data-row-id'), field: td.getAttribute('data-field'), value: val } }));
+  }
+
+  private handleKeyDown(e: KeyboardEvent): void {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const tag = (document.activeElement as HTMLElement)?.tagName;
+    if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+
+    const isExt = this.config.mode === 'metagrid-ext' || this.config.mode === 'extended';
+    if (e.key === 'Escape') { e.preventDefault(); this.activePane = isExt ? 'master' : 'browser'; return; }
+    if (e.key === 'Enter' && (this.activePane === 'browser' || (isExt && this.activePane === 'master'))) {
+      e.preventDefault(); this.activePane = isExt ? 'detail' : 'master';
+      const cur = isExt ? this.detailCursor : this.cursor;
+      this.syncFocus(this.paneSel(isExt), cur.r, cur.c);
+      return;
+    }
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+    e.preventDefault();
+
+    const isDtl = this.activePane === 'detail', sel = this.paneSel(isDtl), rows = this.getRows(sel);
+    if (!rows.length) return;
+    const cur = isDtl ? this.detailCursor : this.cursor;
+    if (e.key === 'ArrowUp') cur.r = Math.max(0, cur.r - 1);
+    if (e.key === 'ArrowDown') cur.r = Math.min(rows.length - 1, cur.r + 1);
+    const cells = this.qa('td[data-cell]', rows[cur.r]);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const dir = e.key === 'ArrowLeft' ? -1 : 1;
+      let nc = cur.c + dir;
+      while (nc >= 0 && nc < cells.length && cells[nc].hasAttribute('data-cell-skip')) nc += dir;
+      if (nc >= 0 && nc < cells.length) cur.c = nc;
+    }
+    this.syncFocus(sel, cur.r, cur.c);
+  }
+
+  destroy(): void { if (this.onKey) this.root.removeEventListener('keydown', this.onKey); }
+}
+
 export function initGrids(root: HTMLElement | Document): void {
-  const gridEls = (root.querySelectorAll ? root.querySelectorAll('hx-grid, [hx-grid]') : []) as NodeListOf<HTMLElement>;
-  gridEls.forEach(el => {
-    if ((el as any)._hxGrid) return;
+  root.querySelectorAll?.('meta-grid, [meta-grid]').forEach((el: any) => {
+    if (!el._metaGrid) el._metaGrid = new MetaGridController(el);
+  });
+
+  root.querySelectorAll?.('hx-grid, [hx-grid]').forEach((el: any) => {
+    if (el._hxGrid) return;
     const src = el.getAttribute('hx-grid-src');
     const grid = new EnterpriseDataGrid(el);
-    (el as any)._hxGrid = grid;
-
+    el._hxGrid = grid;
     if (src) {
-      fetch(src)
-        .then(res => res.json())
-        .then(data => {
-          if (Array.isArray(data) && data.length > 0) {
-            const cols: GridColumn[] = Object.keys(data[0]).map(key => ({
-              field: key,
-              header: key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, ' '),
-              editable: true
-            }));
-            grid.setColumns(cols);
-            grid.setData(data);
-          }
-        })
-        .catch(err => console.error('[htmx-grid] Failed to load data from:', src, err));
+      fetch(src).then(r => r.json()).then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          grid.setColumns(Object.keys(data[0]).map(k => ({ field: k, header: k.charAt(0).toUpperCase() + k.slice(1).replace(/_/g, ' '), editable: true })));
+          grid.setData(data);
+        }
+      }).catch(e => console.error('[htmx-grid]', src, e));
     }
   });
 }
 
 if (typeof window !== 'undefined') {
-  (window as any).HxGrid = {
-    EnterpriseDataGrid,
-    CellRegistry,
-    init: initGrids
-  };
-
-  if (typeof (window as any).htmx !== 'undefined') {
-    (window as any).htmx.defineExtension('grid', {
-      onEvent: function (name: string, evt: any) {
-        if (name === "htmx:afterProcessNode") {
-          initGrids(evt.detail.elt as HTMLElement);
-        }
-      }
-    });
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      if (document.body) initGrids(document.body);
-    });
-  } else {
-    if (document.body) initGrids(document.body);
-  }
+  (window as any).HxGrid = { EnterpriseDataGrid, MetaGridController, CellRegistry, parseFxConfig, init: initGrids };
+  (window as any).htmx?.defineExtension('grid', {
+    onEvent: (name: string, evt: any) => { if (name === 'htmx:afterProcessNode') initGrids(evt.detail.elt); }
+  });
+  const boot = () => { if (document.body) initGrids(document.body); };
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', boot) : boot();
 }

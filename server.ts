@@ -30,7 +30,8 @@ const COMPONENTS = [
 ];
 
 const META_COMPONENTS = [
-  "metatext"
+  "metatext",
+  "metagrid"
 ];
 
 function formatName(slug: string): string {
@@ -137,7 +138,7 @@ async function buildComponentPage(slug: string): Promise<string> {
       </header>
 
       <main class="flex-1 p-6 lg:p-10 max-w-4xl">
-        ${isGettingStarted || slug === "text" || slug === "metatext" ? `
+        ${isGettingStarted || slug === "text" || slug === "metatext" || slug === "metagrid" ? `
           ${sourceHtml}
         ` : `
         <!-- Title -->

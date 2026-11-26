@@ -39,7 +39,8 @@ const COMPONENTS = [
 ];
 
 const META_COMPONENTS = [
-  "metatext"
+  "metatext",
+  "metagrid"
 ];
 
 function formatName(slug: string): string {
@@ -124,7 +125,7 @@ function buildComponentPage(slug: string): string {
         <a href="https://github.com/hyperlibs/hyperstack" target="_blank" class="text-xs text-muted-foreground hover:text-foreground">GitHub ↗</a>
       </header>
       <div class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-8">
-        ${GETTING_STARTED.includes(slug) || slug === "text" || slug === "metatext" ? `
+        ${GETTING_STARTED.includes(slug) || slug === "text" || slug === "metatext" || slug === "metagrid" ? `
           ${sourceHtml}
         ` : `
         <div class="space-y-2">

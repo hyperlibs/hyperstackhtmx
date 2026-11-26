@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2026-11-26
 
 ### Added
+- **MetaGrid Component (`<meta-grid>` — Second Hyperstack Meta Component)**: Added `views/components/metagrid.html`, `go/components/metagrid.go`, and `MetaGridController` in `src/htmx-grid.ts`. Supports `metagrid` (integrated table browser + formula bar + sheet) and `metagrid-ext` (parent totals &rarr; child left breakup &amp; detailed right breakup) configured via `metagrid.fx` (scrollbars, pagination `numbers`/`vscroll`/`hscroll`, and graceful simple-table degradation).
 - **HxGrid Flyweight Component Registry (`coltyp: "compid"`)**: Transitioned `<hx-grid>` data cells to a high-speed DOM recycling pool where the component IS the cell. Supports `text`, `metatext`, `chipsui`, `dropdown`, `checkbox`, and `date` with zero nested gaps, matching flush 40px gridlines.
 - **Server-Pushed Directives (`.fx`)**: Server pushes behavioral constraints (e.g. `mode: "single"` for nurses vs `mode: "multi"` for physicians) to execute on the client in 0.0ms with zero HTTP round-trips while preserving server-side transaction validation.
 - **Million-Row Zero-Lag Virtualization**: Constant $O(1)$ memory consumption via ~30 pooled viewport DOM rows, eliminating HTML wire bloat (~35MB primitive tuples vs ~500MB markup).
