@@ -27,22 +27,38 @@ func AtomicBlock(p AtomicBlockProps) Component {
 	return Component{html: html}
 }
 
-// AtomicERPRowProps configures an ERP table row with rowid and cellid coordinates.
+// AtomicERPRowProps configures an ERP table row with rowid, cellid coordinates, and MetaText demographic cell.
 type AtomicERPRowProps struct {
 	RowID    string
+	Category string
 	Customer string
+	Account  string
 	Amount   float64
 	Status   string
 }
 
-// AtomicERPRow renders an O(1) addressed table row for high-density ERP ledgers.
+// AtomicERPRow renders an O(1) addressed table row using official MetaText for high-density ERP ledgers.
 func AtomicERPRow(p AtomicERPRowProps) Component {
+	cat := p.Category
+	if cat == "" {
+		cat = "LOGISTICS"
+	}
+	metaCell := MetaText(MetaTextProps{
+		Top: []MetaCell{
+			{Value: "[" + cat + "]"},
+			{Value: "ACTIVE"},
+		},
+		HeroValue: p.Customer,
+		Bottom: []MetaCell{
+			{Label: "ACCOUNT", Value: p.Account},
+		},
+	})
 	html := fmt.Sprintf(`<tr rowid="%s" class="hover:bg-slate-50 transition-colors h-[46px]">
   <td class="py-1 px-3 font-bold text-blue-600">#%s</td>
-  <td class="py-1 px-3">%s</td>
+  <td class="py-1 px-3 min-w-[220px]">%s</td>
   <td cellid="%s:amount" class="py-1 px-3 font-bold text-slate-900">$%.2f</td>
   <td class="py-1 px-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700">%s</span></td>
-</tr>`, p.RowID, p.RowID, p.Customer, p.RowID, p.Amount, p.Status)
+</tr>`, p.RowID, p.RowID, metaCell.Render(), p.RowID, p.Amount, p.Status)
 	return Component{html: html}
 }
 

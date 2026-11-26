@@ -43,6 +43,20 @@
     "unreadMessages": 4,
     "chatInput": "",
     "calendarMonth": "September 2026",
+    "diagStats": {
+      "total": 0,
+      "errors": 0,
+      "warnings": 0,
+      "routes404": 0,
+      "cssAssets": 0,
+      "htmxSwaps": 0,
+      "health": "100%"
+    },
+    "diagLogs": [],
+    "diagFilter": "all",
+    "diagAutoPoll": true,
+    "diagCopied": false,
+    "diagPromptOpen": false,
     "newEventModal": false,
     "kpis": {
       "views": 34560,
@@ -215,6 +229,22 @@
                     class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left">
               <span>✨</span>
               <span>Sign Up Screen</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- LIVE SERVICES & TELEMETRY -->
+        <div>
+          <div class="px-3 text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2">LIVE SERVICES &amp; TELEMETRY</div>
+          <nav class="space-y-1 text-xs">
+            <button @click="activePage = 'diagnostics'; if(window.refreshAdminDiag) window.refreshAdminDiag()"
+                    hx-class="{ 'bg-amber-500/15 text-amber-400 font-semibold border-l-2 border-amber-500': activePage === 'diagnostics', 'text-slate-400 hover:bg-slate-900 hover:text-slate-200': activePage !== 'diagnostics' }"
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-left group">
+              <span class="text-amber-400 animate-pulse text-sm">⚡</span>
+              <span class="flex-1 font-bold">Diagnostics (@diag)</span>
+              <span class="text-[9px] font-mono px-2 py-0.5 rounded font-bold transition-all"
+                    hx-class="{ 'bg-rose-500/20 text-rose-400 border border-rose-500/30': (diagStats.errors > 0), 'bg-amber-500/20 text-amber-400 border border-amber-500/30': (diagStats.errors === 0 && diagStats.total > 0), 'bg-emerald-500/15 text-emerald-400': diagStats.total === 0 }"
+                    hx-text="(diagStats.errors > 0 ? (diagStats.errors + ' ERR') : (diagStats.total > 0 ? (diagStats.total + ' LOG') : 'LIVE'))">LIVE</span>
             </button>
           </nav>
         </div>
@@ -1126,8 +1156,307 @@
         </div>
       </div>
 
+      <!-- ==================================================================== -->
+      <!-- VIEW 13: DIAGNOSTICS LIVE SERVICE (@diag) -->
+      <!-- ==================================================================== -->
+      <div hx-show="activePage === 'diagnostics'" class="space-y-6" style="display:none;">
+        
+        <!-- Header Ribbon -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
+              <span class="text-amber-400 animate-pulse">⚡</span> Diagnostics Live Service (@diag)
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">Autonomous Real-Time Error Interception, 404 Sentinel, &amp; AI Machine-Actionable Self-Healing Stream</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="window.refreshAdminDiag && window.refreshAdminDiag()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-mono font-medium flex items-center gap-1.5 transition-colors">
+              <span>🔄</span> Refresh
+            </button>
+            <button onclick="window.copyAIPrompt && window.copyAIPrompt()" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 text-xs font-semibold flex items-center gap-1.5 transition-all">
+              <span>🤖</span> <span id="diag-copy-btn-text">Copy AI Self-Healing Prompt</span>
+            </button>
+            <button onclick="window.clearAdminDiag && window.clearAdminDiag()" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 text-xs font-mono transition-colors">
+              Clear Logs
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric Summary Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+            <div class="text-[10px] text-slate-400 uppercase font-semibold">Total Telemetry Logs</div>
+            <div class="text-2xl font-bold text-white mt-1" hx-text="diagStats.total || '0'">0</div>
+            <div class="text-[10px] text-slate-500 mt-1">Real-time circular buffer</div>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+            <div class="text-[10px] text-rose-400 uppercase font-semibold">404 Broken Routes</div>
+            <div class="text-2xl font-bold text-rose-400 mt-1" hx-text="diagStats.routes404 || '0'">0</div>
+            <div class="text-[10px] text-slate-500 mt-1">Unmapped links &amp; pages</div>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+            <div class="text-[10px] text-amber-400 uppercase font-semibold">CSS &amp; Missing Assets</div>
+            <div class="text-2xl font-bold text-amber-400 mt-1" hx-text="diagStats.cssAssets || '0'">0</div>
+            <div class="text-[10px] text-slate-500 mt-1">Stylesheets, scripts, images</div>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+            <div class="text-[10px] text-cyan-400 uppercase font-semibold">HTMX Swap &amp; Partial Errors</div>
+            <div class="text-2xl font-bold text-cyan-400 mt-1" hx-text="diagStats.htmxSwaps || '0'">0</div>
+            <div class="text-[10px] text-slate-500 mt-1">500 crashes &amp; missing targets</div>
+          </div>
+          <div class="p-4 rounded-xl border border-slate-800 bg-slate-900/60">
+            <div class="text-[10px] text-emerald-400 uppercase font-semibold">System Health Score</div>
+            <div class="text-2xl font-bold text-emerald-400 mt-1" hx-text="diagStats.health || '100%'">100%</div>
+            <div class="text-[10px] text-slate-500 mt-1">Auto-repair ready</div>
+          </div>
+        </div>
+
+        <!-- Simulation & Self-Test Ribbon -->
+        <div class="p-4 rounded-xl border border-slate-800 bg-slate-950/80 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-300">⚡ Test Interception Pipeline:</span>
+            <span class="text-[10px] text-slate-500">Trigger simulated errors to verify autonomous catching</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="window.simDiagError('404')" class="px-2.5 py-1 rounded bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 text-xs font-mono font-medium transition-colors">
+              + Trigger 404 Route
+            </button>
+            <button onclick="window.simDiagError('css')" class="px-2.5 py-1 rounded bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-mono font-medium transition-colors">
+              + Trigger Missing CSS
+            </button>
+            <button onclick="window.simDiagError('swap')" class="px-2.5 py-1 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-xs font-mono font-medium transition-colors">
+              + Trigger Failed Swap
+            </button>
+            <button onclick="window.simDiagError('js')" class="px-2.5 py-1 rounded bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 border border-purple-500/30 text-xs font-mono font-medium transition-colors">
+              + Trigger JS Exception
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Log Feed Table -->
+        <div class="p-6 rounded-2xl border border-slate-800 bg-slate-950 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <span>📋</span> Real-Time Error &amp; Incident Stream
+              </h3>
+              <span class="text-xs font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Sentinel Live
+              </span>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex flex-wrap items-center gap-1 bg-slate-900 p-1 rounded-lg border border-slate-800 text-xs font-medium">
+              <button onclick="window.setAdminDiagFilter('all')" id="filter-btn-all" class="px-2.5 py-1 rounded-md bg-blue-600 text-white font-semibold transition-all">All</button>
+              <button onclick="window.setAdminDiagFilter('404_ROUTE')" id="filter-btn-404" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">404s</button>
+              <button onclick="window.setAdminDiagFilter('CSS_ASSET')" id="filter-btn-css" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">CSS &amp; Assets</button>
+              <button onclick="window.setAdminDiagFilter('HTMX_SWAP')" id="filter-btn-swap" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">HTMX Swaps</button>
+              <button onclick="window.setAdminDiagFilter('RUNTIME_JS')" id="filter-btn-js" class="px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all">Runtime JS</button>
+            </div>
+          </div>
+
+          <!-- Logs Container -->
+          <div class="overflow-x-auto border border-slate-800 rounded-xl">
+            <table class="w-full text-left text-xs font-mono">
+              <thead class="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase text-[10px]">
+                <tr>
+                  <th class="py-2.5 px-3">Time</th>
+                  <th class="py-2.5 px-3">Severity</th>
+                  <th class="py-2.5 px-3">Diagnostic Code</th>
+                  <th class="py-2.5 px-3">Culprit / Resource</th>
+                  <th class="py-2.5 px-3">Origin Route</th>
+                  <th class="py-2.5 px-3">Error Description &amp; Fix Hint</th>
+                  <th class="py-2.5 px-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="diag-table-body" class="divide-y divide-slate-800/80">
+                <!-- Dynamically populated or empty message -->
+                <tr>
+                  <td colspan="7" class="py-8 text-center text-slate-500 italic">
+                    No active errors detected across the website. All routes, stylesheets, and HTMX swaps are healthy.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- AI Self-Healing Machine-Actionable Preview Card -->
+        <div class="p-6 rounded-2xl border border-slate-800 bg-slate-900/40 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="text-sm font-bold text-white flex items-center gap-2">
+              <span>🤖</span> AI Coder Self-Healing Payload (@diag SARIF 2.1.0 Ready)
+            </h4>
+            <span class="text-[10px] font-mono text-slate-400">Consumed directly by AI Coders &amp; CI/CD</span>
+          </div>
+          <p class="text-xs text-slate-400">
+            This live markdown payload is compiled on demand from active runtime errors. Paste this directly to Antigravity or any AI coder to auto-patch all reported bugs without manual debugging.
+          </p>
+          <pre id="diag-ai-prompt-preview" class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono max-h-48 overflow-y-auto whitespace-pre-wrap">### @diag System Report: All systems healthy. 0 errors detected.</pre>
+        </div>
+
+      </div>
+
     </main>
   </div>
+
+  <script>
+    // Live Diagnostics Admin Service Controller
+    let currentDiagFilter = 'all';
+    let allDiagLogs = [];
+
+    async function fetchAdminDiag() {
+      try {
+        const res = await fetch('/api/diag/logs');
+        if (res.ok) {
+          const data = await res.json();
+          allDiagLogs = data.logs || [];
+          renderAdminDiag(data);
+        }
+      } catch (err) {
+        if (window.$diag) {
+          allDiagLogs = window.$diag.getLogs();
+          renderAdminDiag({ logs: allDiagLogs, stats: window.$diag.getStats() });
+        }
+      }
+    }
+
+    function renderAdminDiag(data) {
+      const stats = data.stats || {};
+      const logs = data.logs || [];
+
+      if (window.HxBolt && window.HxBolt.getState) {
+        const st = window.HxBolt.getState(document.body);
+        if (st) {
+          st.diagStats = stats;
+          st.diagLogs = logs;
+        }
+      }
+
+      const previewEl = document.getElementById('diag-ai-prompt-preview');
+      if (previewEl && window.$diag) {
+        previewEl.textContent = window.$diag.generateAIPrompt();
+      }
+
+      const tbody = document.getElementById('diag-table-body');
+      if (!tbody) return;
+
+      const filtered = logs.filter(e => {
+        if (currentDiagFilter === 'all') return true;
+        if (currentDiagFilter === '404_ROUTE') return e.category === '404_ROUTE' || (e.code && e.code.includes('404'));
+        return e.category === currentDiagFilter;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="py-8 text-center text-slate-500 italic">
+              No errors matching filter "${currentDiagFilter}". All systems healthy.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(e => `
+        <tr class="hover:bg-slate-900/50 transition-colors">
+          <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">${e.timestamp}</td>
+          <td class="py-2.5 px-3 whitespace-nowrap">
+            <span class="px-2 py-0.5 rounded text-[9px] font-bold ${
+              e.severity === 'CRITICAL' ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' :
+              (e.severity === 'ERROR' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+              'bg-blue-500/20 text-blue-400 border border-blue-500/30')
+            }">${e.severity}</span>
+          </td>
+          <td class="py-2.5 px-3 font-bold ${e.severity === 'CRITICAL' ? 'text-rose-400' : 'text-amber-400'} whitespace-nowrap">
+            [@diag ${e.code}]
+          </td>
+          <td class="py-2.5 px-3 text-slate-200 font-semibold max-w-[200px] truncate" title="${e.culprit}">
+            ${e.culprit}
+          </td>
+          <td class="py-2.5 px-3 text-slate-400 whitespace-nowrap">${e.url}</td>
+          <td class="py-2.5 px-3 text-slate-300 max-w-sm">
+            <div class="truncate font-medium">${e.message}</div>
+            <div class="text-[10px] text-slate-500 truncate mt-0.5">Fix: ${e.fixHint}</div>
+          </td>
+          <td class="py-2.5 px-3 text-right whitespace-nowrap">
+            <button onclick="window.copySingleFix('${e.code}', '${e.culprit}', '${e.fixHint}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] transition-colors">
+              Copy AI Fix
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    window.refreshAdminDiag = fetchAdminDiag;
+
+    window.clearAdminDiag = async function() {
+      if (window.$diag) window.$diag.clear();
+      try {
+        await fetch('/api/diag/clear', { method: 'POST' });
+      } catch {}
+      fetchAdminDiag();
+    };
+
+    window.setAdminDiagFilter = function(filter) {
+      currentDiagFilter = filter;
+      ['all', '404', 'css', 'swap', 'js'].forEach(k => {
+        const btn = document.getElementById('filter-btn-' + k);
+        if (btn) {
+          const match = (k === 'all' && filter === 'all') ||
+            (k === '404' && filter === '404_ROUTE') ||
+            (k === 'css' && filter === 'CSS_ASSET') ||
+            (k === 'swap' && filter === 'HTMX_SWAP') ||
+            (k === 'js' && filter === 'RUNTIME_JS');
+          btn.className = match
+            ? 'px-2.5 py-1 rounded-md bg-blue-600 text-white font-semibold transition-all'
+            : 'px-2.5 py-1 rounded-md text-slate-400 hover:text-slate-200 transition-all';
+        }
+      });
+      fetchAdminDiag();
+    };
+
+    window.simDiagError = async function(type) {
+      if (window.$diag) {
+        window.$diag.simulate(type);
+      }
+      try {
+        await fetch('/api/diag/simulate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ type })
+        });
+      } catch {}
+      fetchAdminDiag();
+    };
+
+    window.copyAIPrompt = function() {
+      const prompt = window.$diag ? window.$diag.generateAIPrompt() : 'No active errors.';
+      navigator.clipboard.writeText(prompt);
+      const btnText = document.getElementById('diag-copy-btn-text');
+      if (btnText) {
+        btnText.textContent = 'Copied to Clipboard! ✓';
+        setTimeout(() => { btnText.textContent = 'Copy AI Self-Healing Prompt'; }, 2000);
+      }
+    };
+
+    window.copySingleFix = function(code, culprit, fixHint) {
+      const text = `[@diag ${code}] Fix required for ${culprit}: ${fixHint}`;
+      navigator.clipboard.writeText(text);
+      alert('Copied AI repair command to clipboard!\n\n' + text);
+    };
+
+    // Auto-poll every 3s
+    setInterval(() => {
+      fetchAdminDiag();
+    }, 3000);
+
+    fetchAdminDiag();
+
+    window.addEventListener('htmx:diag-live', () => {
+      fetchAdminDiag();
+    });
+  </script>
 
 </body>
 </html>

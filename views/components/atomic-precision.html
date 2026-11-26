@@ -317,7 +317,7 @@
           <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase text-[10px]">
             <tr>
               <th class="py-2.5 px-3">INVOICE ROWID</th>
-              <th class="py-2.5 px-3">CUSTOMER DEMOGRAPHIC</th>
+              <th class="py-2.5 px-3 min-w-[220px]">CUSTOMER DEMOGRAPHIC (METATEXT)</th>
               <th class="py-2.5 px-3">LEDGER AMOUNT (CELLID)</th>
               <th class="py-2.5 px-3">STATUS</th>
               <th class="py-2.5 px-3 text-right">TRANSACTION ACTION</th>
@@ -326,9 +326,21 @@
           <tbody class="divide-y divide-slate-100" hx-state='{ "amount1": 4520, "amount2": 8940 }'>
             <tr rowid="INV-10023" class="hover:bg-slate-50/60 transition-colors h-[46px]">
               <td class="py-1 px-3 font-bold text-blue-600 whitespace-nowrap">#INV-10023</td>
-              <td class="py-1 px-3">
-                <div class="text-slate-800 font-semibold truncate">Acme Industrial Logistics</div>
-                <div class="text-[10px] text-slate-400">Account: ACC-9941</div>
+              <td class="py-1 px-3 min-w-[220px]">
+                <!-- Official MetaText Component Integration -->
+                <div class="hs-metatext inline-flex flex-col justify-between h-[46px] min-h-[46px] w-full bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 py-0.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-500 shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-indigo-600 font-bold whitespace-nowrap truncate">[LOGISTICS]</span>
+                    <span class="font-mono text-slate-400 text-[8px] text-right whitespace-nowrap truncate">ACTIVE</span>
+                  </div>
+                  <div class="flex items-center px-2.5 py-0.5 h-[18px] min-h-[18px] bg-white shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-xs font-bold text-slate-950 block whitespace-nowrap truncate">Acme Industrial Logistics</span>
+                  </div>
+                  <div class="flex items-center justify-between px-2.5 py-0.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-600 shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-slate-400 text-[8px] whitespace-nowrap truncate">ACCOUNT:</span>
+                    <span class="text-slate-800 font-bold text-right font-mono whitespace-nowrap truncate">ACC-9941</span>
+                  </div>
+                </div>
               </td>
               <td cellid="INV-10023:amount" class="py-1 px-3 font-bold text-slate-900">
                 <span hx-text="'$' + amount1.toFixed(2)">$4520.00</span>
@@ -344,9 +356,21 @@
 
             <tr rowid="INV-10024" class="hover:bg-slate-50/60 transition-colors h-[46px]">
               <td class="py-1 px-3 font-bold text-blue-600 whitespace-nowrap">#INV-10024</td>
-              <td class="py-1 px-3">
-                <div class="text-slate-800 font-semibold truncate">Nordic Bio-Health AG</div>
-                <div class="text-[10px] text-slate-400">Account: ACC-1042</div>
+              <td class="py-1 px-3 min-w-[220px]">
+                <!-- Official MetaText Component Integration -->
+                <div class="hs-metatext inline-flex flex-col justify-between h-[46px] min-h-[46px] w-full bg-white border border-slate-300 rounded-md shadow-2xs text-slate-900 font-sans select-none overflow-hidden box-border">
+                  <div class="flex items-center justify-between px-2.5 py-0.5 h-[14px] min-h-[14px] bg-slate-50 border-b border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-500 shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-indigo-600 font-bold whitespace-nowrap truncate">[HEALTHCARE]</span>
+                    <span class="font-mono text-slate-400 text-[8px] text-right whitespace-nowrap truncate">ACTIVE</span>
+                  </div>
+                  <div class="flex items-center px-2.5 py-0.5 h-[18px] min-h-[18px] bg-white shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-xs font-bold text-slate-950 block whitespace-nowrap truncate">Nordic Bio-Health AG</span>
+                  </div>
+                  <div class="flex items-center justify-between px-2.5 py-0.5 h-[14px] min-h-[14px] bg-slate-50 border-t border-slate-200 text-[9px] font-mono uppercase tracking-wider text-slate-600 shrink-0 leading-none whitespace-nowrap overflow-hidden">
+                    <span class="text-slate-400 text-[8px] whitespace-nowrap truncate">ACCOUNT:</span>
+                    <span class="text-slate-800 font-bold text-right font-mono whitespace-nowrap truncate">ACC-1042</span>
+                  </div>
+                </div>
               </td>
               <td cellid="INV-10024:amount" class="py-1 px-3 font-bold text-slate-900">
                 <span hx-text="'$' + amount2.toFixed(2)">$8940.00</span>
@@ -370,13 +394,21 @@
         <span>💻 2D Sparse Matrix High-Density ERP Row (Go DSL &amp; HTML)</span>
         <span class="text-blue-700 font-mono">go/components/erp_grid.go</span>
       </div>
-      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>// 1. Go DSL Component Constructor
-func ERPTableRow(rowID string, customer string, amount float64) Component {
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>// 1. Go DSL Component Constructor using official MetaText primitive
+func ERPTableRow(rowID string, customer string, account string, amount float64) Component {
     return Tr(
         Attr("rowid", rowID),
         Class("h-[46px] hover:bg-slate-50 transition-colors"),
         Td(Class("font-bold text-blue-600"), Text("#"+rowID)),
-        Td(Text(customer)),
+        Td(
+            MetaText(MetaTextProps{
+                TopLeft:     "[LOGISTICS]",
+                TopRight:    "ACTIVE",
+                Hero:        customer,
+                BottomLeft:  "ACCOUNT:",
+                BottomRight: account,
+            }),
+        ),
         Td(Attr("cellid", rowID+":amount"), Text(fmt.Sprintf("$%.2f", amount))),
     )
 }

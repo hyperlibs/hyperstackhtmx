@@ -35,12 +35,17 @@ describe("Atomic Precision Architecture Documentation & Domain Specification Sui
     expect(content).toContain("Express Add to Cart");
   });
 
-  it("5. Contains Domain 3: Enterprise DataGrid with rowid and cellid coordinates", () => {
+  it("5. Contains Domain 3: Enterprise DataGrid with rowid, cellid, and official MetaText integration", () => {
     const content = readFileSync(filePath, "utf-8");
     expect(content).toContain("Domain 3: Large Enterprise DataGrid &amp; ERP Ledger");
     expect(content).toContain('rowid="INV-10023"');
     expect(content).toContain('cellid="INV-10023:amount"');
     expect(content).toContain("Million-Cell 2D Sparse Matrix");
+    // Enforce official MetaText component usage
+    expect(content).toContain("hs-metatext");
+    expect(content).toContain("Acme Industrial Logistics");
+    expect(content).toContain("ACC-9941");
+    expect(content).toContain("MetaText(MetaTextProps{");
   });
 
   it("6. Contains Domain 4: Kinetic Game Simulators with 120Hz canvas loops", () => {

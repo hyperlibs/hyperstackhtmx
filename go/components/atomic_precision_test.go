@@ -27,7 +27,9 @@ func TestAtomicPrecisionComponents(t *testing.T) {
 
 	row := AtomicERPRow(AtomicERPRowProps{
 		RowID:    "INV-10023",
+		Category: "LOGISTICS",
 		Customer: "Acme Industrial Logistics",
+		Account:  "ACC-9941",
 		Amount:   4520.00,
 		Status:   "RECONCILED",
 	})
@@ -38,6 +40,12 @@ func TestAtomicPrecisionComponents(t *testing.T) {
 	}
 	if !strings.Contains(renderedRow, `cellid="INV-10023:amount"`) {
 		t.Errorf("expected cellid in row, got %s", renderedRow)
+	}
+	if !strings.Contains(renderedRow, "hs-metatext") {
+		t.Errorf("expected official hs-metatext component in row, got %s", renderedRow)
+	}
+	if !strings.Contains(renderedRow, "ACC-9941") {
+		t.Errorf("expected account ACC-9941 in row, got %s", renderedRow)
 	}
 	if !strings.Contains(renderedRow, "$4520.00") {
 		t.Errorf("expected formatted amount in row, got %s", renderedRow)

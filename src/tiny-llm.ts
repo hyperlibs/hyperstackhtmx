@@ -1149,7 +1149,7 @@ export class TinyLLM {
     }
 
     // If there is high-confidence episodic match from manually taught facts via Teach drawer
-    if (bestMem && maxRel >= 0.28 && (bestMem.category === 'custom' || bestMem.category === 'hobby')) {
+    if (bestMem && maxRel >= 0.25 && (bestMem.category === 'custom' || bestMem.category === 'hobby')) {
       const responseText = this.synthesizeFromMemory(cleanPrompt || prompt, bestMem.fact);
       return {
         text: responseText,
