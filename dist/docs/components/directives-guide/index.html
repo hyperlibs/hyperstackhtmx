@@ -35,6 +35,7 @@
       </div>
       <div class="flex-1 p-3 overflow-y-auto"><div class="mb-6"><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Getting Started</h4><div class="space-y-1"><a href="/docs/components/introduction/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Introduction</a>
 <a href="/docs/components/installation/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Installation</a>
+<a href="/docs/components/atomic-precision/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Atomic Precision</a>
 <a href="/docs/components/rosetta-stone/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Rosetta Stone</a>
 <a href="/docs/components/common-ai-hallucinations/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Common Ai Hallucinations</a>
 <a href="/docs/components/directives-guide/" class="block rounded-md px-3 py-1.5 text-sm bg-accent font-medium text-accent-foreground transition-colors">Directives Guide</a></div></div><div class="mb-6"><h4 class="mb-2 px-3 text-sm font-semibold tracking-tight">Components</h4><div class="space-y-1"><a href="/docs/components/accordion/" class="block rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors">Accordion</a>
@@ -205,14 +206,7 @@
       </header>
       <div class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-8">
         
-        <div class="space-y-2">
-          <h1 class="text-3xl font-extrabold tracking-tight">Directives Guide</h1>
-          <p class="text-muted-foreground text-sm">Interactive Shadcn-quality hypermedia component for Hyperstack.</p>
-        </div>
-        <div class="space-y-4">
-          <h2 class="text-xl font-bold tracking-tight">Interactive Preview</h2>
-          <div class="rounded-xl border border-border p-8 bg-card shadow-sm flex items-center justify-center min-h-[160px]">
-            <div class="w-full max-w-xl flex flex-col items-center gap-4"><div class="space-y-10 max-w-4xl py-6 text-foreground">
+          <div class="space-y-10 max-w-4xl py-6 text-foreground">
   <!-- Title & Intro -->
   <div>
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-3">
@@ -295,96 +289,7 @@
     </div>
   </section>
 </div>
-</div>
-          </div>
-        </div>
-        <div class="space-y-4">
-          <h2 class="text-xl font-bold tracking-tight">HTML Source</h2>
-          <div class="code-block"><pre><code>&lt;div class=&quot;space-y-10 max-w-4xl py-6 text-foreground&quot;&gt;
-  &lt;!-- Title &amp; Intro --&gt;
-  &lt;div&gt;
-    &lt;div class=&quot;inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-3&quot;&gt;
-      &lt;span&gt;🔌&lt;/span&gt; Extension Architecture
-    &lt;/div&gt;
-    &lt;h1 class=&quot;text-4xl font-extrabold tracking-tight&quot;&gt;Community Directives &amp;amp; Extensions Guide&lt;/h1&gt;
-    &lt;p class=&quot;text-muted-foreground mt-2 text-sm leading-relaxed&quot;&gt;
-      Learn how to connect external 3D viewports (Three.js), interactive maps (Leaflet), or custom canvas renderers to Hyperstack in under 15 lines of declarative code.
-    &lt;/p&gt;
-  &lt;/div&gt;
 
-  &lt;!-- Section 1: Philosophy --&gt;
-  &lt;section class=&quot;space-y-3&quot;&gt;
-    &lt;h2 class=&quot;text-xl font-bold tracking-tight&quot;&gt;Why the Directive Model?&lt;/h2&gt;
-    &lt;p class=&quot;text-sm text-muted-foreground leading-relaxed&quot;&gt;
-      Hyperstack is strictly a foundational application runtime (~40KB). Rather than bundling heavy 3rd-party dependencies (like a 600KB Three.js bundle or 150KB Leaflet map engine), Hyperstack provides &lt;code&gt;Hyperstack.directive()&lt;/code&gt; and &lt;code&gt;HxBolt.ticker&lt;/code&gt;. This gives community developers full reactive signal bindings, lifecycle cleanup, and game-loop synchronization without bloating the core.
-    &lt;/p&gt;
-  &lt;/section&gt;
-
-  &lt;!-- Section 2: 3D WebGL / Three.js Example --&gt;
-  &lt;section class=&quot;space-y-4&quot;&gt;
-    &lt;h3 class=&quot;text-lg font-bold tracking-tight&quot;&gt;Example 1: Connecting a 3D WebGL Canvas (Three.js)&lt;/h3&gt;
-    &lt;p class=&quot;text-xs text-muted-foreground&quot;&gt;Define a custom directive &lt;code&gt;hx-three-mesh&lt;/code&gt; and bind its rotation and position directly to local Bolt reactive state:&lt;/p&gt;
-
-    &lt;div class=&quot;bg-[#1e293b] text-[#e2e8f0] rounded-xl p-5 font-mono text-xs overflow-x-auto space-y-2 border border-slate-700&quot;&gt;
-      &lt;span class=&quot;text-slate-400&quot;&gt;// Register custom 3D directive&lt;/span&gt;
-      &lt;div&gt;&lt;span class=&quot;text-purple-400&quot;&gt;Hyperstack&lt;/span&gt;.&lt;span class=&quot;text-sky-400&quot;&gt;directive&lt;/span&gt;(&lt;span class=&quot;text-emerald-400&quot;&gt;'hx-three-mesh'&lt;/span&gt;, (canvasEl, options, { state, onCleanup }) =&amp;gt; {&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-slate-400&quot;&gt;// Initialize Three.js WebGL scene&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; renderer = &lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;WebGLRenderer&lt;/span&gt;({ canvas: canvasEl, antialias: &lt;span class=&quot;text-amber-400&quot;&gt;true&lt;/span&gt; });&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; scene = &lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;Scene&lt;/span&gt;();&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; camera = &lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;PerspectiveCamera&lt;/span&gt;(&lt;span class=&quot;text-amber-400&quot;&gt;60&lt;/span&gt;, canvasEl.clientWidth / canvasEl.clientHeight, &lt;span class=&quot;text-amber-400&quot;&gt;0.1&lt;/span&gt;, &lt;span class=&quot;text-amber-400&quot;&gt;1000&lt;/span&gt;);&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; cube = &lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;Mesh&lt;/span&gt;(&lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;BoxGeometry&lt;/span&gt;(), &lt;span class=&quot;text-blue-400&quot;&gt;new&lt;/span&gt; THREE.&lt;span class=&quot;text-sky-400&quot;&gt;MeshNormalMaterial&lt;/span&gt;());&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;scene.&lt;span class=&quot;text-sky-400&quot;&gt;add&lt;/span&gt;(cube);&lt;/div&gt;
-      &lt;br&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-slate-400&quot;&gt;// Hook into Hyperstack 120 FPS game ticker&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; unsub = &lt;span class=&quot;text-purple-400&quot;&gt;HxBolt&lt;/span&gt;.&lt;span class=&quot;text-sky-400&quot;&gt;ticker&lt;/span&gt;.&lt;span class=&quot;text-sky-400&quot;&gt;subscribe&lt;/span&gt;((dt) =&amp;gt; {&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;cube.rotation.y += &lt;span class=&quot;text-amber-400&quot;&gt;0.02&lt;/span&gt;;&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;cube.position.y = state.elevation || &lt;span class=&quot;text-amber-400&quot;&gt;0&lt;/span&gt;; &lt;span class=&quot;text-slate-400&quot;&gt;// 2-way reactive sync&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;renderer.&lt;span class=&quot;text-sky-400&quot;&gt;render&lt;/span&gt;(scene, camera);&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;});&lt;/div&gt;
-      &lt;br&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-slate-400&quot;&gt;// Clean up WebGL resources when element is unmounted&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-sky-400&quot;&gt;onCleanup&lt;/span&gt;(() =&amp;gt; {&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;&lt;span class=&quot;text-sky-400&quot;&gt;unsub&lt;/span&gt;();&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;renderer.&lt;span class=&quot;text-sky-400&quot;&gt;dispose&lt;/span&gt;();&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;});&lt;/div&gt;
-      &lt;div&gt;});&lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;!-- HTML Usage Block --&gt;
-    &lt;div class=&quot;p-4 rounded-xl border border-border bg-card space-y-2&quot;&gt;
-      &lt;div class=&quot;text-xs font-semibold text-muted-foreground uppercase&quot;&gt;HTML Usage in Your Templates:&lt;/div&gt;
-      &lt;pre class=&quot;bg-muted p-3 rounded-lg text-xs font-mono overflow-x-auto&quot;&gt;&lt;code&gt;&amp;lt;div hx-state='{ &quot;elevation&quot;: 1.5 }'&amp;gt;
-  &amp;lt;canvas hx-three-mesh class=&quot;w-full h-64 rounded-xl border&quot;&amp;gt;&amp;lt;/canvas&amp;gt;
-  &amp;lt;input type=&quot;range&quot; min=&quot;-3&quot; max=&quot;3&quot; step=&quot;0.1&quot; hx-model.number=&quot;elevation&quot; class=&quot;w-full mt-2&quot;&amp;gt;
-&amp;lt;/div&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-  &lt;/section&gt;
-
-  &lt;!-- Section 3: Interactive GIS Mapping Example --&gt;
-  &lt;section class=&quot;space-y-4&quot;&gt;
-    &lt;h3 class=&quot;text-lg font-bold tracking-tight&quot;&gt;Example 2: Connecting an Interactive Map (Leaflet)&lt;/h3&gt;
-    &lt;p class=&quot;text-xs text-muted-foreground&quot;&gt;Register an &lt;code&gt;hx-leaflet-map&lt;/code&gt; directive that tracks coordinates and places pins:&lt;/p&gt;
-
-    &lt;div class=&quot;bg-[#1e293b] text-[#e2e8f0] rounded-xl p-5 font-mono text-xs overflow-x-auto space-y-2 border border-slate-700&quot;&gt;
-      &lt;div&gt;&lt;span class=&quot;text-purple-400&quot;&gt;Hyperstack&lt;/span&gt;.&lt;span class=&quot;text-sky-400&quot;&gt;directive&lt;/span&gt;(&lt;span class=&quot;text-emerald-400&quot;&gt;'hx-leaflet-map'&lt;/span&gt;, (mapEl, _, { state, onCleanup }) =&amp;gt; {&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; map = L.&lt;span class=&quot;text-sky-400&quot;&gt;map&lt;/span&gt;(mapEl).&lt;span class=&quot;text-sky-400&quot;&gt;setView&lt;/span&gt;([state.lat || &lt;span class=&quot;text-amber-400&quot;&gt;51.505&lt;/span&gt;, state.lng || -&lt;span class=&quot;text-amber-400&quot;&gt;0.09&lt;/span&gt;], &lt;span class=&quot;text-amber-400&quot;&gt;13&lt;/span&gt;);&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;L.&lt;span class=&quot;text-sky-400&quot;&gt;tileLayer&lt;/span&gt;(&lt;span class=&quot;text-emerald-400&quot;&gt;'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'&lt;/span&gt;).&lt;span class=&quot;text-sky-400&quot;&gt;addTo&lt;/span&gt;(map);&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-blue-400&quot;&gt;const&lt;/span&gt; marker = L.&lt;span class=&quot;text-sky-400&quot;&gt;marker&lt;/span&gt;([state.lat, state.lng]).&lt;span class=&quot;text-sky-400&quot;&gt;addTo&lt;/span&gt;(map);&lt;/div&gt;
-      &lt;br&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-slate-400&quot;&gt;// Listen to map clicks to mutate local Bolt state&lt;/span&gt;&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;map.&lt;span class=&quot;text-sky-400&quot;&gt;on&lt;/span&gt;(&lt;span class=&quot;text-emerald-400&quot;&gt;'click'&lt;/span&gt;, (e) =&amp;gt; {&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;state.lat = e.latlng.lat;&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;state.lng = e.latlng.lng;&lt;/div&gt;
-      &lt;div class=&quot;pl-8&quot;&gt;marker.&lt;span class=&quot;text-sky-400&quot;&gt;setLatLng&lt;/span&gt;(e.latlng);&lt;/div&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;});&lt;/div&gt;
-      &lt;br&gt;
-      &lt;div class=&quot;pl-4&quot;&gt;&lt;span class=&quot;text-sky-400&quot;&gt;onCleanup&lt;/span&gt;(() =&amp;gt; map.&lt;span class=&quot;text-sky-400&quot;&gt;remove&lt;/span&gt;());&lt;/div&gt;
-      &lt;div&gt;});&lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/section&gt;
-&lt;/div&gt;
-</code></pre></div>
-        </div>
         
       </div>
     </main>

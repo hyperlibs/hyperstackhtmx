@@ -9,7 +9,7 @@ if (fs.existsSync(DIST_DIR)) {
 }
 fs.mkdirSync(DIST_DIR, { recursive: true });
 
-const GETTING_STARTED = ["introduction", "installation", "rosetta-stone", "common-ai-hallucinations", "directives-guide"];
+const GETTING_STARTED = ["introduction", "installation", "atomic-precision", "rosetta-stone", "common-ai-hallucinations", "directives-guide"];
 const COMPONENTS = [
   "accordion","alert","alert-dialog","aspect-ratio","avatar","avatar-group","badge","banner",
   "breadcrumb","button","button-group","calendar","card","carousel","checkbox","checkbox-group",
@@ -124,7 +124,7 @@ function buildComponentPage(slug: string): string {
         <a href="https://github.com/hyperlibs/hyperstack" target="_blank" class="text-xs text-muted-foreground hover:text-foreground">GitHub ↗</a>
       </header>
       <div class="flex-1 p-8 max-w-5xl mx-auto w-full space-y-8">
-        ${slug === "text" || slug === "metatext" ? `
+        ${GETTING_STARTED.includes(slug) || slug === "text" || slug === "metatext" ? `
           ${sourceHtml}
         ` : `
         <div class="space-y-2">

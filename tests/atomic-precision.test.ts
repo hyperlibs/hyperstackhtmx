@@ -77,4 +77,16 @@ describe("Atomic Precision Architecture Documentation & Domain Specification Sui
     expect(content).toContain("Why AI Never Hallucinates");
     expect(content).toContain("Deterministic ID directly points to the node");
   });
+
+  it("10. Registered in server.ts and scripts/build-static.ts and generated in dist", () => {
+    const serverContent = readFileSync("server.ts", "utf-8");
+    const buildStaticContent = readFileSync("scripts/build-static.ts", "utf-8");
+    expect(serverContent).toContain('"atomic-precision"');
+    expect(buildStaticContent).toContain('"atomic-precision"');
+
+    const distPath = "dist/docs/components/atomic-precision/index.html";
+    expect(existsSync(distPath)).toBe(true);
+    const distContent = readFileSync(distPath, "utf-8");
+    expect(distContent).toContain("Atomic Precision &amp; Universal Addressing");
+  });
 });
