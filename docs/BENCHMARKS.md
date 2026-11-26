@@ -18,16 +18,16 @@ Raw and gzip figures below are exact byte counts, and `tests/benchmarks.test.ts`
 | **htmx-vibe.js** | FLIP layout animation & damped-harmonic physics | 11,933 B | 3,335 B |
 | **htmx-a11y.js** | Focus trap, roving tabindex & 2D matrix navigation | 11,966 B | 3,120 B |
 | **htmx-virtual.js** | 1D/2D bi-directional viewport virtualization | 13,997 B | 3,348 B |
-| **htmx-grid.js** | Data grid: column resize, reorder & CSV export | 20,324 B | 5,290 B |
+| **htmx-grid.js** | Data grid: column resize, reorder & CSV export | 31,403 B | 7,289 B |
 | **htmx-calc.js** | Reactive formula engine & Kahn DAG topological sort | 11,897 B | 3,253 B |
 | **htmx-offline.js** | IndexedDB offline cache & 409 conflict resolution | 7,914 B | 2,379 B |
 | **htmx-devtools.js** | Signal graph inspector & `@diag` telemetry | 25,709 B | 6,883 B |
 | **htmx-canvas.js** | Spatial node diagram engine | 7,514 B | 2,192 B |
 | **htmx-sim.js** | Kinetic particle physics, swarm boids & 2D simulation | 25,536 B | 6,138 B |
 | **appz.js** | App shell, `app-seg`/`app-layer` stacking, hardware bridge | 36,776 B | 9,439 B |
-| **TOTAL (13 engines)** | **Complete full-stack frontend capability** | **329,623 B** | **80,843 B** |
+| **TOTAL (13 engines)** | **Complete full-stack frontend capability** | **340,702 B** | **82,842 B** |
 
-The gzip total is the sum of the per-file gzip figures, which is the honest number because engines are served as separate requests. The CI bundle budget in `.github/workflows/ci.yml` enforces a **350,000 B** ceiling on the uncompressed `public/htmx-*.js` + `public/appz.js` total; the current total is **329,623 B** (~94.2% of budget).
+The gzip total is the sum of the per-file gzip figures, which is the honest number because engines are served as separate requests. The CI bundle budget in `.github/workflows/ci.yml` enforces a **350,000 B** ceiling on the uncompressed `public/htmx-*.js` + `public/appz.js` total; the current total is **340,702 B** (~97.3% of budget).
 
 *For comparison, `react-dom` alone is ~130 KB raw / ~42 KB gzip — before any state management library (Zustand/Redux), router, component primitives, physics, or virtualized grid is added.*
 

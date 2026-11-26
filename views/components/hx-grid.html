@@ -30,18 +30,47 @@
      hx-grid-row-height="40"&gt;
 &lt;/div&gt;
 
-&lt;!-- 3. Or initialize with custom column configuration via JS --&gt;
+&lt;!-- 3. Component Registry (Flyweight Pattern) & Server Directives --&gt;
 &lt;script&gt;
   const grid = new HxGrid.EnterpriseDataGrid(document.getElementById('my-grid'), {
+    rowHeight: 40, // Exact 40px flush match: The Component IS the Cell
     columns: [
-      { field: 'id', header: 'Invoice ID', width: 140, editable: false },
-      { field: 'customer', header: 'Customer Name', width: 220, editable: true },
-      { field: 'amount', header: 'Total ($)', width: 120, formatter: val =&gt; '$' + val },
-      { field: 'status', header: 'Status', width: 130 }
+      { field: 'id', header: 'ID', compid: 'text', width: 90 },
+      
+      // Compound MetaText (2x2 + Hero, zero nested gap)
+      { field: 'client', header: 'Client & Account', compid: 'metatext', width: 280 },
+      
+      // Chips with Server-Pushed Directives (Single vs Multi select)
+      { 
+        field: 'tags', 
+        header: 'Acuity Tags', 
+        compid: 'chipsui', 
+        width: 180,
+        directives: { mode: 'single', maxTags: 1 } // 0ms local radio enforcement!
+      },
+      
+      // Flush Status Dropdown
+      { field: 'status', header: 'Status', compid: 'dropdown', width: 140 },
+      
+      { field: 'date', header: 'Due Date', compid: 'date', width: 110 }
     ],
-    data: myInvoiceData
+    data: myInvoiceData // Raw primitive arrays/tuples (Zero HTML overhead across 1M rows!)
   });
+
+  // Hot-push server directives dynamically without page reload:
+  grid.applyDirectives('tags', { mode: 'multi', maxTags: 5 });
 &lt;/script&gt;</pre>
     </div>
+  </div>
+
+  <!-- Million Record Architecture Guide -->
+  <div class="space-y-3 pt-4 border-t border-border">
+    <h3 class="text-base font-semibold text-foreground">How 1,000,000-Row Zero-Lag Virtualization Works</h3>
+    <ul class="list-disc pl-5 text-xs text-muted-foreground space-y-1.5 leading-relaxed">
+      <li><strong class="text-foreground">The Component IS the Cell:</strong> Zero cell padding or margin (<code class="bg-muted px-1 py-0.5 rounded text-xs font-mono">p-0 m-0 h-10</code>). The element touches the gridlines flush.</li>
+      <li><strong class="text-foreground">Flyweight DOM Recycling:</strong> The grid creates a fixed pool of only ~30 visible row elements. Scrolling at 120fps triggers zero DOM node allocations.</li>
+      <li><strong class="text-foreground">Server-Pushed Directives:</strong> The server pushes behavioral constraints (<code class="bg-muted px-1 py-0.5 rounded text-xs font-mono">mode: "single"</code>) down via the schema. The client executes them in 0.0ms with zero HTTP round-trips.</li>
+      <li><strong class="text-foreground">Zero-Markup Wire Payload:</strong> The server sends raw primitive tuples instead of 500MB of repetitive HTML tags.</li>
+    </ul>
   </div>
 </div>

@@ -165,6 +165,55 @@ func DataTable(p DataTableProps) Component {
 	return Component{html: sb.String()}
 }
 
+// --- Enterprise Data Grid (HxGrid) ---
+
+type CellDirectives struct {
+	Mode     string `json:"mode,omitempty"`     // "single" | "multi"
+	MaxTags  int    `json:"max_tags,omitempty"`
+	ReadOnly bool   `json:"read_only,omitempty"`
+	Mask     string `json:"mask,omitempty"`      // "obfuscate" | "currency" | "status"
+	AutoSave string `json:"auto_save,omitempty"` // "blur" | "change" | "manual"
+}
+
+type GridColumn struct {
+	Field      string         `json:"field"`
+	Header     string         `json:"header"`
+	CompID     string         `json:"compid,omitempty"` // "metatext", "dropdown", "chipsui", "checkbox", "text", "date"
+	ColTyp     string         `json:"coltyp,omitempty"` // Alias for CompID
+	Directives CellDirectives `json:"directives,omitempty"`
+	Width      int            `json:"width,omitempty"`
+	MinWidth   int            `json:"min_width,omitempty"`
+	Pinned     string         `json:"pinned,omitempty"` // "left" | "right"
+	Sortable   bool           `json:"sortable,omitempty"`
+	Editable   bool           `json:"editable,omitempty"`
+}
+
+type HxGridProps struct {
+	ID        string
+	Src       string
+	RowHeight int
+	Columns   []GridColumn
+	Class     string
+}
+
+func HxGrid(p HxGridProps) Component {
+	if p.ID == "" {
+		p.ID = "hx-grid"
+	}
+	if p.RowHeight == 0 {
+		p.RowHeight = 40
+	}
+
+	srcAttr := ""
+	if p.Src != "" {
+		srcAttr = fmt.Sprintf(` hx-grid-src="%s"`, p.Src)
+	}
+
+	html := fmt.Sprintf(`<div id="%s" hx-grid%s hx-grid-row-height="%d" class="%s"></div>`,
+		p.ID, srcAttr, p.RowHeight, p.Class)
+	return Component{html: html}
+}
+
 // --- Navigation Sidebar ---
 
 type NavItem struct {

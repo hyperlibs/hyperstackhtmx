@@ -14,9 +14,26 @@
  * - Multi-column Sorting and Aggregation
  */
 
+export interface CellDirectives {
+  mode?: 'single' | 'multi';
+  maxTags?: number;
+  readOnly?: boolean;
+  mask?: 'currency' | 'obfuscate' | 'status' | string;
+  autoSave?: 'blur' | 'change' | 'manual';
+  [key: string]: any;
+}
+
+export interface CellComponent {
+  mount(cellEl: HTMLElement, col?: GridColumn): Record<string, HTMLElement>;
+  update(refs: Record<string, HTMLElement>, value: any, row?: any, col?: GridColumn): void;
+}
+
 export interface GridColumn {
   field: string;
   header: string;
+  compid?: string;
+  coltyp?: string;
+  directives?: CellDirectives;
   width?: number;
   minWidth?: number;
   pinned?: 'left' | 'right';
@@ -24,6 +41,169 @@ export interface GridColumn {
   editable?: boolean;
   formatter?: (val: any, row: any) => string;
 }
+
+export const CellRegistry: Record<string, CellComponent> = {
+  text: {
+    mount(cellEl) {
+      cellEl.className = 'grid-cell flex items-center px-2.5 h-full w-full select-text truncate text-xs';
+      const span = document.createElement('span');
+      span.className = 'truncate';
+      cellEl.appendChild(span);
+      return { text: span };
+    },
+    update(refs, val) {
+      refs.text.textContent = val !== undefined && val !== null ? String(val) : '';
+    }
+  },
+
+  metatext: {
+    mount(cellEl) {
+      cellEl.classList.add('grid-cell', 'hs-metatext', 'flex', 'flex-col', 'justify-between', 'h-full', 'w-full', 'bg-background', 'select-none', 'overflow-hidden');
+      
+      const topRow = document.createElement('div');
+      topRow.className = 'flex justify-between px-2 h-[12px] text-[8px] font-mono uppercase bg-muted/40 border-b border-border leading-none items-center';
+      const topL = document.createElement('span');
+      topL.className = 'slot-top-l text-muted-foreground truncate';
+      const topR = document.createElement('span');
+      topR.className = 'slot-top-r text-right font-bold text-indigo-500 font-mono truncate';
+      topRow.appendChild(topL);
+      topRow.appendChild(topR);
+
+      const midRow = document.createElement('div');
+      midRow.className = 'px-2 h-[16px] flex items-center bg-background leading-none';
+      const hero = document.createElement('span');
+      hero.className = 'slot-hero text-[11px] font-bold text-foreground truncate';
+      midRow.appendChild(hero);
+
+      const botRow = document.createElement('div');
+      botRow.className = 'flex justify-between px-2 h-[12px] text-[8px] font-mono uppercase bg-muted/40 border-t border-border leading-none items-center';
+      const botL = document.createElement('span');
+      botL.className = 'slot-bot-l truncate';
+      const botR = document.createElement('span');
+      botR.className = 'slot-bot-r text-right font-mono truncate';
+      botRow.appendChild(botL);
+      botRow.appendChild(botR);
+
+      cellEl.appendChild(topRow);
+      cellEl.appendChild(midRow);
+      cellEl.appendChild(botRow);
+
+      return { topL, topR, hero, botL, botR };
+    },
+    update(refs, val) {
+      if (Array.isArray(val)) {
+        refs.topL.textContent = val[0] || '';
+        refs.topR.textContent = val[1] || '';
+        refs.hero.textContent = val[2] || '';
+        refs.botL.textContent = val[3] || '';
+        refs.botR.textContent = val[4] || '';
+      } else if (typeof val === 'object' && val !== null) {
+        refs.topL.textContent = val.topL || val.category || '';
+        refs.topR.textContent = val.topR || val.code || '';
+        refs.hero.textContent = val.hero || val.title || val.name || '';
+        refs.botL.textContent = val.botL || val.net || '';
+        refs.botR.textContent = val.botR || val.status || '';
+      } else {
+        refs.hero.textContent = val !== undefined && val !== null ? String(val) : '';
+      }
+    }
+  },
+
+  dropdown: {
+    mount(cellEl, col) {
+      cellEl.className = 'grid-cell h-full w-full bg-background focus-within:ring-2 focus-within:ring-primary focus-within:ring-inset';
+      const select = document.createElement('select');
+      select.className = 'status-dropdown h-full w-full text-xs font-semibold bg-transparent border-0 rounded-none px-2 text-foreground focus:outline-none cursor-pointer';
+      select.innerHTML = `
+        <option value="transit">● In Transit</option>
+        <option value="pending">● Pending</option>
+        <option value="delivered">● Delivered</option>
+        <option value="hold">● On Hold</option>
+        <option value="paid">● Paid</option>
+        <option value="active">● Active</option>
+      `;
+      cellEl.appendChild(select);
+      return { select };
+    },
+    update(refs, val, row, col) {
+      const select = refs.select as HTMLSelectElement;
+      select.disabled = Boolean(col?.directives?.readOnly);
+      select.value = val !== undefined && val !== null ? String(val).toLowerCase() : '';
+      const lower = String(val).toLowerCase();
+      select.classList.remove('text-emerald-500', 'text-amber-500', 'text-rose-500', 'text-indigo-400');
+      if (lower.includes('transit') || lower.includes('deliver') || lower.includes('paid') || lower.includes('active')) {
+        select.classList.add('text-emerald-500');
+      } else if (lower.includes('pend') || lower.includes('hold') || lower.includes('wait')) {
+        select.classList.add('text-amber-500');
+      } else if (lower.includes('cancel') || lower.includes('fail') || lower.includes('error')) {
+        select.classList.add('text-rose-500');
+      }
+    }
+  },
+
+  checkbox: {
+    mount(cellEl) {
+      cellEl.className = 'grid-cell flex items-center justify-center h-full w-full cursor-pointer hover:bg-accent/20';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.className = 'w-4 h-4 rounded border-input accent-primary cursor-pointer';
+      cellEl.appendChild(input);
+      return { input };
+    },
+    update(refs, val) {
+      (refs.input as HTMLInputElement).checked = Boolean(val);
+    }
+  },
+
+  chipsui: {
+    mount(cellEl) {
+      cellEl.className = 'grid-cell flex items-center px-2 gap-1.5 h-full w-full bg-background overflow-hidden';
+      const container = document.createElement('div');
+      container.className = 'flex items-center gap-1 overflow-x-auto w-full';
+      cellEl.appendChild(container);
+      return { container };
+    },
+    update(refs, val, row, col) {
+      const container = refs.container;
+      container.innerHTML = '';
+      const tags = Array.isArray(val) ? val : (typeof val === 'string' && val ? val.split(',') : []);
+      const isSingleMode = col?.directives?.mode === 'single';
+
+      tags.forEach((tag: string, idx: number) => {
+        const trimmed = tag.trim();
+        if (!trimmed) return;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.tag = trimmed;
+        const isSelected = idx === 0 || !isSingleMode;
+        btn.className = `chip px-1.5 py-0.5 rounded text-[9px] font-mono font-bold transition-all cursor-pointer ${
+          isSelected 
+            ? 'bg-primary text-primary-foreground' 
+            : 'bg-muted text-muted-foreground hover:bg-accent'
+        }`;
+        btn.textContent = trimmed;
+        container.appendChild(btn);
+      });
+    }
+  },
+
+  date: {
+    mount(cellEl) {
+      cellEl.className = 'grid-cell flex items-center justify-end px-3 h-full w-full font-mono text-[11px] text-muted-foreground';
+      const span = document.createElement('span');
+      cellEl.appendChild(span);
+      return { date: span };
+    },
+    update(refs, val) {
+      refs.date.textContent = val !== undefined && val !== null ? String(val) : '';
+    }
+  }
+};
+
+CellRegistry['txt'] = CellRegistry['text'];
+CellRegistry['mtxt'] = CellRegistry['metatext'];
+CellRegistry['chips'] = CellRegistry['chipsui'];
+CellRegistry['chk'] = CellRegistry['checkbox'];
 
 export interface GridOptions {
   columns: GridColumn[];
@@ -141,8 +321,67 @@ export class EnterpriseDataGrid {
     // Keyboard Navigation (WAI-ARIA Treegrid)
     scrollContainer.addEventListener('keydown', (e: KeyboardEvent) => this.handleKeyboardNav(e, scrollContainer));
 
+    // Event Delegation: ChipsUI single vs multi selection and dropdown status change
+    this.container.addEventListener('click', (e) => {
+      const chip = (e.target as HTMLElement).closest('.chip') as HTMLElement;
+      if (chip) {
+        const cellEl = chip.closest('[role="gridcell"]') as HTMLElement;
+        const colIdxAttr = cellEl?.getAttribute('data-col-idx');
+        if (colIdxAttr !== null) {
+          const col = this.columns[parseInt(colIdxAttr, 10)];
+          const isSingle = col?.directives?.mode === 'single';
+          if (isSingle) {
+            cellEl.querySelectorAll('.chip').forEach(c => {
+              c.className = 'chip px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-muted text-muted-foreground hover:bg-accent transition-all cursor-pointer';
+            });
+            chip.className = 'chip px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-primary text-primary-foreground transition-all cursor-pointer';
+          } else {
+            const isSelected = chip.classList.contains('text-primary-foreground') || chip.classList.contains('text-white');
+            if (isSelected) {
+              chip.className = 'chip px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-muted text-muted-foreground hover:bg-accent transition-all cursor-pointer';
+            } else {
+              chip.className = 'chip px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-primary text-primary-foreground transition-all cursor-pointer';
+            }
+          }
+        }
+      }
+    });
+
+    this.container.addEventListener('change', (e) => {
+      const select = (e.target as HTMLElement).closest('.status-dropdown') as HTMLSelectElement;
+      if (select) {
+        const val = select.value.toLowerCase();
+        select.classList.remove('text-emerald-500', 'text-amber-500', 'text-rose-500');
+        if (val.includes('transit') || val.includes('deliver') || val.includes('paid') || val.includes('active')) {
+          select.classList.add('text-emerald-500');
+        } else if (val.includes('pend') || val.includes('hold') || val.includes('wait')) {
+          select.classList.add('text-amber-500');
+        } else if (val.includes('cancel') || val.includes('fail') || val.includes('error')) {
+          select.classList.add('text-rose-500');
+        }
+      }
+    });
+
+    // Listen for server-pushed directives
+    if (typeof window !== 'undefined') {
+      window.addEventListener('hx-grid:directive', (e: any) => {
+        if (e.detail && (!e.detail.gridId || e.detail.gridId === this.container.id)) {
+          this.applyDirectives(e.detail.column, e.detail.directives);
+        }
+      });
+    }
+
     this.renderHeader();
     this.renderVirtualRows(scrollContainer);
+  }
+
+  applyDirectives(columnField: string, directives: Partial<CellDirectives>): void {
+    const col = this.columns.find(c => c.field === columnField);
+    if (col) {
+      col.directives = { ...(col.directives || {}), ...directives };
+      const scrollContainer = this.container.querySelector('.hx-grid-scroll-container') as HTMLElement;
+      if (scrollContainer) this.renderVirtualRows(scrollContainer);
+    }
   }
 
   setColumns(cols: GridColumn[]): void {
@@ -378,6 +617,7 @@ export class EnterpriseDataGrid {
         const cellEl = document.createElement('div');
         cellEl.setAttribute('role', 'gridcell');
         cellEl.setAttribute('tabindex', '-1');
+        cellEl.setAttribute('data-col-idx', String(colIdx));
         
         let pinnedClass = '';
         if (col.pinned === 'left') pinnedClass = 'sticky left-10 z-10 bg-background/95 backdrop-blur';
@@ -386,34 +626,50 @@ export class EnterpriseDataGrid {
         const isCellFocused = this.activeCell?.rowIdx === i && this.activeCell?.colIdx === colIdx;
         const focusClass = isCellFocused ? 'ring-2 ring-primary ring-inset bg-accent/40' : '';
 
-        cellEl.className = `p-2 flex-1 truncate select-text ${pinnedClass} ${focusClass}`;
-        cellEl.style.minWidth = `${col.minWidth || 120}px`;
-        if (col.width) cellEl.style.width = `${col.width}px`;
-
+        const compKey = col.compid || col.coltyp;
         const val = row[col.field];
-        cellEl.textContent = col.formatter ? col.formatter(val, row) : (val !== undefined && val !== null ? String(val) : '');
 
-        // Inline Editing
-        if (col.editable !== false) {
-          cellEl.addEventListener('dblclick', () => {
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = row[col.field] || '';
-            input.className = 'w-full px-1 py-0.5 text-xs bg-background border border-primary rounded';
-            cellEl.innerHTML = '';
-            cellEl.appendChild(input);
-            input.focus();
+        if (compKey && CellRegistry[compKey]) {
+          const renderer = CellRegistry[compKey];
+          cellEl.className = `grid-cell h-full flex-1 overflow-hidden p-0 m-0 ${pinnedClass} ${focusClass}`;
+          cellEl.style.minWidth = `${col.minWidth || 120}px`;
+          if (col.width) cellEl.style.width = `${col.width}px`;
 
-            const save = () => {
-              row[col.field] = input.value;
-              cellEl.textContent = input.value;
-            };
-            input.addEventListener('blur', save, { once: true });
-            input.addEventListener('keydown', (ke) => {
-              if (ke.key === 'Enter') save();
-              if (ke.key === 'Escape') cellEl.textContent = String(row[col.field]);
+          const refs = renderer.mount(cellEl, col);
+          renderer.update(refs, val, row, col);
+        } else if (col.formatter) {
+          cellEl.className = `p-2 flex-1 truncate select-text text-xs flex items-center ${pinnedClass} ${focusClass}`;
+          cellEl.style.minWidth = `${col.minWidth || 120}px`;
+          if (col.width) cellEl.style.width = `${col.width}px`;
+          cellEl.innerHTML = col.formatter(val, row);
+        } else {
+          cellEl.className = `p-2 flex-1 truncate select-text text-xs flex items-center ${pinnedClass} ${focusClass}`;
+          cellEl.style.minWidth = `${col.minWidth || 120}px`;
+          if (col.width) cellEl.style.width = `${col.width}px`;
+          cellEl.textContent = val !== undefined && val !== null ? String(val) : '';
+
+          // Inline Editing
+          if (col.editable !== false) {
+            cellEl.addEventListener('dblclick', () => {
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.value = row[col.field] || '';
+              input.className = 'w-full px-1 py-0.5 text-xs bg-background border border-primary rounded';
+              cellEl.innerHTML = '';
+              cellEl.appendChild(input);
+              input.focus();
+
+              const save = () => {
+                row[col.field] = input.value;
+                cellEl.textContent = input.value;
+              };
+              input.addEventListener('blur', save, { once: true });
+              input.addEventListener('keydown', (ke) => {
+                if (ke.key === 'Enter') save();
+                if (ke.key === 'Escape') cellEl.textContent = String(row[col.field]);
+              });
             });
-          });
+          }
         }
 
         rowEl.appendChild(cellEl);
@@ -491,6 +747,7 @@ export function initGrids(root: HTMLElement | Document): void {
 if (typeof window !== 'undefined') {
   (window as any).HxGrid = {
     EnterpriseDataGrid,
+    CellRegistry,
     init: initGrids
   };
 

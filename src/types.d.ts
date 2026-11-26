@@ -31,6 +31,34 @@ declare global {
   }
 }
 
+export interface CellDirectives {
+  mode?: 'single' | 'multi';
+  maxTags?: number;
+  readOnly?: boolean;
+  mask?: 'currency' | 'obfuscate' | 'status' | string;
+  autoSave?: 'blur' | 'change' | 'manual';
+  [key: string]: any;
+}
+
+export interface CellComponent {
+  mount(cellEl: HTMLElement, col?: any): Record<string, HTMLElement>;
+  update(refs: Record<string, HTMLElement>, value: any, row?: any, col?: any): void;
+}
+
+export interface GridColumn {
+  field: string;
+  header: string;
+  compid?: string;
+  coltyp?: string;
+  directives?: CellDirectives;
+  width?: number;
+  minWidth?: number;
+  pinned?: 'left' | 'right';
+  sortable?: boolean;
+  editable?: boolean;
+  formatter?: (val: any, row: any) => string;
+}
+
 export type PatchOp = 'set_attribute' | 'set_style' | 'set_text' | 'set_state' | 'insert_child' | 'remove_child' | 'reparent';
 
 export interface StreamPatch {
