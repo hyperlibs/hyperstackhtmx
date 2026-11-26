@@ -17,7 +17,7 @@ export const config = {
   strictMode: false,
   strictCSP: true, // Default to strict CSP Level 3 Zero-Eval out-of-the-box
   debug: false,
-  version: '1.0.0'
+  version: '1.1.0'
 };
 
 // Numbered Error Taxonomy (Universal across all 13 Hyperstack Micro-Engines)

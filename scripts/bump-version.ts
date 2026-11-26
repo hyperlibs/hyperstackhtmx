@@ -179,6 +179,7 @@ if (fs.existsSync(readmePath)) {
     /\*\*Complete 13-Engine Suite\*\*:\s*\*\*[\d,]+ B raw \/ [\d,]+ B gzipped\*\*/,
     `**Complete 13-Engine Suite**: **${totalRawFmt} raw / ${totalGzipFmt} gzipped**`
   );
+  readme = readme.replace(/badge\/release-v\d+\.\d+\.\d+-blue/, `badge/release-v${nextVersion}-blue`);
   fs.writeFileSync(readmePath, readme);
   console.log(`  ✓ README.md sizes synchronized.`);
 }

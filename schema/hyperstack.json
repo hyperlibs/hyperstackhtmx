@@ -3,7 +3,7 @@
   "$id": "https://hyperstack.dev/schema/hyperstack.json",
   "title": "Hyperstack Framework Attribute & Grammar Specification",
   "description": "Formal machine-readable grammar, attribute rules, element targets, and scope definitions for Hyperstack.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "object",
   "properties": {
     "version": { "type": "string", "const": "1.0.0" },

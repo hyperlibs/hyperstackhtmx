@@ -77,7 +77,7 @@
     strictMode: false,
     strictCSP: true,
     debug: false,
-    version: "1.0.0"
+    version: "1.1.0"
   };
   var ERROR_CATALOG = {
     "HYPERSTACK-BOLT-001": {

@@ -5,7 +5,7 @@
   <p><em>Zero Virtual DOM. Zero Hydration Mismatches. Zero Node/NPM build step required. Server remains the single source of truth.</em></p>
   <p>
     <a href="https://github.com/hyperlibs/hyperstack/actions/workflows/ci.yml"><img src="https://github.com/hyperlibs/hyperstack/actions/workflows/ci.yml/badge.svg" alt="CI Status"></a>
-    <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/release-v1.0.0-blue?style=flat-square" alt="Release"></a>
+    <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/release-v1.1.0-blue?style=flat-square" alt="Release"></a>
     <a href="https://unpkg.com/htmx.org@4.0.0/"><img src="https://img.shields.io/badge/htmx-4.0.0_core-black?style=flat-square&logo=htmx" alt="HTMX 4 Core"></a>
     <a href="https://www.hyperstackhtmx.org"><img src="https://img.shields.io/badge/Cloudflare-Live_Deployment-F38020?logo=cloudflare&style=flat-square" alt="Cloudflare Deployment"></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-purple?style=flat-square" alt="License"></a>
@@ -131,7 +131,7 @@ Hyperstack = HTMX 4 (Modern DOM & Fetch Hypermedia Core)
 
 Hyperstack includes an automated, reproducible benchmark suite (`bun run benchmark`) measuring real runtime throughput and payload efficiency. Full table, methodology and variance notes: [docs/BENCHMARKS.md](docs/BENCHMARKS.md).
 
-- **Complete 13-Engine Suite**: **310,206 B raw / 76,041 B gzipped** — smaller than `react-dom` alone before components or state libraries.
+- **Complete 13-Engine Suite**: **340,702 B raw / 82,842 B gzipped** — smaller than `react-dom` alone before components or state libraries.
 - **Atomic 2D Sparse Matrix**: **427,000+ cell writes / second** in $O(1)$ coordinate space.
 - **In-Memory Columnar Search**: **0.146 ms query latency** across 10,000 rows.
 - **DAG Topological Solver**: **0.15 ms cascade resolution** across 500-level formula dependencies.
