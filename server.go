@@ -60,7 +60,7 @@ func recordGoDiag(e GoDiagEvent) {
 }
 
 var gettingStarted = []string{
-	"introduction", "installation", "rosetta-stone", "common-ai-hallucinations", "directives-guide",
+	"introduction", "installation", "atomic-precision", "rosetta-stone", "common-ai-hallucinations", "directives-guide",
 }
 
 var componentsList = []string{

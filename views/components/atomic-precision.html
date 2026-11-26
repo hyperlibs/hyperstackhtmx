@@ -1,0 +1,522 @@
+<div class="space-y-12 max-w-5xl py-6 text-slate-900 font-sans">
+  
+  <!-- HERO HEADER -->
+  <div class="space-y-3 border-b border-slate-200 pb-8">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold">
+      <span>⚛️</span> Universal Addressing Architecture
+    </div>
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
+      Atomic Precision &amp; Universal Addressing
+    </h1>
+    <p class="text-base text-slate-600 leading-relaxed max-w-3xl">
+      How Hyperstack turns the DOM into an exact, deterministic mathematical coordinate system—eliminating AI hallucination, Virtual DOM reconciliation overhead, and cascading re-renders across enterprise CMS, ERP, games, and spatial OS runtimes.
+    </p>
+  </div>
+
+  <!-- THE 4 ATOMIC PILLARS SUMMARY CARDS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-2">
+      <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 font-bold text-sm">1</div>
+      <h2 class="font-bold text-sm text-slate-900">Deterministic Addressing</h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Every entity has a persistent unique ID: <code>blockid</code>, <code>rowid</code>, <code>cellid</code>, <code>objid</code>, or <code>coords</code>. AI coders address targets with mathematical certainty.
+      </p>
+    </div>
+
+    <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-2">
+      <div class="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 font-bold text-sm">2</div>
+      <h2 class="font-bold text-sm text-slate-900">Atomic Hot Patches</h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        <code>hx-stream</code> and <code>StreamPatch</code> apply surgical $O(1)$ in-place DOM mutations. Symmetrical inverse deltas allow instant 0.02ms reversible undo/redo.
+      </p>
+    </div>
+
+    <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-2">
+      <div class="w-8 h-8 rounded-lg bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 font-bold text-sm">3</div>
+      <h2 class="font-bold text-sm text-slate-900">Zero Virtual DOM</h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Hypermedia partials transfer state directly into HTML. Fine-grained attributes (<code>hx-text</code>, <code>hx-action</code>, <code>hx-state</code>) mutate targets with 0 heap allocation thrash.
+      </p>
+    </div>
+
+    <div class="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-2">
+      <div class="w-8 h-8 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 font-bold text-sm">4</div>
+      <h2 class="font-bold text-sm text-slate-900">Atomic $diag Telemetry</h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Self-monitoring runtime intercepts 404s, missing CSS, and failed swaps, emitting exact machine-actionable repair payloads for autonomous AI self-healing.
+      </p>
+    </div>
+  </div>
+
+  <!-- WHY AI CODERS DO NOT HALLUCINATE TABLE -->
+  <section class="space-y-4">
+    <div class="space-y-1">
+      <h2 class="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+        <span>🛡️</span> The Anti-Hallucination Blueprint
+      </h2>
+      <p class="text-xs text-slate-500">Why LLMs fail in legacy Virtual DOM frameworks vs. why Hyperstack code generation is 100% deterministic.</p>
+    </div>
+
+    <div class="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-sm">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead class="bg-slate-50 border-b border-slate-200 text-slate-700 font-semibold uppercase text-[10px]">
+          <tr>
+            <th class="py-3 px-4">Engineering Task</th>
+            <th class="py-3 px-4 text-rose-600">Legacy SPA / Virtual DOM</th>
+            <th class="py-3 px-4 text-blue-600">Hyperstack Atomic Precision</th>
+            <th class="py-3 px-4 text-emerald-600">Why AI Never Hallucinates</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100 text-slate-700">
+          <tr class="hover:bg-slate-50/50">
+            <td class="py-3 px-4 font-semibold text-slate-900">Locating UI Elements</td>
+            <td class="py-3 px-4 text-slate-500">Fragile CSS selector paths like <code>div > div:nth-child(3) > button</code></td>
+            <td class="py-3 px-4 font-mono text-blue-600 font-medium">blockid="cart-btn" or objid="btn-04"</td>
+            <td class="py-3 px-4 text-emerald-700">Deterministic ID directly points to the node.</td>
+          </tr>
+          <tr class="hover:bg-slate-50/50">
+            <td class="py-3 px-4 font-semibold text-slate-900">Updating State</td>
+            <td class="py-3 px-4 text-slate-500">Rewriting entire JSX components &amp; hoping re-renders don't loop</td>
+            <td class="py-3 px-4 font-mono text-blue-600 font-medium">{ target: "btn-04", op: "set_text", val: "Buy" }</td>
+            <td class="py-3 px-4 text-emerald-700">Surgical O(1) delta mutates only the targeted property.</td>
+          </tr>
+          <tr class="hover:bg-slate-50/50">
+            <td class="py-3 px-4 font-semibold text-slate-900">Large Data Grids</td>
+            <td class="py-3 px-4 text-slate-500">Virtual DOM diffing thousands of objects on every keystroke</td>
+            <td class="py-3 px-4 font-mono text-blue-600 font-medium">SparseMatrix.set(row, col) + cellid</td>
+            <td class="py-3 px-4 text-emerald-700">Direct coordinate lookup with zero array re-allocations.</td>
+          </tr>
+          <tr class="hover:bg-slate-50/50">
+            <td class="py-3 px-4 font-semibold text-slate-900">Error Diagnostics</td>
+            <td class="py-3 px-4 text-slate-500">Obfuscated stack traces in bundled chunks (<code>chunk-9.js:41</code>)</td>
+            <td class="py-3 px-4 font-mono text-blue-600 font-medium">[@diag 404_ROUTE] Culprit: /api/v1/beds</td>
+            <td class="py-3 px-4 text-emerald-700">Emits exact file, URL, and machine-actionable fix hint.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DOMAIN 1: CMS & VISUAL SITE BUILDER -->
+  <!-- ===================================================================== -->
+  <section class="space-y-4 pt-4 border-t border-slate-200">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full">
+        <span>🎨</span> Domain 1: CMS &amp; Visual Studio Builders
+      </div>
+      <h2 class="text-xl font-bold tracking-tight text-slate-900">
+        Spatial Canvas Block Addressing (<code>blockid</code> &amp; <code>layer</code>)
+      </h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Visual builder blocks are addressed with persistent <code>blockid</code> identifiers and Photoshop-style Z-index layers. Edits are streamed as atomic style and attribute patches without rebuilding the site.
+      </p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">👁️ Live Interactive Preview</div>
+      
+      <div class="p-5 rounded-xl border border-slate-200 bg-white space-y-4" hx-state='{ "activeBlock": "hw-block-buybox", "posX": 120, "posY": 45, "posZ": 3, "diagMs": 0.2 }'>
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-bold text-slate-800">Visual Canvas Coordinates:</span>
+            <span class="font-mono text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded" hx-text="activeBlock">hw-block-buybox</span>
+          </div>
+          <div class="flex items-center gap-3 font-mono text-[11px] text-slate-500">
+            <span>X: <strong class="text-slate-800" hx-text="posX">120</strong>px</span>
+            <span>Y: <strong class="text-slate-800" hx-text="posY">45</strong>px</span>
+            <span>Z-Layer: <strong class="text-indigo-600 font-bold" hx-text="posZ">3</strong></span>
+            <span>$diag: <strong class="text-emerald-600" hx-text="diagMs + 'ms'">0.2ms</strong></span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div @click="activeBlock = 'hw-block-buybox'; posX = 120; posY = 45; posZ = 3; diagMs = 0.2"
+               hx-class="{ 'ring-2 ring-indigo-500 border-indigo-300 bg-indigo-50/40': activeBlock === 'hw-block-buybox', 'border-slate-200 bg-white': activeBlock !== 'hw-block-buybox' }"
+               class="p-4 rounded-xl border cursor-pointer transition-all space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-800">Express Buy Box</span>
+              <span class="text-[10px] font-mono text-indigo-600">Z: 3</span>
+            </div>
+            <div class="text-[11px] text-slate-500 font-mono">blockid="hw-block-buybox"</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">$diag: 0.2ms atomic swap</div>
+          </div>
+
+          <div @click="activeBlock = 'hw-block-gallery'; posX = 240; posY = 80; posZ = 2; diagMs = 0.4"
+               hx-class="{ 'ring-2 ring-indigo-500 border-indigo-300 bg-indigo-50/40': activeBlock === 'hw-block-gallery', 'border-slate-200 bg-white': activeBlock !== 'hw-block-gallery' }"
+               class="p-4 rounded-xl border cursor-pointer transition-all space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-800">HD Vector Gallery</span>
+              <span class="text-[10px] font-mono text-indigo-600">Z: 2</span>
+            </div>
+            <div class="text-[11px] text-slate-500 font-mono">blockid="hw-block-gallery"</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">$diag: 0.4ms zero-heap</div>
+          </div>
+
+          <div @click="activeBlock = 'hw-block-reviews'; posX = 360; posY = 140; posZ = 1; diagMs = 0.3"
+               hx-class="{ 'ring-2 ring-indigo-500 border-indigo-300 bg-indigo-50/40': activeBlock === 'hw-block-reviews', 'border-slate-200 bg-white': activeBlock !== 'hw-block-reviews' }"
+               class="p-4 rounded-xl border cursor-pointer transition-all space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-800">Customer Social Proof</span>
+              <span class="text-[10px] font-mono text-indigo-600">Z: 1</span>
+            </div>
+            <div class="text-[11px] text-slate-500 font-mono">blockid="hw-block-reviews"</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">$diag: 0.3ms verified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE SAMPLE -->
+    <div class="p-5 rounded-2xl border border-slate-200 bg-[#f8fafc] space-y-2 font-mono text-xs">
+      <div class="flex items-center justify-between text-[11px] text-slate-500 font-sans font-semibold border-b border-slate-200 pb-2">
+        <span>💻 Declarative CMS Block Definition (HTML &amp; Hot Patch Delta)</span>
+        <span class="text-indigo-600 font-mono">views/components/block-builder.html</span>
+      </div>
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>&lt;!-- 1. Atomically Addressed Canvas Block --&gt;
+&lt;div blockid="hw-block-buybox" layer="3"
+     style="position: absolute; transform: translate3d(120px, 45px, 0);"
+     class="w-[680px] p-6 rounded-2xl bg-white border border-slate-200 shadow-xl"&gt;
+  &lt;h3 hx-text="product.title" class="text-xl font-bold"&gt;Cyberpunk Keyboard&lt;/h3&gt;
+  &lt;div hx-text="'$' + product.price" class="text-2xl font-black text-indigo-600"&gt;$189.00&lt;/div&gt;
+  &lt;button hx-action="$stream.patch({ target: 'hw-block-buybox', op: 'set_style', prop: 'transform', val: 'translate3d(140px, 60px, 0)' })"&gt;
+    Nudge Block Position
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- 2. Atomic Hot Patch Payload Received via SSE / WebSocket --&gt;
+{
+  "target": "hw-block-buybox",
+  "op": "set_style",
+  "prop": "transform",
+  "val": "translate3d(140px, 60px, 0)",
+  "inverse": "translate3d(120px, 45px, 0)" // Instant 0.02ms Ctrl+Z rollback
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DOMAIN 2: E-COMMERCE BUY BOX & REAL-TIME CART -->
+  <!-- ===================================================================== -->
+  <section class="space-y-4 pt-6 border-t border-slate-200">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-full">
+        <span>🛍️</span> Domain 2: E-Commerce Buy Box &amp; Checkout Flow
+      </div>
+      <h2 class="text-xl font-bold tracking-tight text-slate-900">
+        SKU Inventory &amp; Price Micro-Deltas (<code>objid="sku-..."</code>)
+      </h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        High-conversion buy boxes cannot tolerate full page reloads. With atomic precision, selecting a switch variant or incrementing quantity mutates only the addressed price and stock tally.
+      </p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">👁️ Live Interactive Preview</div>
+      
+      <div class="p-5 rounded-xl border border-slate-200 bg-white max-w-xl mx-auto space-y-4"
+           hx-state='{ "variant": "tactile", "price": 189, "qty": 1, "stock": 14, "coupon": "" }'>
+        
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">IN STOCK (14 UNITS)</span>
+            <h3 class="text-lg font-bold text-slate-900 mt-1">Cyberpunk Mechanical Keyboard</h3>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-black text-slate-900 font-mono" hx-text="'$' + (price * qty)">$189</div>
+            <div class="text-[10px] text-slate-400">Free 2-day delivery</div>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-slate-700">Select Switch Variant:</label>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <button @click="variant = 'tactile'; price = 189"
+                    hx-class="{ 'ring-2 ring-emerald-500 border-emerald-400 bg-emerald-50/50 text-emerald-900 font-bold': variant === 'tactile', 'border-slate-200 text-slate-700': variant !== 'tactile' }"
+                    class="py-2 px-3 rounded-lg border text-center transition-all">
+              Tactile Brown
+            </button>
+            <button @click="variant = 'linear'; price = 199"
+                    hx-class="{ 'ring-2 ring-emerald-500 border-emerald-400 bg-emerald-50/50 text-emerald-900 font-bold': variant === 'linear', 'border-slate-200 text-slate-700': variant !== 'linear' }"
+                    class="py-2 px-3 rounded-lg border text-center transition-all">
+              Linear Red (+$10)
+            </button>
+            <button @click="variant = 'clicky'; price = 179"
+                    hx-class="{ 'ring-2 ring-emerald-500 border-emerald-400 bg-emerald-50/50 text-emerald-900 font-bold': variant === 'clicky', 'border-slate-200 text-slate-700': variant !== 'clicky' }"
+                    class="py-2 px-3 rounded-lg border text-center transition-all">
+              Clicky Blue (-$10)
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
+            <button @click="if (qty > 1) qty--" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">-</button>
+            <span class="px-4 py-2 font-mono text-xs font-bold text-slate-900" hx-text="qty">1</span>
+            <button @click="if (qty < stock) qty++" class="px-3 py-2 text-slate-600 hover:bg-slate-200 font-bold">+</button>
+          </div>
+          <button class="flex-1 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition-colors shadow-sm">
+            ⚡ Express Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE SAMPLE -->
+    <div class="p-5 rounded-2xl border border-slate-200 bg-[#f8fafc] space-y-2 font-mono text-xs">
+      <div class="flex items-center justify-between text-[11px] text-slate-500 font-sans font-semibold border-b border-slate-200 pb-2">
+        <span>💻 Declarative E-Commerce Buy Box with Fine-Grained Signals</span>
+        <span class="text-emerald-700 font-mono">views/components/ecommerce-buybox.html</span>
+      </div>
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>&lt;!-- State isolated to the Buy Box container --&gt;
+&lt;div objid="buybox-kb-01" hx-state='{ "price": 189, "qty": 1, "stock": 14 }' class="p-6 border rounded-2xl"&gt;
+  &lt;!-- Atomic Price Label (0ms recalculated on qty or variant change) --&gt;
+  &lt;span objid="price-label" hx-text="'$' + (price * qty)" class="text-2xl font-black"&gt;$189&lt;/span&gt;
+
+  &lt;!-- Quantity Stepper --&gt;
+  &lt;button @click="if (qty > 1) qty--"&gt;-&lt;/button&gt;
+  &lt;span hx-text="qty"&gt;1&lt;/span&gt;
+  &lt;button @click="if (qty < stock) qty++"&gt;+&lt;/button&gt;
+
+  &lt;!-- HTMX Atomic Server Action: Reserves inventory without page reload --&gt;
+  &lt;button hx-post="/api/cart/add"
+          hx-vals='js:{ sku: "KB-CYBER", qty: HxBolt.getState(this).qty }'
+          hx-target="#nav-cart-badge"
+          hx-swap="outerHTML"&gt;
+    Add to Cart
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DOMAIN 3: LARGE ENTERPRISE DATAGRID & ERP -->
+  <!-- ===================================================================== -->
+  <section class="space-y-4 pt-6 border-t border-slate-200">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">
+        <span>📊</span> Domain 3: Large Enterprise DataGrid &amp; ERP Ledger
+      </div>
+      <h2 class="text-xl font-bold tracking-tight text-slate-900">
+        Million-Cell 2D Sparse Matrix (<code>rowid</code> &amp; <code>cellid</code>)
+      </h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        ERP software requires editing high-density ledgers without table re-renders. Hyperstack uses an in-memory 2D Sparse Matrix where cell coordinates <code>(row, col)</code> are mutated in $O(1)$ time ($&gt;1,000,000$ cell writes/sec).
+      </p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">👁️ Live Interactive Preview (46px Compact Envelope)</div>
+      
+      <div class="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-sm">
+        <table class="w-full text-left text-xs font-mono">
+          <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase text-[10px]">
+            <tr>
+              <th class="py-2.5 px-3">INVOICE ROWID</th>
+              <th class="py-2.5 px-3">CUSTOMER DEMOGRAPHIC</th>
+              <th class="py-2.5 px-3">LEDGER AMOUNT (CELLID)</th>
+              <th class="py-2.5 px-3">STATUS</th>
+              <th class="py-2.5 px-3 text-right">TRANSACTION ACTION</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100" hx-state='{ "amount1": 4520, "amount2": 8940 }'>
+            <tr rowid="INV-10023" class="hover:bg-slate-50/60 transition-colors h-[46px]">
+              <td class="py-1 px-3 font-bold text-blue-600 whitespace-nowrap">#INV-10023</td>
+              <td class="py-1 px-3">
+                <div class="text-slate-800 font-semibold truncate">Acme Industrial Logistics</div>
+                <div class="text-[10px] text-slate-400">Account: ACC-9941</div>
+              </td>
+              <td cellid="INV-10023:amount" class="py-1 px-3 font-bold text-slate-900">
+                <span hx-text="'$' + amount1.toFixed(2)">$4520.00</span>
+              </td>
+              <td class="py-1 px-3">
+                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">RECONCILED</span>
+              </td>
+              <td class="py-1 px-3 text-right space-x-1">
+                <button @click="amount1 += 250" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold">+ $250</button>
+                <button @click="amount1 -= 250" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold">- $250</button>
+              </td>
+            </tr>
+
+            <tr rowid="INV-10024" class="hover:bg-slate-50/60 transition-colors h-[46px]">
+              <td class="py-1 px-3 font-bold text-blue-600 whitespace-nowrap">#INV-10024</td>
+              <td class="py-1 px-3">
+                <div class="text-slate-800 font-semibold truncate">Nordic Bio-Health AG</div>
+                <div class="text-[10px] text-slate-400">Account: ACC-1042</div>
+              </td>
+              <td cellid="INV-10024:amount" class="py-1 px-3 font-bold text-slate-900">
+                <span hx-text="'$' + amount2.toFixed(2)">$8940.00</span>
+              </td>
+              <td class="py-1 px-3">
+                <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 text-[10px] font-bold">PENDING AUDIT</span>
+              </td>
+              <td class="py-1 px-3 text-right space-x-1">
+                <button @click="amount2 += 500" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold">+ $500</button>
+                <button @click="amount2 -= 500" class="px-2 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-700 text-[10px] font-semibold">- $500</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CODE SAMPLE -->
+    <div class="p-5 rounded-2xl border border-slate-200 bg-[#f8fafc] space-y-2 font-mono text-xs">
+      <div class="flex items-center justify-between text-[11px] text-slate-500 font-sans font-semibold border-b border-slate-200 pb-2">
+        <span>💻 2D Sparse Matrix High-Density ERP Row (Go DSL &amp; HTML)</span>
+        <span class="text-blue-700 font-mono">go/components/erp_grid.go</span>
+      </div>
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>// 1. Go DSL Component Constructor
+func ERPTableRow(rowID string, customer string, amount float64) Component {
+    return Tr(
+        Attr("rowid", rowID),
+        Class("h-[46px] hover:bg-slate-50 transition-colors"),
+        Td(Class("font-bold text-blue-600"), Text("#"+rowID)),
+        Td(Text(customer)),
+        Td(Attr("cellid", rowID+":amount"), Text(fmt.Sprintf("$%.2f", amount))),
+    )
+}
+
+// 2. Client-side O(1) Atomic Sparse Cell Write
+HxBolt.matrix().set(rowIdx, colIdx, 4770.00); // 1,096,000 writes/sec throughput</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DOMAIN 4: GAMES & KINETIC SIMULATORS -->
+  <!-- ===================================================================== -->
+  <section class="space-y-4 pt-6 border-t border-slate-200">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-700 bg-cyan-50 border border-cyan-200 px-2.5 py-0.5 rounded-full">
+        <span>🎮</span> Domain 4: Games &amp; Kinetic Particle Simulators
+      </div>
+      <h2 class="text-xl font-bold tracking-tight text-slate-900">
+        120Hz Hardware Loop &amp; Coordinate Buffers (<code>coords="x,y"</code>)
+      </h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Real-time games, physics simulators, and radar HUDs cannot run inside garbage-collected virtual trees. Hyperstack exposes <code>HxBolt.ticker</code> and declarative <code>hx-sim</code> canvas runners running at locked 120 FPS.
+      </p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">👁️ Live Interactive Preview (Boids Particle Flocking)</div>
+      
+      <div class="rounded-xl border border-slate-800 overflow-hidden bg-slate-950 relative">
+        <canvas id="atomic-sim-canvas"
+                hx-sim="boids"
+                hx-sim-particles="120"
+                hx-sim-speed="1.0"
+                hx-sim-responsive="true"
+                class="w-full h-44 block bg-slate-950"></canvas>
+        <div class="absolute bottom-3 left-3 bg-slate-900/80 backdrop-blur border border-slate-800 rounded px-2.5 py-1 text-[10px] font-mono text-cyan-400 flex items-center gap-3">
+          <span>⚡ 120Hz Locked</span>
+          <span>120 Boid Agents</span>
+          <span>0 B Heap Allocation / Frame</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE SAMPLE -->
+    <div class="p-5 rounded-2xl border border-slate-200 bg-[#f8fafc] space-y-2 font-mono text-xs">
+      <div class="flex items-center justify-between text-[11px] text-slate-500 font-sans font-semibold border-b border-slate-200 pb-2">
+        <span>💻 Declarative Kinetic Simulation Primitive</span>
+        <span class="text-cyan-700 font-mono">views/components/kinetic-sim.html</span>
+      </div>
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>&lt;!-- Zero-line JavaScript setup for physics simulations --&gt;
+&lt;canvas hx-sim="boids"
+        hx-sim-particles="250"
+        hx-sim-speed="1.2"
+        hx-sim-responsive="true"
+        class="w-full h-80 rounded-xl bg-slate-950"&gt;&lt;/canvas&gt;
+
+&lt;!-- Programmatic subscription to the 120Hz ticker --&gt;
+&lt;script&gt;
+  const unsub = HxBolt.ticker.subscribe((deltaTime) =&gt; {
+    // High-precision particle update without DOM garbage thrash
+  });
+&lt;/script&gt;</code></pre>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- DOMAIN 5: SPATIAL MOBILE OS & LAYER MATRIX -->
+  <!-- ===================================================================== -->
+  <section class="space-y-4 pt-6 border-t border-slate-200">
+    <div class="space-y-1">
+      <div class="inline-flex items-center gap-1.5 text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-2.5 py-0.5 rounded-full">
+        <span>📱</span> Domain 5: Spatial Mobile OS &amp; Hardware Bridges
+      </div>
+      <h2 class="text-xl font-bold tracking-tight text-slate-900">
+        Photoshop-Style 0–9 Layer Stacking (<code>&lt;app-layer level="0..9"&gt;</code>)
+      </h2>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Mobile operating system ergonomics demand strict layer isolation. Hyperstack standardizes Photoshop-style Z-index stacking where background canvas (Level 0), HUD (Level 1), and modal sheets (Level 9) are guaranteed to never collide.
+      </p>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="p-6 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-3">
+      <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">👁️ Live Interactive Preview (Layer-UX Architecture)</div>
+      
+      <div class="p-5 rounded-xl border border-slate-200 bg-white space-y-3">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-1.5">
+            <div class="text-[10px] font-mono font-bold text-slate-400">LAYER LEVEL 0</div>
+            <div class="font-bold text-slate-900">Base Feed / Map Canvas</div>
+            <p class="text-[11px] text-slate-500">Persistent background layer receiving spatial pan and zoom gestures.</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-indigo-200 bg-indigo-50/40 space-y-1.5">
+            <div class="text-[10px] font-mono font-bold text-indigo-600">LAYER LEVEL 1</div>
+            <div class="font-bold text-slate-900">Floating Cards &amp; HUD</div>
+            <p class="text-[11px] text-slate-500">Contextual cards, biometric metrics, and quick action bars.</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-rose-200 bg-rose-50/40 space-y-1.5">
+            <div class="text-[10px] font-mono font-bold text-rose-600">LAYER LEVEL 9</div>
+            <div class="font-bold text-slate-900">Modal Bottom Sheet ($appz)</div>
+            <p class="text-[11px] text-slate-500">Spring-animated top-level action sheet with native haptic trigger.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE SAMPLE -->
+    <div class="p-5 rounded-2xl border border-slate-200 bg-[#f8fafc] space-y-2 font-mono text-xs">
+      <div class="flex items-center justify-between text-[11px] text-slate-500 font-sans font-semibold border-b border-slate-200 pb-2">
+        <span>💻 Declarative appz Mobile OS Layout Specification</span>
+        <span class="text-rose-700 font-mono">views/layouts/mobile-os.html</span>
+      </div>
+      <pre class="overflow-x-auto text-slate-800 leading-relaxed"><code>&lt;app-shellui mode="mobile-portrait"&gt;
+  &lt;app-bar title="Bio &amp; Identity" leading="menu" trailing="share"&gt;&lt;/app-bar&gt;
+
+  &lt;app-seg id="seg-feed" class="flex-1 overflow-y-auto"&gt;
+    &lt;!-- Layer 0: Background Canvas Feed --&gt;
+    &lt;app-layer level="0" class="p-4 space-y-3"&gt;
+      &lt;div class="p-4 rounded-xl bg-white border"&gt;Feed Item 1&lt;/div&gt;
+    &lt;/app-layer&gt;
+
+    &lt;!-- Layer 1: Floating HUD Bar --&gt;
+    &lt;app-layer level="1" class="sticky top-2 inset-x-4"&gt;
+      &lt;div class="p-3 rounded-xl bg-white/90 backdrop-blur border shadow-lg"&gt;Telemetry HUD&lt;/div&gt;
+    &lt;/app-layer&gt;
+
+    &lt;!-- Layer 9: Spring Modal Bottom Sheet --&gt;
+    &lt;app-bottom-sheet id="sheet-invite" level="9"&gt;
+      &lt;button onclick="$appz.haptic('success'); $appz.sheet('#sheet-invite').close()"&gt;
+        Confirm Invite
+      &lt;/button&gt;
+    &lt;/app-bottom-sheet&gt;
+  &lt;/app-seg&gt;
+
+  &lt;app-navbar mode="sticky"&gt;&lt;/app-navbar&gt;
+&lt;/app-shellui&gt;</code></pre>
+    </div>
+  </section>
+
+</div>

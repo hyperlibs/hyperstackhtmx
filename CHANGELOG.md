@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - 2026-11-26
 
 ### Added
+- **Atomic Precision Documentation & Domain Specification**: Published comprehensive architecture guide at `/docs/components/atomic-precision` detailing the 4 Core Atomic Pillars and concrete implementation examples across CMS, E-Commerce Buy Box, Large Enterprise DataGrids, 120Hz Kinetic Game Simulators, and Spatial Mobile OS.
 - **`$diag` Autonomous Live Diagnostics Service**: Runtime error interceptor capturing CSS asset load failures (<link>, <script>, <img>), HTMX partial swap errors (`htmx:responseError`, `targetError`, `swapError`), and JavaScript runtime exceptions without manual inspection.
 - **Admin Diagnostics Live Service Menu**: Integrated full-featured real-time `@diag` incident dashboard into `HyperAdmin` (`/demo/tailadmin`) with live category filters (404s, CSS/Assets, Swaps, JS), error counters, and one-click machine-actionable AI prompt and SARIF 2.1.0 exports.
 - **Backend Telemetry Sentinel**: Added `/api/diag/log`, `/api/diag/logs`, `/api/diag/clear`, and `/api/diag/simulate` endpoints to `server.ts` and `server.go`, automatically trapping and logging all server 404s into a thread-safe circular buffer.
